@@ -1,0 +1,24 @@
+{
+  "name": "ghstwrtr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mathieumoretti/ghstwrtr.git"
+  },
+  "keywords": [
+    "node.js",
+    "crowdsourced",
+    "app"
+  ],
+  "author": "Mateo Iterom",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mathieumoretti/ghstwrtr/issues"
+  },
+  "homepage": "https://github.com/mathieumoretti/ghstwrtr#readme"
+}
