@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +18,9 @@
   ],
   "author": "Mateo Iterom",
   "license": "ISC",
+  "engines": {
+    "node": "9.2.1"
+  },
   "bugs": {
     "url": "https://github.com/mathieumoretti/ghstwrtr/issues"
   },
