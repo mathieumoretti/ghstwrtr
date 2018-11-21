@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mathieumoretti/ghstwrtr.git"
+    "url": "https://git.heroku.com/ghstwrtr.git"
   },
   "keywords": [
     "node.js",
