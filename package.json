@@ -33,6 +33,7 @@
     "tape": "4.9.1"
   },
   "dependencies": {
+    "express": "^4.16.4",
     "pg": "7.6.1"
   }
 }
