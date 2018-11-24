@@ -31,5 +31,8 @@
     "eslint-plugin-import": "2.14.0",
     "request": "2.88.0",
     "tape": "4.9.1"
+  },
+  "dependencies": {
+    "pg": "7.6.1"
   }
 }
