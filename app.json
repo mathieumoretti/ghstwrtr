@@ -1,16 +1,15 @@
 {
   "name": "ghstwrtr",
   "repository": "https://git.heroku.com/ghstwrtr.git",
-  "env": {
+  "env": {},
+  "scripts": {
+    "postdeploy": "psql $DATABASE_URL -f seed.sql"
   },
   "image": "heroku/nodejs",
-  "buildpacks": [
-    {
-      "url": https://github.com/heroku/heroku-buildpack-nodejs#v83
-    }
-  ],
-  "formation": {
-  },
+  "buildpacks": [{
+    "url": "https://github.com/heroku/heroku-buildpack-nodejs#v83"
+  }],
+  "formation": {},
   "addons": [{
     "plan": "heroku-postgresql:hobby-dev",
     "options": {
