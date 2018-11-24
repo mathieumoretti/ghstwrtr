@@ -3,6 +3,9 @@
   "repository": "https://git.heroku.com/ghstwrtr.git",
   "env": {
   },
+  "scripts": {
+  "postdeploy": "psql $DATABASE_URL -f seed.sql"
+  },
   "image": "heroku/nodejs",
   "buildpacks": [
     {
