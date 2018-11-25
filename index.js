@@ -1,26 +1,14 @@
-const http = require('http');
-const { Client } = require('pg');
+//express hello world
+var express = require('express');
+var app = express();
 
-const PORT = process.env.PORT || 5000;
-const { DATABASE_URL } = process.env;
-const server = http.createServer((req, res) => {
-  const client = new Client({
-    connectionString: DATABASE_URL,
-  });
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  client.connect()
-    .then(() => client.query('SELECT * FROM hellotable'))
-    .then((result) => {
-      res.end(`${result.rows[0].name}\n`);
-      client.end();
-    })
-    .catch(() => {
-      res.end('ERROR');
-      client.end();
-    });
+// routes
+app.get('/', (req, res) =­>
+{
+   res.send("hello world!");
 });
-server.listen(PORT, () => {
-  // eslint-disable-next-line
-  console.log(`Server running on ${PORT}/`);
+app.get('/stories', function(req, res){
+   res.send("stories!");
 });
+
+app.listen(5000);
