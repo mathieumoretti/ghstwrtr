@@ -12,6 +12,9 @@ app.set('view engine', 'pug');
 app.get('/', (req, res) => {
   res.render('index', { title: 'Hey', message: 'Hello there!' });
 });
+app.get('/login', (req, res) => {
+  res.render('login', { });
+});
 app.get('/stories', (req, res) => {
   res.send('stories');
 });
