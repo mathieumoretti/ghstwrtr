@@ -1,5 +1,6 @@
 // express hello world
 const express = require('express');
+const console = require('console');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -21,4 +22,4 @@ app.get('/stories', (req, res) => {
 });
 
 app.listen(PORT);
-console.log("Server started")
+console.log('Server started');
