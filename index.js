@@ -8,15 +8,17 @@ const PORT = process.env.PORT || 5000;
 app.set('views', './views');
 app.set('view engine', 'pug');
 
+
 // routes
 app.get('/', (req, res) => {
-  res.render('index', { title: 'Hey', message: 'Hello there!' });
+  res.render('index', { title: 'ghstwrtr' });
 });
 app.get('/login', (req, res) => {
-  res.render('login', { });
+  res.render('login', { title: 'ghstwrtr' });
 });
 app.get('/stories', (req, res) => {
   res.send('stories');
 });
 
 app.listen(PORT);
+console.log("Server started")
