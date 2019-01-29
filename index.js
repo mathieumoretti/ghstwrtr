@@ -111,13 +111,31 @@ function makeStories(noOfstories)
     return stories;
 }
 
+function formatDate(date) {
+  var monthNames = [
+    "January", "February", "March",
+    "April", "May", "June", "July",
+    "August", "September", "October",
+    "November", "December"
+  ];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+
+  return day + ' ' + monthNames[monthIndex] + ' ' + year;
+}
+
+var date = formatDate(new Date());
+console.log(date);
+
 var stories = makeStories(10);
 var newspaper = 
 { 
     model: 
     { 
         title: 'ghstwrtr',
-        date: new Date().toDateString(),
+        date: date,
         // main story
         mainStory: stories[0],
         // list of stories
