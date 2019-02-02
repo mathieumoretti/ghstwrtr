@@ -1,5 +1,30 @@
-Title
-Date
-Headline
-sous-titre
-Paragraphes colonnes
+doctype html
+include header.pug
+include body.pug
+
+.container      
+    .row
+        .div(style="font-size:80px;font-family:'Playfair Display', serif;font-weight: 900; text-transform: uppercase; display: inline-block; line-height: 72px;margin-bottom: 20px;text-align:center; position:relative")  #{model.title}          
+    .row
+        .col-sm-12
+            .subhead
+                h5 #{model.date}
+    .row
+        .col-sm-12
+            h1(class="display-3" style="font-size:40px;font-family:'Playfair Display'") #{model.mainStory.headline}
+            p by #{model.mainStory.authors}
+    .row
+        .lead #{model.mainStory.content}
+    hr
+    .row
+        .content
+            .collumns
+            each story in model.secondaryStories
+                .collumn
+                    .head
+                        span(class="headline hl3") #{story.headline}
+                        p
+                            span(class="headline hl4") #{story.authors}             
+                        a(href='/story/' + story.id) 
+                            h6 View Story
+                        p #{story.content}
