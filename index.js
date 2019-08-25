@@ -14,15 +14,15 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 
 // add routes
-var mainController = require(__dirname + "/controllers/mainController");
-var sentenceController = require(__dirname + "/controllers/sentenceController");
-var storyController = require(__dirname + "/controllers/storyController");
-var storiesController = require(__dirname + "/controllers/storiesController");
+const mainController = require('./controllers/mainController');
+const sentenceController = require('./controllers/sentenceController');
+const storyController = require('./controllers/storyController');
+const storiesController = require('./controllers/storiesController');
 
-app.use("/", mainController);
-app.use("/sentence", sentenceController);
-app.use("/story", storyController);
-app.use("/stories", storiesController);
+app.use('/', mainController);
+app.use('/sentence', sentenceController);
+app.use('/story', storyController);
+app.use('/stories', storiesController);
 
 
 app.listen(PORT);
