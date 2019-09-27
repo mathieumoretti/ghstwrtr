@@ -1,7 +1,12 @@
 const express = require('express');
 var router = express.Router();
 
-module.exports = function (app)
-{
-    /* routes for /sentence */
-}
+
+const Sentence = require('../models/sentence')
+
+const sentence = Sentence;
+router.get('/', (req, res) => {
+  res.render('sentence', sentence);
+});
+
+module.exports = router;

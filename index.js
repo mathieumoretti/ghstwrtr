@@ -16,12 +16,12 @@ app.use(express.static(path.join(__dirname, '/public')));
 // add routes
 const mainController = require('./controllers/mainController');
 const sentenceController = require('./controllers/sentenceController');
-const storyController = require('./controllers/storyController');
+const commentController = require('./controllers/commentController');
 const storiesController = require('./controllers/storiesController');
 
 app.use('/', mainController);
+app.use('/comment', commentController);
 app.use('/sentence', sentenceController);
-app.use('/story', storyController);
 app.use('/stories', storiesController);
 
 

@@ -1,0 +1,21 @@
+mixin comment_widget
+    ul(class="list-group")            
+        li(class="list-group-item active") Categories 
+        li(class="list-group-item")
+            each val in model.nouns
+                span(class="badge badge-primary")= val
+        li(class="list-group-item")
+            each val in model.adjectives
+                span(class="badge badge-success")= val
+
+        li(class="list-group-item") 
+            each val in model.adverbs
+                span(class="badge badge-danger")= val
+
+        li(class="list-group-item")
+            each val in model.verbs
+                span(class="badge badge-warning")= val
+
+        li(class="list-group-item")
+            each val in model.slang
+                    span(class="badge badge-info")= val 
