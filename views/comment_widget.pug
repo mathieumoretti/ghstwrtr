@@ -1,21 +1,73 @@
 mixin comment_widget
-    ul(class="list-group")            
-        li(class="list-group-item active") Categories 
-        li(class="list-group-item")
-            each val in model.nouns
-                span(class="badge badge-primary")= val
-        li(class="list-group-item")
-            each val in model.adjectives
-                span(class="badge badge-success")= val
+    style(type='text/css').
+        .row {
+            margin:15px 0;
+            }
+            label {
+            margin-bottom: 0;
+            margin-left: 1px;
+        }
+    div
+        ul(class="list-group")            
+            li(class="list-group-item active") Categories 
+            li(class="list-group-item")
+                each val in model.nouns
+                    span(class="badge badge-primary")= val
+            li(class="list-group-item")
+                each val in model.adjectives
+                    span(class="badge badge-success")= val
 
-        li(class="list-group-item") 
-            each val in model.adverbs
-                span(class="badge badge-danger")= val
+            li(class="list-group-item") 
+                each val in model.adverbs
+                    span(class="badge badge-danger")= val
 
-        li(class="list-group-item")
-            each val in model.verbs
-                span(class="badge badge-warning")= val
+            li(class="list-group-item")
+                each val in model.verbs
+                    span(class="badge badge-warning")= val
 
-        li(class="list-group-item")
-            each val in model.slang
-                    span(class="badge badge-info")= val 
+            li(class="list-group-item")
+                each val in model.slang
+                        span(class="badge badge-info")= val
+    section
+        div(class="container")
+            div(class="row")
+                div(class="col-sm-12")
+                    form(class="form-inline")
+                        div(class="row")
+                            div(class="form-group")
+                                label(for="exampleInputEmail3") Name
+                                input(type="text" class="form-control" id="exampleInputEmail3" placeholder="Name")
+                            div(class="form-group")
+                                label(for="exampleInputEmail3") Email address
+                                input(type="email" class="form-control" id="exampleInputEmail3" placeholder="Email")
+                            div(class="form-group")
+                                label(for="exampleInputEmail3") Email address
+                                input(type="email" class="form-control" id="exampleInputEmail3" placeholder="State")
+                        div(class="row")
+                            div(class="" align="center")
+                                button(type="submit" class="btn btn-primary") Submit
+        div(class="page-data")
+            form(method="post" action="/customers/add")
+                table(cellpadding="11")
+                    tr
+                        td( class="label") Name
+                        td
+                            input( type="text" name="name" required)
+                    tr
+                        td( class="label") Address
+                        td
+                            textarea(name="address" required cols="30" rows="5")
+                    tr
+                        td(class="label") Email
+                            input(type="text" name="email" required )
+                    tr
+                    tr
+                        td(class="label") Phone
+                        td
+                            input( type="text" name="phone" required)
+                    tr
+                    tr
+                        td(class="label")
+                        td
+                            button(type="submit") Save
+                            button(type="button" onClick='cancelAdd()') Cancel

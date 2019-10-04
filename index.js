@@ -12,7 +12,6 @@ app.set('views', './views');
 app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, '/public')));
 
-
 // add routes
 const mainController = require('./controllers/mainController');
 const sentenceController = require('./controllers/sentenceController');
@@ -23,7 +22,6 @@ app.use('/', mainController);
 app.use('/comment', commentController);
 app.use('/sentence', sentenceController);
 app.use('/stories', storiesController);
-
 
 app.listen(PORT);
 console.log('Server started');

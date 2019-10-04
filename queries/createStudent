@@ -1,0 +1,5 @@
+CREATE TABLE Student(
+id int not null,
+name text not null,
+rollnumber int not null
+);

@@ -4,9 +4,11 @@ var router = express.Router();
 
 const Sentence = require('../models/sentence')
 
-const sentence = Sentence;
+
 router.get('/', (req, res) => {
-  res.render('sentence', sentence);
+    const sentence = Sentence();
+    sentence.content = "My first sentence."
+    res.render('sentence', { model: sentence });
 });
 
 module.exports = router;
