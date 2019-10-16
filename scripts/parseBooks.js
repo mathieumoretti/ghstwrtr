@@ -82,7 +82,7 @@ var orchestrator =
 
 //console.log(orchestrator.book.content);
 
-var newBook = orchestrator.book.content.replace(/(\r\n|\n|\r)/gm,"");
+var newBook = orchestrator.book.content.replace(/(\r\n|\n|\r)/gm," ");
 
 
 
