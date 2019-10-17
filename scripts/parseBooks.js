@@ -80,17 +80,37 @@ var orchestrator =
     book : book,
 });
 
-//console.log(orchestrator.book.content);
-
 var newBook = orchestrator.book.content.replace(/(\r\n|\n|\r)/gm," ");
-
-
 
 var doc = nlp(newBook);
 orchestrator.sentences = doc.sentences().data();
 
-var i = 1;
-orchestrator.sentences.forEach(sentence => {
-    console.log(i++ + " " + sentence.text);
+var pg = require("pg");
+ 
+const config = {
+  user: 'postgres',
+  database: 'ghstwrtr',
+  port: 5432
+};
+
+var pool = new pg.Pool(config);
+pool.connect(function(err, client, done) {
+    if(err){
+        console.log("not able to get connection "+ err);
+    } 
+
+    var i = 1;
+    orchestrator.sentences.forEach(sentence => {
+        client.query("INSERT INTO sentence (id, content) VALUES ($1, $2) ", [i++, sentence.text] , function(err,result) {
+            done(); // closing the connection;
+            if(err){
+                console.log(err);
+            }
+        });
+    });
+
+    
 });
+
+
 
