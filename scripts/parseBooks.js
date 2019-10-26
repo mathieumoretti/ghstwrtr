@@ -93,24 +93,51 @@ const config = {
   port: 5432
 };
 
-var pool = new pg.Pool(config);
-pool.connect(function(err, client, done) {
+
+
+var executeQuery = function(done, client, queryString, values)
+{
+    client.query(queryString, values, function(err,result) {
+        done(); // closing the connection;
+        if(err){
+            console.log(err);
+        }
+    });
+}
+
+var queryHandler = function(err, client, done) {
     if(err){
         console.log("not able to get connection "+ err);
     } 
 
     var i = 1;
-    orchestrator.sentences.forEach(sentence => {
-        client.query("INSERT INTO sentence (id, content) VALUES ($1, $2) ", [i++, sentence.text] , function(err,result) {
-            done(); // closing the connection;
-            if(err){
-                console.log(err);
-            }
-        });
-    });
-
-    
-});
+    orchestrator.sentences.forEach(sentence => executeQuery(done, client, "INSERT INTO sentence (id, content) VALUES ($1, $2) ", [i++, sentence.text] )    );
+}
 
 
+var createQuery = function(done, client, queryString, values) {}
+
+var pool = new pg.Pool(config);
+pool.connect(queryHandler);
+
+
+// pool.connect(function(err, client, done) {
+//     if(err){
+//         console.log("not able to get connection "+ err);
+//     } 
+
+//     var i = 1;
+//     orchestrator.sentences.forEach(sentence => {
+//         client.query("INSERT INTO sentence (id, content) VALUES ($1, $2) ", [i++, sentence.text] , function(err,result) {
+//             done(); // closing the connection;
+//             if(err){
+//                 console.log(err);
+//             }
+//         });
+//     });    
+// });
+
+// Idea for intro's of text 
+// Mini-game 
+// Randomize 10 sentences, ask user to choose 3.
 

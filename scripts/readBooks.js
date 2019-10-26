@@ -17,13 +17,6 @@ const pointParser = function(content)
     return content.split(".") || [];
 }
 
-const filterContent = (content) => 
-{
-    let filters = [];
-    let newContent = [];
-    return filters.reduce(([], filter) => [parser(newContent)], content);
-}
-
 const parseContent = (content) => 
 {
     let parsers = [pointParser];
