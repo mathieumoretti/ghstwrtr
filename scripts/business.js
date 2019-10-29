@@ -54,7 +54,7 @@ const config = {
     port: 5432
   };
 
-  var executeQuery = function(done, client, queryString, values)
+var executeQuery = function(done, client, queryString, values)
 {
     client.query(queryString, values, function(err,result) {
         done(); // closing the connection;
@@ -66,31 +66,58 @@ const config = {
 
 var actions = 
 {
-    create : "CREATE",
+    create : "CREATE TABLE",
     insert : "INSERT INTO",
     update : "UPDATE",
     del : "DELETE FROM",
+    drop : "DROP",
     select : "SELECT"
 };
 
 // CRUD
 function queryMaker(action){
 
-    function create() {
-        return actions.create;
+    function create(table, vars) {
+        var queryFct = function(table, vars)
+        {
+            var queryString = `${actions.create} ${table}(${vars.join(',')})`;
+            return queryString;
+        }
+        return queryFct(table, vars);
     }   
-    function insert() {
-        return actions.insert;
+    function insert(table, columnIds, columnValues) {
+        var queryFct = function(table, columnIds, columnValues)
+        {
+            var queryString = `${actions.insert} ${table}(${columnIds.join(',')}) VALUES ${columnValues}`;
+            return queryString;
+        }
+        return queryFct(table, columnIds, columnValues);
     }   
     function update() {
-        return actions.update;
+        var queryFct = function(table, columns)
+        {
+            var queryString = `${actions.update} ${columns.join(',')} FROM ${table}`;
+            return queryString;
+        }
+        return queryFct(table, columns);
     }
-    function del() {
-        return actions.del;
-    }   
-    function select() {
-        return actions.select;
-    }   
+    function del(table) {
+        var queryFct = function(table)
+        {
+            var queryString = `${actions.del} ${table}`;
+            return queryString;
+        }
+        return queryFct(table);
+    }
+
+    function select(table, columns) {
+        var queryFct = function(table, columns)
+        {
+            var queryString = `${actions.select} ${columns.join(',')} FROM ${table}`;
+            return queryString;
+        }
+        return queryFct(table, columns);
+    }
 
     var reaction = null;
     switch(action) {
@@ -116,13 +143,24 @@ function queryMaker(action){
     return reaction;
 }
 
-console.log(queryMaker(actions.create)());
-console.log(queryMaker(actions.insert)());
-console.log(queryMaker(actions.del)());
-console.log(queryMaker(actions.update)());
-console.log(queryMaker(actions.select)());
+var columns = ['col1','col2'];
+var values = ['val1','val2'];
+var table = "table";
+var vars = ['var1','var2'];
 
-console.log(baz());
+var createQuery = queryMaker(actions.create);
+var insertQuery = queryMaker(actions.insert);
+var deleteQuery = queryMaker(actions.del);
+var updateQuery = queryMaker(actions.update);
+var selectQuery = queryMaker(actions.select);
+
+console.log(createQuery(table, vars));
+console.log(insertQuery(table, columns, values, vars));
+console.log(deleteQuery(table, vars)); // Plus where
+console.log(updateQuery(table, vars));
+console.log(selectQuery(table, columns, vars));
+
+//console.log(baz());
 
 // var queryStr = "INSERT INTO sentence (id, content) VALUES ($1, $2) ";
 // var values = [0, sentence.text];
