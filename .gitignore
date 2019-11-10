@@ -62,3 +62,8 @@ typings/
 
 # temp folder
 tmp/
+
+# Visual Studio
+.vs*
+obj/
+*.njsproj
