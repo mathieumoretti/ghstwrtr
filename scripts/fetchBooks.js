@@ -1,9 +1,9 @@
 "use strict";
 
+const utils = require('./utils');
 const fs = require('fs');
 const https = require('https');
 var url = require('url');
-
 var path = require('path');
 var rootDir = path.dirname(path.join(require.main.filename, ".."));
 
@@ -14,9 +14,9 @@ var orchestrator =
 }
 
 // Logging
-const onResolvedLog = (resolvedValue) => console.log(resolvedValue);
-const onResolvedLogLine = (resolvedValue) => onResolvedLog(resolvedValue + '\n');
-const onRejectedLog = (error) => console.log(error);
+const onResolvedLog = (resolvedValue) => utils.note(resolvedValue);
+const onResolvedLogLine = (resolvedValue) => utils.note(resolvedValue + '\n');
+const onRejectedLog = (error) => utils.fail(error);
 
 const writePromise = function(filename, data)
 {
@@ -56,8 +56,8 @@ const requester = function(aUrl)
 // request data
 const baseUrl = "https://www.gutenberg.org/cache/epub";
 const firstBookId = 8;
-const books = 1000;
-for (let i = firstBookId; i < firstBookId + books; i++) {
+const books = 1;
+for (let i = firstBookId; i < firstBookId + books ; i++) {
 
     const adr = `${baseUrl}/${i}/pg${i}.txt`
     var someUrl = url.parse(adr, true);
