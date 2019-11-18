@@ -1,6 +1,8 @@
 const _ = require('underscore');
+const path = require('path');
+const fs = require('fs');
 
-var utils = (function (){ 
+const utils = (function (){ 
     
     function fail(thing)
     {
@@ -51,6 +53,33 @@ var utils = (function (){
         return copy;
     }    
 
+    const getRootDir = () => path.parse(process.cwd()).root
+
+    // TODO:
+    // Different treatment if init CurrentPath is file or folder 
+
+    // findRoot => search backwards for index.js
+    function findRoot(currentPath, rootFileName)
+    {
+        var potRootMarker = path.join(currentPath, rootFileName);
+        // is root base case
+        if (currentPath === getRootDir())
+            return undefined;
+        // currentDir + rootFileName exist?        
+        if (fs.existsSync(potRootMarker))
+            // yes return that path
+            return currentPath;
+        else{
+            var newPotRoot =path.join(currentPath, "..");
+            // no pluck a level and startover
+            return findRoot(newPotRoot, rootFileName);
+        }
+    }
+
+    const rootFromExe = (
+        (currentFilePath, rootFileName) => findRoot(currentFilePath,rootFileName)
+    )(path.dirname(require.main.filename), ".root");
+
     return {
         fail:fail,
         warn:warn,
@@ -60,7 +89,8 @@ var utils = (function (){
         doWhen:doWhen,
         performTask:performTask,
         executeIfHasField:executeIfHasField,
-        clone:clone
+        clone:clone,
+        rootDir:rootFromExe
     };
 })();
 module.exports = utils;
