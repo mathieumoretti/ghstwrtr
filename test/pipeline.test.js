@@ -3,6 +3,9 @@ const writer = require('../scripts/fileWriter')
 const utils = require('../scripts/utils');
 const test = require('tape');
 
+var path = require('path');
+var rootDir = path.dirname(path.join(require.main.filename, ".."));
+
 test('fetch data with status OK + write in a file', (t) => {
     //t.plan(0);
 
@@ -13,13 +16,12 @@ test('fetch data with status OK + write in a file', (t) => {
       const adr = `${baseUrl}/${i}/pg${i}.txt`;
       requester.request(adr).then(
         function(response){
-          return writer.write(`tmp/pg${i}.txt`, response.body);
+          return writer.write(`${rootDir}/tmp/pg${i}.txt`, response.body);
       }).then(function (msg) {
           utils.note(msg);
-        t.pass();
-      }).catch(function (err) {
-        utils.fail(err);
-        t.fail(err);
+          t.pass();
+      }).catch(function (err) {        
+          t.fail(err);
       });
     }
     t.end();
