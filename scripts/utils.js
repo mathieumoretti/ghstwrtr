@@ -18,6 +18,12 @@ const utils = (function (){
         console.log(["NOTE:", thing].join(' '));
     }
     
+    function random() {
+        const d = new Date();
+        const n = d.getTime();
+        return Math.random() * n;
+      }
+
     function existy(x) { return x != null }
 
     function truthy(x) { return ( x !==  false ) && existy(x) }
@@ -84,6 +90,7 @@ const utils = (function (){
         fail:fail,
         warn:warn,
         note:note,
+        random:random,
         existy:existy,
         truthy:truthy,
         doWhen:doWhen,
