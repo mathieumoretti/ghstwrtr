@@ -2,6 +2,7 @@ const test = require('tape');
 
 const utils = require('../scripts/utils');
 const error = require('../scripts/error');
+const promiseMaker = require('../scripts/promiseMaker');
 
 var createResult = function(){
     return {
@@ -9,21 +10,6 @@ var createResult = function(){
         error: error.none,
     }
 };
-
-var promiseMaker = function (processor, processingArgs, controller)
-{
-    var promise = new Promise(function(resolve, reject) {
-        // do a thing, possibly async, then…
-        var result = processor(processingArgs);
-        if (controller(result.error)) {
-            resolve(result.content);
-        }
-        else {
-            reject(error);
-        }
-    });
-    return promise;
-}
 
 var someProcessor = function(someBool)
 {
@@ -41,8 +27,8 @@ var errorController = function(error)
         case "ERROR": return false;
     }
 }
-
-var aPromise = promiseMaker(someProcessor, false, errorController);
+var args = true;
+var aPromise = promiseMaker.make(someProcessor, args, errorController);
 
 test('promise creation', (t) => {
     //t.plan(0); 
