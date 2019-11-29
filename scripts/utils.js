@@ -59,6 +59,18 @@ const utils = (function (){
         return copy;
     }    
 
+    function checker(/* validators */) {
+        var validators = _.toArray(arguments);
+        return function(obj) {
+            return _.reduce(validators, function(errs, check) {
+               if (check(obj))
+                   return errs;
+               else
+                    return _.chain(errs).push(check.message).value();
+           }, []);
+       };
+   } 
+
     const getRootDir = () => path.parse(process.cwd()).root
 
     // TODO:
@@ -82,9 +94,14 @@ const utils = (function (){
         }
     }
 
+
+
+
     const rootFromExe = (
         (currentFilePath, rootFileName) => findRoot(currentFilePath,rootFileName)
     )(path.dirname(require.main.filename), ".root");
+
+
 
     return {
         fail:fail,
@@ -97,6 +114,7 @@ const utils = (function (){
         performTask:performTask,
         executeIfHasField:executeIfHasField,
         clone:clone,
+        checker:checker,
         rootDir:rootFromExe
     };
 })();
