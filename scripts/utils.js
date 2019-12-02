@@ -71,6 +71,10 @@ const utils = (function (){
        };
    } 
 
+    function repeat(times, VALUE) {
+          return _.map(_.range(times), function() { return VALUE; }); 
+    }
+
     const getRootDir = () => path.parse(process.cwd()).root
 
     // TODO:
@@ -113,6 +117,7 @@ const utils = (function (){
         doWhen:doWhen,
         performTask:performTask,
         executeIfHasField:executeIfHasField,
+        repeat:repeat,
         clone:clone,
         checker:checker,
         rootDir:rootFromExe
