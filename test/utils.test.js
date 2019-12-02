@@ -31,25 +31,29 @@ test('should return true or false for various existy scenarios', function (t) {
       //t.equal(false, utils.truthy(false)); //=> false
       var rootDir = utils.rootDir;
       utils.note(rootDir);
-      t.notEqual(undefined, rootDir)
+      t.notEqual(undefined, rootDir);
       t.end();
   });
 
   // checkers
-  test('should return true or false for various truthy scenarios', function (t) {
-    
-    var aVar = {}.a = 'a';
+    test('should return true or false for various truthy scenarios', function (t) {
+        var aVar = {}.a = 'a';
 
-    function always(VALUE) {
-        return function() {
-            return VALUE;
+        function always(VALUE) {
+            return function() {
+                return VALUE;
+            };
         };
-    };
 
-    var never = always(false);
-    never.message = "It's false buddy";
-    var neverPasses = utils.checker(never); 
+        var never = always(false);
+        never.message = "It's false buddy";
+        var neverPasses = utils.checker(never); 
 
-    t.equal(1, neverPasses().length);
-    t.end();
-});
+        t.equal(1, neverPasses().length);
+        t.end();
+    });
+
+    test('repeat utils', function (t) {    
+        t.looseEqual(["Major", "Major", "Major", "Major"], utils.repeat(4, "Major")); 
+        t.end();
+    });
