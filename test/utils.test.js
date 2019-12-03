@@ -65,3 +65,10 @@ test('should return true or false for various existy scenarios', function (t) {
         })); 
         t.end();
     });
+
+    test('invoker utils', function (t) {
+
+        t.looseEqual( [[3, 2, 1]] , _.map([[1,2,3]], utils.invoker('reverse', Array.prototype.reverse)));
+
+        t.end();
+    });
