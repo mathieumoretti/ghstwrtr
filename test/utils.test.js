@@ -53,7 +53,15 @@ test('should return true or false for various existy scenarios', function (t) {
         t.end();
     });
 
+    // Repeating functions test
     test('repeat utils', function (t) {    
         t.looseEqual(["Major", "Major", "Major", "Major"], utils.repeat(4, "Major")); 
+        t.end();
+    });
+
+    test('repeatedly utils', function (t) {
+        t.looseEqual( [1, 11, 21] , utils.repeatedly(3, function(x) { 
+             return Math.floor((x*10)+1);
+        })); 
         t.end();
     });
