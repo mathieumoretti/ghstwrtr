@@ -67,8 +67,12 @@ test('should return true or false for various existy scenarios', function (t) {
     });
 
     test('invoker utils', function (t) {
-
         t.looseEqual( [[3, 2, 1]] , _.map([[1,2,3]], utils.invoker('reverse', Array.prototype.reverse)));
+        t.end();
+    });
 
+    test('fnull utils', function (t) {
+        var safeMult = utils.fnull(function(total, n) { return total * n }, 1, 1);
+        t.looseEqual( 6 , _.reduce([1,2, null, 3], safeMult));
         t.end();
     });

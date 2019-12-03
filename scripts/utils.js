@@ -64,6 +64,18 @@ const utils = (function (){
             });
     }
 
+    function fnull(fun /*, defaults */) {
+        var defaults = _.rest(arguments);
+
+        return function(/* args */) {
+            var args = _.map(arguments, function(e, i) {
+                return existy(e) ? e : defaults[i];
+            });
+            return fun.apply(null, args);
+        }; 
+    };
+      
+
     const clone = function(obj) {
         if (null == obj || "object" != typeof obj) return obj;
         var copy = obj.constructor();
@@ -135,6 +147,7 @@ const utils = (function (){
         doWhen:doWhen,
         performTask:performTask,
         invoker:invoker,
+        fnull:fnull,
         executeIfHasField:executeIfHasField,
         repeat:repeat,
         repeatedly: repeatedly,
