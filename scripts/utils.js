@@ -42,6 +42,20 @@ const utils = (function (){
                   });
             }
 
+    function invoker (NAME, METHOD) {
+        return function(target /* args ... */) {
+            if (!existy(target))
+                fail("Must provide a target");
+            
+            var targetMethod = target[NAME];
+            var args = _.rest(arguments);
+            return doWhen((existy(targetMethod) && METHOD === targetMethod),
+                function() {
+                    return targetMethod.apply(target, args);
+            });
+        };
+    };
+
     function executeIfHasField(target, name) {
          return doWhen(existy(target[name]), function() { 
                 var result = _.result(target, name);
@@ -120,6 +134,7 @@ const utils = (function (){
         truthy:truthy,
         doWhen:doWhen,
         performTask:performTask,
+        invoker:invoker,
         executeIfHasField:executeIfHasField,
         repeat:repeat,
         repeatedly: repeatedly,
