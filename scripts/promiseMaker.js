@@ -1,21 +1,18 @@
+const _ = require('underscore');
+
 const utils = require('./utils');
 
 var promiseMaker = (function ()
 {
-     function make(processor, processingArgs, controller)
+
+    function make(asyncFct)
     {
-        var promise = new Promise(function(resolve, reject) {
-            // do a thing, possibly async, then…
-            var result = processor(processingArgs);
-            if (controller(result.error)) {
-                resolve(result.content);
-            }
-            else {
-                reject(result.error);
-            }
+        return new Promise(function(resolve, reject)
+        {
+            asyncFct(resolve, reject);
         });
-        return promise;
     }
+
     return {
         make: make,
     };
