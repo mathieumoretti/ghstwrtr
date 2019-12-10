@@ -13,6 +13,7 @@ var createResult = function(){
 
 var someProcessor = function(someBool)
 {
+    // Concatenate args
     var result = createResult();
     result.error = someBool ? error.none : error.some;
     result.content = "SomeContent";

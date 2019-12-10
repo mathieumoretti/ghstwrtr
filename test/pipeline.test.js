@@ -17,8 +17,8 @@ test('fetch data with status OK + write in a file', (t) => {
       requester.request(adr).then(
         function(response){
           return writer.write(`${rootDir}/tmp/pg${i}.txt`, response.body);
-      }).then(function (msg) {
-          utils.note(msg);
+      }).then(function (res) {
+          utils.note(res.content);
           t.pass();
       }).catch(function (err) {        
           t.fail(err);
