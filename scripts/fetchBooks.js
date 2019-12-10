@@ -1,8 +1,9 @@
 "use strict";
 
+const writer = require('./fileWriter');
+const requester = require('./requester');
 const utils = require('./utils');
-const fs = require('fs');
-const https = require('https');
+
 var url = require('url');
 var path = require('path');
 var rootDir = path.dirname(path.join(require.main.filename, ".."));
@@ -13,55 +14,18 @@ var orchestrator =
     sentences : [],
 }
 
-// Logging
-const onResolvedLog = (resolvedValue) => utils.note(resolvedValue);
-const onResolvedLogLine = (resolvedValue) => utils.note(resolvedValue + '\n');
-const onRejectedLog = (error) => utils.fail(error);
-
-const writePromise = function(filename, data)
-{
-    return new Promise((resolve, reject) => {
-        var fullFileName = path.join(rootDir, filename);
-        fs.writeFile(fullFileName, data, 'utf8', function(err) {
-            if (err) reject(err);
-            else
-            {
-                resolve(fullFileName + "file saved.")
-            }
-        }); 
-    });
-};
-
-const requester = function(aUrl)
-{
-    https.get(aUrl, (resp) => {
-        let data = '';
-        let tokens = aUrl.pathname.split('/');
-        let filename = tokens[tokens.length - 1];
-        // A chunk of data has been recieved.
-        resp.on('data', (chunk) => {
-          data += chunk;
-        });
-      
-        // The whole response has been received. Save to file.
-        resp.on('end', () => {
-          writePromise("/tmp/" + filename, data).then(onResolvedLog, onRejectedLog)
-        });
-      
-      }).on("error", (err) => {
-        console.log("Error: " + err.message);
-      });
-}
 
 // request data
 const baseUrl = "https://www.gutenberg.org/cache/epub";
 const firstBookId = 8;
 const books = 1;
 for (let i = firstBookId; i < firstBookId + books ; i++) {
-
     const adr = `${baseUrl}/${i}/pg${i}.txt`
     var someUrl = url.parse(adr, true);
-    requester(someUrl);
+    requester.request(someUrl)
+        .then(function(response){
+                return writer.write(`${rootDir}/tmp/pg${i}.txt`, response.body);
+        }).then(utils.note, utils.fail);
 }
 
 

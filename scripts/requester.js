@@ -1,5 +1,3 @@
-const https = require('https');
-const utils = require('./utils');
 var rp = require('request-promise');
 
 var requester = (function ()
