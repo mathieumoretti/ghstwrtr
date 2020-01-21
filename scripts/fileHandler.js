@@ -3,6 +3,8 @@ const fs = require('fs');
 const error = require('./error');
 const utils = require('./utils');
 const promiseMaker = require('./promiseMaker');
+const fileWriter = require('./fileWriter');
+
 
 function Result(){
     return {
@@ -12,6 +14,12 @@ function Result(){
 };
 
  var fileHandler = (function () {
+
+    function write(filename, data)
+    {
+        return fileWriter.write(filename, data);
+    }
+
 
     function mkdir(path, recursive)
     {
@@ -51,59 +59,9 @@ function Result(){
             asyncAction(resolve, reject)
         });
     }
-    // {
-    //     function asyncAction(resolve, reject)
-    //     {
-    //         function Result(){
-    //             return {
-    //                 content: null,
-    //                 error: error.none,
-    //             }
-
-    //             var path = "bro";
-    //             fs.mkdir(path, { recursive: true }, (err) => {
-
-    //                 if (err)
-    //                     throw err;
-
-    //                 var someProcessor = function(someError)
-    //                 {
-    //                     // Concatenate args
-    //                     var result = Result();
-    //                     result.error = utils.existy(someError) ? error.some : error.none;
-    //                     result.content = "SomeContent";
-    //                     return result; 
-    //                 }
-
-    //                 var errorController = function(res)
-    //                 {
-    //                     switch(res.error.code)
-    //                     {
-    //                         case "OK": resolve(res);
-    //                         case "ERROR": reject(res.error);
-    //                     }
-    //                 }
-
-    //                 var result = someProcessor(err);           
-    //                 errorController(result);            
-
-    //                 if (err) reject(err);
-    //                 else
-    //                 {
-    //                     resolve(filename + "file saved.")
-    //                 }
-
-    //         });
-
-    //         }
-            
-    //         return promiseMaker.make((resolve, reject) => {        
-    //             asyncAction(resolve, reject)
-    //         });  
-    // }
 
   return {
-     // write: write,
+      write: write,
       mkdir: mkdir,
       mkdir2: mkdir2,
   };
