@@ -1,7 +1,9 @@
 const fs = require('fs');
 const error = require('./error');
+const result = require('./result');
 const promiseMaker = require('./promiseMaker');
 const utils = require('./utils');
+
 
 var fileWriter = (function ()
 {
@@ -9,22 +11,31 @@ var fileWriter = (function ()
   {   
       function asyncAction(resolve, reject)
       {
-        function Result(){
-            return {
-                content: null,
-                error: error.none,
-            }
-        };
-
         fs.writeFile(filename, data, 'utf8', function(err) {
             
             var someProcessor = function(someError)
             {
                 // Concatenate args
-                var result = Result();
-                result.error = utils.existy(someError) ? error.some : error.none;
-                result.content = "SomeContent";
-                return result; 
+                var res = result.Result();
+
+                if(utils.existy(someError))
+                {                        
+                    switch(someError.code) {
+                      case "EEXIST":
+                        res.error = error.alreadyExists;
+                        res.intCode = someError.number;   
+                        res.content = `File ${filename} " already exists.`; // Should never happen
+                        utils.warn(someError.message);
+                        break;
+
+                      default:
+                        res.error = error.unknown;
+                        utils.fail(someError.message);
+                    }
+                }
+
+                res.content = `File ${filename} " written.`;
+                return res; 
             }
 
             var errorController = function(res)
@@ -36,14 +47,8 @@ var fileWriter = (function ()
                 }
             }
 
-            var result = someProcessor(err);           
-            errorController(result);            
-
-            if (err) reject(err);
-            else
-            {
-                resolve(filename + "file saved.")
-            }
+            var res = someProcessor(err);
+            errorController(res);
         }); 
       }
 
