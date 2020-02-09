@@ -1,17 +1,10 @@
 const fs = require('fs');
 
 const error = require('./error');
+const result = require('./result');
 const utils = require('./utils');
 const promiseMaker = require('./promiseMaker');
 const fileWriter = require('./fileWriter');
-
-
-function Result(){
-    return {
-        content: null,
-        error: error.none,
-    }
-};
 
  var fileHandler = (function () {
 
@@ -35,23 +28,41 @@ function Result(){
                 var someProcessor = function(someError)
                 {
                     // Concatenate args
-                    var result = Result();
-                    result.error = utils.existy(someError) ? error.some : error.none;
-                    result.content = "SomeContent";
-                    return result; 
+                    var res = result.Result();
+    
+                    if(utils.existy(someError))
+                    {                        
+                        switch(someError.code) {
+                          case "EEXIST":
+                            res.error = error.alreadyExists;
+                            res.intCode = someError.number;   
+                            res.content = `Directory ${path} " already exists.`;                         
+                            utils.warn(someError.message);
+                            break;
+
+                          default:
+                            res.error = error.unknown;
+                            utils.fail(someError.message);
+                        }
+                    }
+    
+                    res.content = `Directory ${path} " created.`;
+                    return res; 
                 }
 
                 var errorController = function(res)
                 {
                     switch(res.error.code)
                     {
-                        case "OK": resolve(res);
+                        case "OK": 
+                        case "ALREADY_EXISTS": resolve(res);
+                            break;
                         case "ERROR": reject(res.error);
                     }
                 }
 
-                var result = someProcessor(err);           
-                errorController(result);
+                var res = someProcessor(err);           
+                errorController(res);
             });
         }
 
