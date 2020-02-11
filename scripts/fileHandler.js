@@ -5,6 +5,7 @@ const result = require('./result');
 const utils = require('./utils');
 const promiseMaker = require('./promiseMaker');
 const fileWriter = require('./fileWriter');
+const fileReader = require('./fileReader');
 
  var fileHandler = (function () {
 
@@ -12,7 +13,6 @@ const fileWriter = require('./fileWriter');
     {
         return fileWriter.write(filename, data);
     }
-
 
     function mkdir(path, recursive)
     {
@@ -71,10 +71,16 @@ const fileWriter = require('./fileWriter');
         });
     }
 
+    function read(filename)
+    {
+        return fileReader.read(filename);
+    }
+
   return {
       write: write,
       mkdir: mkdir,
       mkdir2: mkdir2,
+      read: read,
   };
 })();
 
