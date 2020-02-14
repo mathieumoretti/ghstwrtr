@@ -1,5 +1,4 @@
-const test = require('tape');
-
+const test = require('tape-catch')
 const error = require('../scripts/error');
 const handler = require('../scripts/fileHandler');
 const writer = require('../scripts/fileWriter');
@@ -86,15 +85,15 @@ test('create Dir promise', (t) => {
     var promise = handler.mkdir2(tmp, true);
     var promiseAfter = handler.mkdir2(tmp + 1, true)
     promise.then(promiseAfter).then(
-        (resolve) =>
+        (createDirRes) =>
         {
-            var result = resolve;
+            var result = createDirRes;
             var alreadyExists = (result.error.code == error.alreadyExists.code);
             t.true(!alreadyExists);
             return handler.write(tmp + "/" + "someFile.txt", result.content);
-        }).then((resolve)=>
+        }).then((writeFileRes)=>
         {
-            var result = resolve;
+            var result = writeFileRes;
             var alreadyExists = (result.error.code == error.alreadyExists.code);
             t.true(!alreadyExists);
             testCloser(t);
