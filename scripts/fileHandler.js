@@ -36,7 +36,7 @@ const fileReader = require('./fileReader');
                           case "EEXIST":
                             res.error = error.alreadyExists;
                             res.intCode = someError.number;   
-                            res.content = `Directory ${path} " already exists.`;                         
+                            res.content = `Directory ${path} already exists.`;                         
                             utils.warn(someError.message);
                             break;
 

@@ -1,11 +1,8 @@
-const test = require('tape-catch')
-const error = require('../scripts/error');
+const test = require('tape-catch');
+const testUtils = require('./testUtils');
 const handler = require('../scripts/fileHandler');
 
-function testCloser(t)
-{
-    t.end();
-}
+var testCloser = testUtils.testCloser;
 
   test('create Dir + write file + read file', (t) => {
     var tmp = "someTmp";
@@ -21,7 +18,7 @@ function testCloser(t)
         return writeFilePromise;
     }
     ).then(
-        (resolve) =>{
+        (resolve) => {
             var result = resolve;  
             return handler.read(tmp + "/" + "someFile.txt", result.content); 
         }).then(

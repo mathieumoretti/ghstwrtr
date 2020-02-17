@@ -1,7 +1,6 @@
 const test = require('tape-catch')
 const error = require('../scripts/error');
 const handler = require('../scripts/fileHandler');
-const writer = require('../scripts/fileWriter');
 
 
 function testCloser(t)
@@ -23,11 +22,11 @@ function testCloser(t)
             var isCreated = (result.error.code == error.none.code) || (result.error.code == error.alreadyExists.code);
             t.true(isCreated);
             testCloser(t);
-        },
-        (reject) =>
-        {          
-            console.log(reject);
-            testCloser(t);
-        });
-        
+        }).catch(
+            (reject) =>
+            {          
+                console.log(reject);
+                testCloser(t);
+            }
+        );        
   });
