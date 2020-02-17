@@ -14,7 +14,7 @@ const errors = (function ()
     var createError = function(type, msg, opts)
     {    
         var error = 
-        {   
+        {
             code: type,
             message:msg,
             intCode:0,

@@ -1,89 +1,51 @@
-const test = require('tape');
-
+const test = require('tape-catch')
 const error = require('../scripts/error');
+const utils = require('../scripts/utils');
+const testUtils = require('./testUtils');
 const handler = require('../scripts/fileHandler');
-const writer = require('../scripts/fileWriter');
+
+
+var testCloser = testUtils.testCloser;
 
 test('create Dir promise', (t) => {
-    var tmp = "someTmp";
+    var tmp = utils.rootDir + "/someTmp";
     var promise = handler.mkdir2(tmp, true);
 
     promise.then(
-        (resolve, reject) =>
+        (resolve) =>
         {
             var result = resolve;            
             console.log(result);
-            t.equal(result.error.code, error.none.code);
-            t.end();
-        });
-  });
-
-  test('create Dir + write file', (t) => {
-    var tmp = "someTmp";
-    var promise = handler.mkdir2(tmp, true);
-
-    promise.then(
-        (resolve) =>
-        {
-            var result = resolve;  
-            handler.write(tmp + "/" + "someFile.txt", result.content);
-           
-            console.log(result);
             var isCreated = (result.error.code == error.none.code) || (result.error.code == error.alreadyExists.code);
             t.true(isCreated);
-            t.end();
-        },
-        (reject) =>
-        {          
-            console.log(reject);
-            t.end();
-        });
-        
-  });
-
-  test('create Dir + create Another', (t) => {
-    var tmp = "someTmp";
-    var promise = handler.mkdir2(tmp, true);
-    var promiseAfter = handler.mkdir2(tmp + 1, true)
-    promise.then(promiseAfter).then(
-        (resolve) =>
-        {
-            var result = resolve;  
-            handler.write(tmp + "/" + "someFile.txt", result.content);
-           
-            var alreadyExists = (result.error.code == error.alreadyExists.code);
-            t.true(alreadyExists);
-            t.end();
-        },
-        (reject) =>
-        {          
-            console.log(reject);
-            t.end();
-        });
-        
+            testCloser(t);
+        }).catch(
+            (reject) =>
+            {          
+                console.log(reject);
+                testCloser(t);
+            }
+        );
   });
 
   test('create Dir + create Another2', (t) => {
-    var tmp = "someTmp";
+    var tmp = utils.rootDir + "/someTmp";
     var promise = handler.mkdir2(tmp, true);
     var promiseAfter = handler.mkdir2(tmp + 1, true);   
 
-    promise.then(promiseAfter)
-            .then((resolve)=>
+    promise.then(promiseAfter).
+            then((resolve) =>
             {
-                var promiseWriteFile = writer.write(tmp + "/" + "someFile.txt", resolve.content);
-                return promiseWriteFile
-            })
-            .then((resolve) =>
-                {
-                    console.log(resolve);
-                    t.equal(resolve.error.code, error.none.code);
-                    t.end();
-                },
+                var result = resolve; 
+                console.log(resolve);
+                var isCreated = (result.error.code == error.none.code) || (result.error.code == error.alreadyExists.code);
+                t.true(isCreated);
+                testCloser(t);
+            }).catch(
                 (reject) =>
                 {          
                     console.log(reject);
-                    t.end();
+                    testCloser(t);
                 }
             );
     });
