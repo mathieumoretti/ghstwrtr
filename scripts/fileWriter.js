@@ -24,7 +24,7 @@ var fileWriter = (function ()
                       case "EEXIST":
                         res.error = error.alreadyExists;
                         res.intCode = someError.number;   
-                        res.content = `File ${filename} " already exists.`; // Should never happen
+                        res.content = `File ${filename} already exists.`; // Should never happen
                         utils.warn(someError.message);
                         break;
 

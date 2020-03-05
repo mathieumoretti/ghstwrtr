@@ -3,6 +3,8 @@ node_js: 9.2.1
 sudo: false
 install:
   - npm install
+before_script:
+  - npm run begin
 script:
   - npm run lint
   - npm run test

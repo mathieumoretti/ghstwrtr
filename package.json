@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "begin": "node scripts/fetchBooks.js",
     "lint": "eslint index.js",
     "test": "tap ./test/*.test.js"
   },
