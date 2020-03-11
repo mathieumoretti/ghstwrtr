@@ -7,11 +7,12 @@ const utils = require('./utils');
 
 var fileWriter = (function ()
 {
-  function write(filename, data)
-  {   
+  function write(filename, data, encoding)
+  {
+    var aEncoding = encoding || 'utf8';
       function asyncAction(resolve, reject)
       {
-        fs.writeFile(filename, data, 'utf8', function(err) {
+        fs.writeFile(filename, data, aEncoding, function(err) {
             
             var someProcessor = function(someError)
             {

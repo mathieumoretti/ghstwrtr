@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "begin": "node scripts/fetchBooks.js",
+    "begin": "node scripts/fetchBooks.js -i 16800 -t epub",
     "lint": "eslint index.js",
     "test": "tap ./test/*.test.js"
   },
