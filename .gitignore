@@ -62,6 +62,7 @@ typings/
 
 # temp folder
 tmp/
+tmpOld/
 
 # Visual Studio
 .vs*
