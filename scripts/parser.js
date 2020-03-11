@@ -1,11 +1,12 @@
 var nlp = require('compromise');
 
+var epubParser = require("./epubParser");
+var sentenceParser = require("./sentenceParser");
+
 const parser = (function(){
     return {
-        parseTxtToSentence : function(text){
-            var doc = nlp(text);
-            return doc.sentences().data();
-        }
+        parseTxtToSentence : sentenceParser.parseTxtToSentence,
+        parseEpubToSentence: epubParser.parseEpubToSentence
     }
 })()
 
