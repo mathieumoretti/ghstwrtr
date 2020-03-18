@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "begin": "node scripts/fetchBooks.js -i 16800 -t epub",
+    "begin": "node scripts/fetchBooks.js -i 16800 -t epub -o data/test",
     "lint": "eslint index.js",
     "test": "tap ./test/*.test.js"
   },
@@ -20,7 +20,7 @@
   "author": "Mateo Iterom",
   "license": "ISC",
   "engines": {
-    "node": "9.2.1"
+    "node": "10.12.0"
   },
   "bugs": {
     "url": "https://github.com/mathieumoretti/ghstwrtr/issues"
