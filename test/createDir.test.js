@@ -1,9 +1,8 @@
-const test = require('tape-catch')
+const test = require('tape-catch');
 const error = require('../scripts/error');
 const utils = require('../scripts/utils');
 const testUtils = require('./testUtils');
 const handler = require('../scripts/fileHandler');
-
 
 var testCloser = testUtils.testCloser;
 
