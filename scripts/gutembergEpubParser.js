@@ -1,21 +1,71 @@
 var _ = require('underscore');
+var path = require('path');
+
 var EPub = require("epub");
 var HTMLParser = require('node-html-parser');
 
-const Chapter = require('../scripts/models/chapter');
-const Document = require('../scripts/models/document');
-const Page = require('../scripts/models/page');
-const Sentence = require('../scripts/models/sentence');
+const Chapter = require('./models/chapter');
+const Document = require('./models/document');
+const Page = require('./models/page');
+const Sentence = require('./models/sentence');
 
 const result = require('./result');
-const sentenceParser = require('../scripts/sentenceParser');
-const utils = require('../scripts/utils');
-const promiseMaker = require('../scripts/promiseMaker');
+const sentenceParser = require('./sentenceParser');
+const utils = require('./utils');
+const promiseMaker = require('./promiseMaker');
 
 // Hardcode pageElement parser for the moment by Book ID
 
+var Epub = require("epub");
+
+function parseFileNameToId(filePath){
+    //skip pg
+    var filename = path.parse(filePath).name;
+    return filename.slice(2, filename.length);
+}
+
+function internalGetChapterAsync(epub, chapterId)
+{
+    function asyncAction(resolve, reject)
+    {
+        epub.getChapter(chapterId, function(error, text){
+            var chap = parseChapter(chapterId, text)
+            if (chap)
+                resolve(chap);
+            else
+                reject(error);
+        });
+    }
+
+    return promiseMaker.make((resolve, reject) => {        
+        asyncAction(resolve, reject)
+    });
+}
+
+
+function enhanceEpubParser(c) {
+  return class GutembergEpubParser extends c {
+      constructor(filename) {
+          //do your magic here
+          super(filename);
+          this.id = parseFileNameToId(filename);
+      }
+
+      getChapterAsync(chapterId)
+      {
+         return internalGetChapterAsync(this, chapterId);
+      }
+  }
+}
+const GutembergEpubParser = enhanceEpubParser(Epub);
+
 var parserByiD = {};
 parserByiD["10900"] = function (chapterElement){
+    var pageLinks = chapterElement.querySelectorAll(".x-ebookmaker-pageno");
+    return _.map(pageLinks, (x)=>{return {pageElement:x.parentNode, id:x.id}});
+}
+
+parserByiD["16800"] = function (chapterElement){
     var pageLinks = chapterElement.querySelectorAll(".x-ebookmaker-pageno");
     return _.map(pageLinks, (x)=>{return {pageElement:x.parentNode, id:x.id}});
 }
@@ -67,36 +117,19 @@ var createChapter = function(id, chapterElement)
     return new Chapter(id, pages);
 }
 
-var parseChapter = function(id, text)
+var parseChapter = function(chapterId, html)
 {
-    var chapterElement = HTMLParser.parse(text);
-    return createChapter(id, chapterElement);
+    var chapterElement = HTMLParser.parse(html);
+    return createChapter(chapterId, chapterElement);
 }
 
 var book = new Document(1, "A book", []);
 
-function getChapterAsync(epub, chapterId)
-{
-    function asyncAction(resolve, reject)
-    {
-        epub.getChapter(x, function(error, text){
-            var chap = parseChapter(chapterId, text)
-            if (chap)
-                resolve(chap);
-            else
-                reject(error);
-        });
-    }
 
-
-    return promiseMaker.make((resolve, reject) => {        
-        asyncAction(resolve, reject)
-    });
-}
 
 function parseEpubAsync(filename)
 {
-    var epub = new EPub(filename);
+    var epub = new GutembergEpubParser(filename);
 
     function asyncAction(resolve, reject)
     {
@@ -104,7 +137,7 @@ function parseEpubAsync(filename)
             var ids = [];
             epub.flow.forEach((chapter) => { ids.push(chapter.id); });
     
-            var allChaptersPromise = _.map(ids, (x) => getChapterAsync(epub, x));
+            var allChaptersPromise = _.map(ids, (x) => epub.getChapterAsync(x));
             var retrievedAllChapters = Promise.all(allChaptersPromise);
             retrievedAllChapters.then((chapters)=>{
     
