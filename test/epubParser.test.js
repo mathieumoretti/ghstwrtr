@@ -3,7 +3,7 @@ const testUtils = require('./testUtils');
 
 const parser = require('../scripts/parser');
 
-const filename = "C:/Users/mormm/Git/ghstwrtr/data/test/fetched/pg10900.epub";
+const filename = "C:/Users/mormm/OneDrive/Bureau/Git/ghstwrtr/data/test/fetched/pg10900.epub";
 
 test("Epub parser.", (t)=>{
     var sentencesPromise = parser.parseEpubToSentence(filename);

@@ -1,6 +1,6 @@
 var nlp = require('compromise');
 
-var epubParser = require("./epubParser");
+var epubParser = require("./gutembergEpubParser");
 var sentenceParser = require("./sentenceParser");
 
 const parser = (function(){
