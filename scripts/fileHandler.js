@@ -2,6 +2,7 @@ const fs = require('fs');
 
 const error = require('./error');
 const Result = require('./result');
+const UnknownResult = require('./unknownResult');
 const utils = require('./utils');
 const promiseMaker = require('./promiseMaker');
 const fileWriter = require('./fileWriter');
@@ -38,7 +39,7 @@ const fileReader = require('./fileReader');
 
                           default:
                             utils.warn(someError.message);
-                            new Result("Unknown.", error.unknown);
+                            return new UnknownResult();
                         }
                     }
 

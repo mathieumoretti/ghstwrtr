@@ -1,6 +1,7 @@
 const fs = require('fs');
 const error = require('./error');
 const Result = require('./result');
+const UnknownResult = require('./unknownResult');
 const promiseMaker = require('./promiseMaker');
 const utils = require('./utils');
 const AsyncAction = require('./asyncAction');
@@ -12,6 +13,7 @@ const ErrorController = function(resolve, reject)
   Controller.call(this, resolve, reject);
 }
 
+// More like a Default Controller
 ErrorController.prototype = Object.create(Controller.prototype);
 ErrorController.prototype.Control = function(result){
   switch(result.error.code)
@@ -21,9 +23,9 @@ ErrorController.prototype.Control = function(result){
   }
 }
 
-const ErrorProcessor = function(error)
+const ErrorProcessor = function()
 {
-  Processor.call(this, error);
+  Processor.call(this);
 }
 
 ErrorProcessor.prototype = Object.create(Processor.prototype);
@@ -39,7 +41,7 @@ ErrorProcessor.prototype.Process = function (processable, err) {
             return new Result(`File ${this.filename} " already exists.`, error.alreadyExists);
           default:
             utils.warn(err.message);
-            return new Result(`Unknown.`, error.unknown);
+            return new UnknownResult();
         }
     }
     return new Result(processable, error.none);
@@ -56,9 +58,10 @@ FileReadAction.prototype = Object.create(AsyncAction.prototype);
 FileReadAction.prototype.Execute = function(resolve, reject)
 {
   fs.readFile(this.filename,'utf8', function(err, data) {
-    var res = new ErrorProcessor(err).Process(data, err);
+    // Could be a result processor and result controller.
+    var res = new ErrorProcessor().Process(data, err);
     new ErrorController(resolve, reject).Control(res);
-}); 
+  }); 
 };
 
 var fileReader = (function ()

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const error = require('./error');
 const Result = require('./result');
+const UnknownResult = require('./unknownResult');
 const promiseMaker = require('./promiseMaker');
 const utils = require('./utils');
 
@@ -25,7 +26,7 @@ var fileWriter = (function ()
                         return new Result(`File ${filename} already exists.`, error.alreadyExists);
                       default:
                         utils.warn(someError.message);
-                        return new Result(`Unknown.`, error.unknown);
+                        return new UnknownResult();
                     }
                 }
 
