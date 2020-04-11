@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const error = require('./error');
-const result = require('./result');
+const Result = require('./result');
 const utils = require('./utils');
 const promiseMaker = require('./promiseMaker');
 const fileWriter = require('./fileWriter');
@@ -27,27 +27,22 @@ const fileReader = require('./fileReader');
 
                 var someProcessor = function(someError)
                 {
-                    // Concatenate args
-                    var res = result.Result();
-    
+                    // Concatenate args    
                     if(utils.existy(someError))
                     {                        
                         switch(someError.code) {
                           case "EEXIST":
-                            res.error = error.alreadyExists;
-                            res.intCode = someError.number;   
-                            res.content = `Directory ${path} already exists.`;                         
                             utils.warn(someError.message);
+                            return new Result(`Directory ${path} already exists.`, error.alreadyExists);
                             break;
 
                           default:
-                            res.error = error.unknown;
-                            utils.fail(someError.message);
+                            utils.warn(someError.message);
+                            new Result("Unknown.", error.unknown);
                         }
                     }
-    
-                    res.content = `Directory ${path} " created.`;
-                    return res; 
+
+                    return new Result(`Directory ${path} " created.`, error.none); 
                 }
 
                 var errorController = function(res)

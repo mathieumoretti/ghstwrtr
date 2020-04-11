@@ -36,11 +36,11 @@ const utils = (function (){
             return undefined;
     }
     
-    function performTask(array) {
-          _.each(array, function(elem) { 
-                 doSomething(array[i]);
-                  });
-            }
+    function performTask(doSomething, array) {
+    //       _.each(array, function(elem) { 
+    //              doSomething(elem);
+    //               });
+    }
 
     function invoker (NAME, METHOD) {
         return function(target /* args ... */) {

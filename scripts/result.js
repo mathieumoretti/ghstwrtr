@@ -1,18 +1,10 @@
 
 const error = require('./error');
 
-var result = (function ()
+function Result(content, err)
 {
-    function Result(){
-        return {
-            content: null,
-            error: error.none,
-        }
-    };
-    return {
-        Result:Result
-    };
-})();
+    this.content = content || "No content.";
+    this.error = err || error.none;
+}
 
-
-module.exports = result;
+module.exports = Result;
