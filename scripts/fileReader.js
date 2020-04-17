@@ -5,7 +5,7 @@ const ErrorController = require('./defaultController');
 const Processor = require('./processor');
 const promiseMaker = require('./promiseMaker');
 const Result = require('./result');
-const SuccesfulResult = require('./succesfulResult');
+const SuccessfulResult = require('./successfulResult');
 const UnknownResult = require('./unknownResult');
 const utils = require('./utils');
 
@@ -32,7 +32,7 @@ ErrorProcessor.prototype.Process = function (filename, data) {
             return new UnknownResult();
         }
     }
-    return new SuccesfulResult(data);
+    return new SuccessfulResult(data);
 }
 
 const FileReadAction = function(filename)
@@ -47,7 +47,7 @@ FileReadAction.prototype.Execute = function(resolve, reject)
 {
   fs.readFile(this.filename,'utf8', function(err, data) {
     // Could be a result processor and result controller.
-    var res = new ErrorProcessor(err).Process(filename, data);
+    var res = new ErrorProcessor(err).Process(this.filename, data);
     new ErrorController(resolve, reject).Control(res);
   }); 
 };

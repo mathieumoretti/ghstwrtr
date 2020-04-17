@@ -1,7 +1,7 @@
 const fs = require('fs');
 const error = require('./error');
 const Result = require('./result');
-const SuccesfulResult = require('./succesfulResult');
+const SuccessfulResult = require('./successfulResult');
 const UnknownResult = require('./unknownResult');
 const promiseMaker = require('./promiseMaker');
 const utils = require('./utils');
@@ -31,7 +31,7 @@ var fileWriter = (function ()
                     }
                 }
 
-                return new SuccesfulResult(`File ${filename} " written.`); 
+                return new SuccessfulResult(`File ${filename} " written.`); 
             }
 
             var errorController = function(res)

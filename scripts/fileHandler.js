@@ -8,7 +8,7 @@ const fileReader = require('./fileReader');
 const Processor = require('./processor');
 const promiseMaker = require('./promiseMaker');
 const Result = require('./result');
-const SuccesfulResult = require('./succesfulResult');
+const SuccessfulResult = require('./successfulResult');
 const UnknownResult = require('./unknownResult');
 const utils = require('./utils');
 
@@ -35,7 +35,7 @@ ErrorProcessor.prototype.Process = function (path) {
             return new UnknownResult();
         }
     }
-    return new SuccesfulResult(`Directory ${path} " created.`);
+    return new SuccessfulResult(`Directory ${path} " created.`);
 }
 
 const DirectoryCreateAction = function(path, recursive)
@@ -49,7 +49,7 @@ DirectoryCreateAction.prototype = Object.create(AsyncAction.prototype);
 
 DirectoryCreateAction.prototype.Execute = function(resolve, reject)
 {
-    fs.mkdir(this.path, { recursive: thisrecursive }, (err) => {
+    fs.mkdir(this.path, { recursive: this.recursive }, (err) => {
         // Could be a result processor and result controller.
         var res = new ErrorProcessor(err).Process(this.path);
         new ErrorController(resolve, reject).Control(res);
