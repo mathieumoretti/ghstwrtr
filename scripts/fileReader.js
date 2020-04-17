@@ -1,60 +1,64 @@
 const fs = require('fs');
 const error = require('./error');
-const result = require('./result');
+const AsyncAction = require('./asyncAction');
+const ErrorController = require('./defaultController');
+const Processor = require('./processor');
 const promiseMaker = require('./promiseMaker');
+const Result = require('./result');
+const SuccessfulResult = require('./successfulResult');
+const UnknownResult = require('./unknownResult');
 const utils = require('./utils');
 
+
+const ErrorProcessor = function(err)
+{
+  Processor.call(this);
+  this.err = err;
+}
+
+ErrorProcessor.prototype = Object.create(Processor.prototype);
+
+ErrorProcessor.prototype.Process = function (filename, data) {    
+    // Concatenate args
+
+    if(utils.existy(this.err))
+    {                        
+        switch(this.err.code) {
+          case "EEXIST":
+            utils.warn(this.err.message);
+            return new Result(`File ${filename} " already exists.`, error.alreadyExists);
+          default:
+            utils.warn(this.err.message);
+            return new UnknownResult();
+        }
+    }
+    return new SuccessfulResult(data);
+}
+
+const FileReadAction = function(filename)
+{
+  AsyncAction.call(this);
+  this.filename = filename;
+}
+
+FileReadAction.prototype = Object.create(AsyncAction.prototype);
+
+FileReadAction.prototype.Execute = function(resolve, reject)
+{
+  fs.readFile(this.filename,'utf8', function(err, data) {
+    // Could be a result processor and result controller.
+    var res = new ErrorProcessor(err).Process(this.filename, data);
+    new ErrorController(resolve, reject).Control(res);
+  }); 
+};
 
 var fileReader = (function ()
 {
   function read(filename, callback = null)
-  {   
-      function asyncAction(resolve, reject)
-      {
-        fs.readFile(filename,'utf8', function(err, data) {
-            
-            var someProcessor = function(someError)
-            {
-                // Concatenate args
-                var res = result.Result();
-
-                if(utils.existy(someError))
-                {                        
-                    switch(someError.code) {
-                      case "EEXIST":
-                        res.error = error.alreadyExists;
-                        res.intCode = someError.number;   
-                        res.content = `File ${filename} " already exists.`; // Should never happen
-                        utils.warn(someError.message);
-                        break;
-
-                      default:
-                        res.error = error.unknown;
-                        utils.fail(someError.message);
-                    }
-                }
-
-                res.content = data;
-                return res; 
-            }
-
-            var errorController = function(res)
-            {
-                switch(res.error.code)
-                {
-                    case "OK": resolve(res);
-                    case "ERROR": reject(res.error);
-                }
-            }
-
-            var res = someProcessor(err);
-            errorController(res);
-        }); 
-      }
-
+  {
       return promiseMaker.make((resolve, reject) => {        
-        asyncAction(resolve, reject)
-      });      
+        new FileReadAction(filename).Execute(resolve, reject);
+      });
   };
 
   return {

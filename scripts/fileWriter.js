@@ -1,6 +1,8 @@
 const fs = require('fs');
 const error = require('./error');
-const result = require('./result');
+const Result = require('./result');
+const SuccessfulResult = require('./successfulResult');
+const UnknownResult = require('./unknownResult');
 const promiseMaker = require('./promiseMaker');
 const utils = require('./utils');
 
@@ -17,26 +19,19 @@ var fileWriter = (function ()
             var someProcessor = function(someError)
             {
                 // Concatenate args
-                var res = result.Result();
-
                 if(utils.existy(someError))
                 {                        
                     switch(someError.code) {
                       case "EEXIST":
-                        res.error = error.alreadyExists;
-                        res.intCode = someError.number;   
-                        res.content = `File ${filename} already exists.`; // Should never happen
                         utils.warn(someError.message);
-                        break;
-
+                        return new Result(`File ${filename} already exists.`, error.alreadyExists);
                       default:
-                        res.error = error.unknown;
-                        utils.fail(someError.message);
+                        utils.warn(someError.message);
+                        return new UnknownResult();
                     }
                 }
 
-                res.content = `File ${filename} " written.`;
-                return res; 
+                return new SuccessfulResult(`File ${filename} " written.`); 
             }
 
             var errorController = function(res)
