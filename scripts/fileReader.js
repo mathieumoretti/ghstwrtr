@@ -1,50 +1,38 @@
 const fs = require('fs');
 const error = require('./error');
-const Result = require('./result');
-const UnknownResult = require('./unknownResult');
-const promiseMaker = require('./promiseMaker');
-const utils = require('./utils');
 const AsyncAction = require('./asyncAction');
-const Controller = require('./controller');
+const ErrorController = require('./defaultController');
 const Processor = require('./processor');
+const promiseMaker = require('./promiseMaker');
+const Result = require('./result');
+const SuccesfulResult = require('./succesfulResult');
+const UnknownResult = require('./unknownResult');
+const utils = require('./utils');
 
-const ErrorController = function(resolve, reject)
-{
-  Controller.call(this, resolve, reject);
-}
 
-// More like a Default Controller
-ErrorController.prototype = Object.create(Controller.prototype);
-ErrorController.prototype.Control = function(result){
-  switch(result.error.code)
-  {
-      case "OK": this.resolve(result);
-      case "ERROR": this.reject(result.error);
-  }
-}
-
-const ErrorProcessor = function()
+const ErrorProcessor = function(err)
 {
   Processor.call(this);
+  this.err = err;
 }
 
 ErrorProcessor.prototype = Object.create(Processor.prototype);
 
-ErrorProcessor.prototype.Process = function (processable, err) {    
+ErrorProcessor.prototype.Process = function (filename, data) {    
     // Concatenate args
 
-    if(utils.existy(err))
+    if(utils.existy(this.err))
     {                        
-        switch(err.code) {
+        switch(this.err.code) {
           case "EEXIST":
-            utils.warn(err.message);
-            return new Result(`File ${this.filename} " already exists.`, error.alreadyExists);
+            utils.warn(this.err.message);
+            return new Result(`File ${filename} " already exists.`, error.alreadyExists);
           default:
-            utils.warn(err.message);
+            utils.warn(this.err.message);
             return new UnknownResult();
         }
     }
-    return new Result(processable, error.none);
+    return new SuccesfulResult(data);
 }
 
 const FileReadAction = function(filename)
@@ -59,7 +47,7 @@ FileReadAction.prototype.Execute = function(resolve, reject)
 {
   fs.readFile(this.filename,'utf8', function(err, data) {
     // Could be a result processor and result controller.
-    var res = new ErrorProcessor().Process(data, err);
+    var res = new ErrorProcessor(err).Process(filename, data);
     new ErrorController(resolve, reject).Control(res);
   }); 
 };
@@ -70,7 +58,7 @@ var fileReader = (function ()
   {
       return promiseMaker.make((resolve, reject) => {        
         new FileReadAction(filename).Execute(resolve, reject);
-      });      
+      });
   };
 
   return {

@@ -4,7 +4,7 @@ const handler = require('../scripts/fileHandler');
 
 var testCloser = testUtils.testCloser;
 
-  test('create Dir + write file + read file', (t) => {
+test('create Dir + write file + read file', (t) => {
     var tmp = "someTmp";
     var promise = handler.mkdir2(tmp, true);
 

@@ -4,12 +4,8 @@ const Processor = function()
 {
 }
 
-Processor.prototype.Process = function(processable, error)
+Processor.prototype.Process = function()
 {
-    if (utils.existy(error) && utils.existy(processable))
-    {
-        utils.log(processable);
-    }
     utils.fail(`Implement Process method.`);
 }
 
