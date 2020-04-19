@@ -6,4 +6,5 @@ function SuccessfulResult(content)
     Result.call(this, content, error.none);
 }
 
+SuccessfulResult.prototype = Object.create(Result.prototype);
 module.exports = SuccessfulResult;

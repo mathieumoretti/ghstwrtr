@@ -1,7 +1,7 @@
 const utils = require('./utils');
 
 const Processor = function()
-{
+{   
 }
 
 Processor.prototype.Process = function()
