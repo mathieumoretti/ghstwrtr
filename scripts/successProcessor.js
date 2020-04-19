@@ -1,11 +1,13 @@
 const utils = require('./utils');
 
 const Processor = require('./processor');
+const SafeProcessor = require('./safeProcessor');
 const SuccessfulResult = require('../scripts/successfulResult');
+
 
 const SuccessProcessor = function(data)
 {
-  Processor.call(this);
+  SafeProcessor.call(this, this);
   this.data = data;
 }
 

@@ -1,21 +1,19 @@
 const utils = require('./utils');
 
 const Processor = require('./processor');
-const ErrorProcessor = require('./errorProcessor');
-const SuccessProcessor = require('./successProcessor');
 
-const ResultProcessor = function(err, data)
+const ResultProcessor = function(errorProcessor, successProcessor)
 {
   Processor.call(this);
-  this.errorProcessor = new ErrorProcessor(err);
-  this.successProcessor = new SuccessProcessor(data);
+  this.errorProcessor = errorProcessor;
+  this.successProcessor = successProcessor;
 }
 
 ResultProcessor.prototype = Object.create(Processor.prototype);
 
 ResultProcessor.prototype.Process = function () {
     var errorRes = this.errorProcessor.Process();
-    if (utils.existy(errorRes)){
+    if (!errorRes.IsSuccessful()){
         return errorRes;
     }
     return this.successProcessor.Process()

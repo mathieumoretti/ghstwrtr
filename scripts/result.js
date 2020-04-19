@@ -7,4 +7,6 @@ function Result(content, err)
     this.error = err || error.none;
 }
 
+Result.prototype.IsSuccessful = function(){ return this.error == error.none; }
+
 module.exports = Result;

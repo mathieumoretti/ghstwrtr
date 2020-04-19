@@ -1,25 +1,26 @@
 const utils = require('../scripts/utils');
 
-const Processor = require('../scripts/processor');
+const SafeProcessor = require('./safeProcessor');
 
-const UnknownResult = require('../scripts/unknownResult');
+const SuccessfulResult = require('../scripts/successfulResult');
 
-const ErrorProcessor = function(err)
+const ErrorProcessor = function(err, processor)
 {
-  Processor.call(this);
-  this.err = err;
+    SafeProcessor.call(this, processor);
+    this.err = err;
 }
 
-ErrorProcessor.prototype = Object.create(Processor.prototype);
+ErrorProcessor.prototype = Object.create(SafeProcessor.prototype);
 
 ErrorProcessor.prototype.Process = function () {    
     // Concatenate args
 
     if(utils.existy(this.err))
-    {                        
-        return new UnknownResult();
+    {
+        var errRes = this.processor.Process();
+        return errRes;
     }
-    return null;
+    return new SuccessfulResult();
 }
 
 module.exports = ErrorProcessor;
