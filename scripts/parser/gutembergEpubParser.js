@@ -2,14 +2,15 @@ const _ = require('underscore');
 const path = require('path');
 const EPub = require("epub");
 const HTMLParser = require('node-html-parser');
-const Chapter = require('./models/chapter');
-const Document = require('./models/document');
-const Page = require('./models/page');
-const Sentence = require('./models/sentence');
-const result = require('./result');
+
+const Chapter = require('../models/chapter');
+const Document = require('../models/document');
+const Page = require('../models/page');
+const Sentence = require('../models/sentence');
+const result = require('../result/result');
 const sentenceParser = require('./sentenceParser');
-const utils = require('./utils');
-const promiseMaker = require('./promiseMaker');
+const utils = require('../utils');
+const promiseMaker = require('../promiseMaker');
 
 // Hardcode pageElement parser for the moment by Book ID
 

@@ -1,8 +1,8 @@
 const fileWriter = require('./fileWriter');
-const fileReader = require('./fileReader');
+const fileReader = require('./reader/fileReader');
 const promiseMaker = require('./promiseMaker');
 
-const CreateDirectoryAction = require('./createDirectoryAction');
+const CreateDirectoryAction = require('./action/createDirectoryAction');
 
  var fileHandler = (function () {
 

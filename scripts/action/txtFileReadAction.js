@@ -1,15 +1,15 @@
 const fs = require('fs');
 
-const error = require('./error');
-const utils = require('./utils');
+const error = require('../result/error');
+const utils = require('../utils');
 
-const AsyncAction = require('./asyncAction');
-const ErrorController = require('./defaultController');
-const ErrorProcessor = require('./errorProcessor');
-const ResultProcessor = require('./resultProcessor');
-const SuccessProcessor = require('./successProcessor');
-const UnknownProcessor = require('./unknownProcessor');
-const Result = require('./result');
+const TxtFileReadAction = require('./fileReadAction');
+const ErrorController = require('../controller/defaultController');
+const ErrorProcessor = require('../processor/errorProcessor');
+const ResultProcessor = require('../processor/resultProcessor');
+const SuccessProcessor = require('../processor/successProcessor');
+const UnknownProcessor = require('../processor/unknownProcessor');
+const Result = require('../result/result');
 
 const FileReadErrorProcessor = function(filename)
 {
@@ -32,18 +32,10 @@ FileReadErrorProcessor.prototype.Process = function()
   }
 }
 
-const FileReadAction = function(filename)
-{
-  AsyncAction.call(this);
-  this.filename = filename;
-}
-
-FileReadAction.prototype = Object.create(AsyncAction.prototype);
-
-FileReadAction.prototype.Execute = function(resolve, reject)
+TxtFileReadAction.prototype.Execute = function(resolve, reject)
 {
   var filename = this.filename;
-  fs.readFile(this.filename,'utf8', function(err, data) {
+  fs.readFile(filename,'utf8', function(err, data) {
     // Could be a result processor and result controller.
     var freProcessor = new ErrorProcessor(err, new FileReadErrorProcessor(filename));
     var res = new ResultProcessor(freProcessor, new SuccessProcessor(data)).Process();
@@ -51,4 +43,4 @@ FileReadAction.prototype.Execute = function(resolve, reject)
   }); 
 };
 
-module.exports = FileReadAction;
+module.exports = TxtFileReadAction;

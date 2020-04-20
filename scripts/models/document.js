@@ -1,17 +1,16 @@
-function Document(id, title, chapters) {
+function Document(id, title) {
     this.id = id;
     this.title = title;
-    this.chapters = chapters;
 }
 
-var chapterStitcher = function(chapters)
-{
-    return chapters.join(' ');
-}
+// var chapterStitcher = function(chapters)
+// {
+//     return chapters.join(' ');
+// }
 
 Document.prototype.toString = function()
 {
-	return chapterStitcher(this.chapters);
+	return `${this.id}-${this.title}`;
 }
 
 module.exports = Document;

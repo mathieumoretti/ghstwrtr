@@ -1,5 +1,5 @@
 const promiseMaker = require('./promiseMaker');
-const FileWriteAction = require('./fileWriteAction');
+const FileWriteAction = require('./action/fileWriteAction');
 
 var fileWriter = (function ()
 { 

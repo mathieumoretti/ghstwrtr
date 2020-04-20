@@ -1,5 +1,5 @@
-const utils = require('./utils');
-const Node = require('./pNode');
+const utils = require('../utils');
+const Node = require('../pNode');
 
 const SafeProcessor = require('./safeProcessor');
 

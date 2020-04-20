@@ -1,9 +1,7 @@
-const utils = require('./utils');
+const utils = require('../utils');
 
-const Controller = function(resolve, reject)
+const Controller = function()
 {
-    this.resolve = resolve;
-    this.reject = reject;
 }
 
 Controller.prototype.Control = function(result)

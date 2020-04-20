@@ -1,8 +1,8 @@
-const utils = require('../scripts/utils');
+const utils = require('../utils');
 
 const SafeProcessor = require('./safeProcessor');
 
-const SuccessfulResult = require('../scripts/successfulResult');
+const SuccessfulResult = require('../result/successfulResult');
 
 const ErrorProcessor = function(err, processor)
 {
