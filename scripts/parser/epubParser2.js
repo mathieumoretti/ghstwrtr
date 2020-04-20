@@ -22,7 +22,7 @@ EpubParser.prototype.Parse = function(){
     // Retrieve all chapters
     var allRawChaptersPromise = _.map(this.epubDoc.GetChapterIds(), (x) => this.epubDoc.GetChapter(x));
     var retrievedAllChapters = Promise.all(allRawChaptersPromise);
-    retrievedAllChapters.then((rawChapters)=>{
+    return retrievedAllChapters.then((rawChapters)=>{
         var chapters = _.map(rawChapters, (c)=> ParseChapter(c.content, this.epubDoc.id));
         return new EpubBook("No id", "No title", chapters);
     });    

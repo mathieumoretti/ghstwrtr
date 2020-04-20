@@ -13,18 +13,12 @@ PageParser.prototype.Parse = function()
     return new BookPage(this.rawPage);
 }
 
-// function BibleParser(chapterElement)
-// {
-//     var links = chapterElement.querySelectorAll("a");
-//     var realPageLinks = _.filter(links, (x)=> utils.existy(x.id) && x.id.startsWith("N0"));
-//     var rawPages = _.map(realPageLinks, (x) => new EpubPage(x.id.slice(2, x.id.length), x.parentNode.parentNode)); // remove N0
-//     return rawPages;
-// }
-
 function BibleParser(chapterElement)
 {
+    var reg = /\d+:\d+\s.*/i;
     var newbook = false;
     var pageCounter = 0;
+    var currentPage = null;
     var rawPages = []
      _.forEach(chapterElement.childNodes,
         (x)=>{
@@ -32,15 +26,21 @@ function BibleParser(chapterElement)
             {
                 newbook = true;
                 pageCounter = 1
-                utils.note(x);
+                currentPage = new EpubPage(pageCounter, []);
             }
             else if(utils.existy(x.firstChild) && utils.existy(x.firstChild.id) && x.firstChild.id.startsWith("N0"))
             {
+                rawPages.push(currentPage);
                 pageCounter++;
+                currentPage = new EpubPage(pageCounter, []);
             }
-            else if (pageCounter > 0 && utils.existy(x.rawText) )
+            else if (pageCounter > 0 && utils.existy(x.rawText))
             {
-                rawPages.push(new EpubPage(pageCounter, x));
+                var result = x.rawText.match(reg);
+                if (result)
+                {
+                    currentPage.lines.push(x.rawText);
+                }
             }
             newbook = false;
         }
@@ -86,8 +86,7 @@ GutembergChapterParser.prototype.Parse = function()
 {
     var chapterElement = HTMLParser.parse(this.rawChapter.content);
     var rawPages = findPageElements(this.bookId, chapterElement);
-    var pages = _.map(rawPages, (p) => ParsePage());
-    return new BookChapter(this.rawChapter.id, pages);
+    return new BookChapter(this.rawChapter.id, rawPages);
 }
 
 module.exports = GutembergChapterParser;

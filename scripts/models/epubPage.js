@@ -1,9 +1,9 @@
 var _ = require("underscore");
 var Page = require('./page');
 
-function EpubPage(number, content) {
+function EpubPage(number, lines) {
 	Page.call(number);
-	this.content = content;
+	this.lines = lines;
 }
 EpubPage.prototype = Object.create(Page.prototype);
 
