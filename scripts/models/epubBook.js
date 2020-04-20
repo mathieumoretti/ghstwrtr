@@ -9,7 +9,7 @@ EpubBook.prototype = Object.create(Document.prototype);
 
 EpubBook.prototype.toString = function()
 {
-	return this.title;
+	return this.chapters.join("\n");
 }
 
 module.exports = EpubBook;

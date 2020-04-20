@@ -4,8 +4,9 @@ const testUtils = require('./testUtils');
 const EpubParser = require('../scripts/parser/epubParser2');
 const reader = require('../scripts/reader/fileReader');
 
-//const filename = "C:/Users/mormm/OneDrive/Bureau/Git/ghstwrtr/data/test/fetched/pg10900.epub";
-const filename = "C:/Users/mormm/Git/ghstwrtr/data/test/fetched/pg10900.epub";
+var rootDir = `${utils.rootDir}`;
+var inDir = path.join(`${rootDir}`, "tmp", "fetched");
+const fileName = `${inDir}/${fileName}`;
 
 test("Epub parser parse book .", (t)=>{
     var epubDocPromise = reader.read(filename);
@@ -17,8 +18,8 @@ test("Epub parser parse book .", (t)=>{
     }).then((result) =>
     {
         var epubBook = result;
-        console.log(epubBook);
-        t.pass();
+        console.log(epubBook.chapters[1].pages[0].lines[0]);
+        t.equal("1:1 In the beginning God created the heaven and the earth.", epubBook.chapters[1].pages[0].lines[0]);
         testUtils.testCloser(t);
     }).catch((reject) =>
     {          
@@ -29,19 +30,16 @@ test("Epub parser parse book .", (t)=>{
 
 test("Epub parser get chapter .", (t)=>{
     var epubDocPromise = reader.read(filename);
-
+    var chapterIds = null;
     epubDocPromise.then((result) =>
     {
         var epubDocument = result.content;
-        var chapterIds = epubDocument.GetChapterIds();
-        console.log(chapterIds);
-        return epubDocument.GetChapter(chapterIds[0]);
-        // var parser = new EpubParser(result.content);
-        // return parser.ParseChapter();
+        chapterIds = epubDocument.GetChapterIds();   
+        return epubDocument.GetChapter(chapterIds[1]);
     }).then((result) =>
     {
-        console.log(result);
-        t.pass();
+        var chapter = result.content;
+        t.equal(chapterIds[1], chapter.id);
         testUtils.testCloser(t);
     }).catch((reject) =>
         {          

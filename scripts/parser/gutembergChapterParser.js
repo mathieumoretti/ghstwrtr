@@ -26,13 +26,13 @@ function BibleParser(chapterElement)
             {
                 newbook = true;
                 pageCounter = 1
-                currentPage = new EpubPage(pageCounter, []);
+                currentPage = new BookPage(pageCounter, []);
             }
-            else if(utils.existy(x.firstChild) && utils.existy(x.firstChild.id) && x.firstChild.id.startsWith("N0"))
+            else if(utils.existy(x.firstChild) && utils.existy(x.firstChild.id) && x.firstChild.id.startsWith("N"))
             {
                 rawPages.push(currentPage);
                 pageCounter++;
-                currentPage = new EpubPage(pageCounter, []);
+                currentPage = new BookPage(pageCounter, []);
             }
             else if (pageCounter > 0 && utils.existy(x.rawText))
             {

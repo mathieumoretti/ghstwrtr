@@ -1,15 +1,15 @@
 const fs = require('fs');
 
-const error = require('../error');
+const error = require('../result/error');
 const utils = require('../utils');
 
 const AsyncAction = require('./asyncAction');
 const ErrorController = require('../controller/defaultController');
-const ErrorProcessor = require('../errorProcessor');
+const ErrorProcessor = require('../processor/errorProcessor');
 const ResultProcessor = require('../processor/resultProcessor');
 const SuccessProcessor = require('../processor/successProcessor');
 const UnknownProcessor = require('../processor/unknownProcessor');
-const Result = require('../result');
+const Result = require('../result/result');
 
 const FileWriteErrorProcessor = function(filename)
 {

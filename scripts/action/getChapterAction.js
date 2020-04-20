@@ -25,9 +25,10 @@ GetChapterAction.prototype = Object.create(AsyncAction.prototype);
 
 GetChapterAction.prototype.Execute = function(resolve, reject)
 {
-    this.epubDocument.getChapter(this.chapterId, function(err, text){
+  var chapterId = this.chapterId;
+    this.epubDocument.getChapter(chapterId, function(err, text){
         var gceProcessor = new ErrorProcessor(err, new UnknownProcessor());        
-        var res = new ResultProcessor(gceProcessor, new EpubChapterProcessor(this.chapterId, text)).Process();
+        var res = new ResultProcessor(gceProcessor, new EpubChapterProcessor(chapterId, text)).Process();
         return new ErrorController(resolve, reject).Control(res);
     });
 };

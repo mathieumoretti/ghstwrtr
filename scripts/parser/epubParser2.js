@@ -24,7 +24,7 @@ EpubParser.prototype.Parse = function(){
     var retrievedAllChapters = Promise.all(allRawChaptersPromise);
     return retrievedAllChapters.then((rawChapters)=>{
         var chapters = _.map(rawChapters, (c)=> ParseChapter(c.content, this.epubDoc.id));
-        return new EpubBook("No id", "No title", chapters);
+        return new EpubBook(this.epubDoc.id, this.epubDoc.title, chapters);
     });    
 }
 

@@ -3,7 +3,7 @@ var _ = require("underscore");
 const Chapter = require('./chapter');
 
 function EpubChapter(id, content) {
-	Chapter.call(id);
+	Chapter.call(this, id);
 	this.content = content;
 }
 
