@@ -4,7 +4,8 @@ sudo: false
 install:
   - npm install
 before_script:
-  - npm run begin
+  - npm run fetch
+  - npm run parse
 script:
   - npm run lint
   - npm run test
