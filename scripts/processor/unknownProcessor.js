@@ -1,8 +1,8 @@
-const utils = require('./utils');
+const utils = require('../utils');
 
 const Processor = require('./processor');
 const SafeProcessor = require('./safeProcessor');
-const UnknownResult = require('./unknownResult');
+const UnknownResult = require('../result/unknownResult');
 
 
 const UnknownProcessor = function()

@@ -1,15 +1,15 @@
 const fs = require('fs');
 
-const error = require('./error');
-const utils = require('./utils');
+const error = require('../result/error');
+const utils = require('../utils');
 
 const AsyncAction = require('./asyncAction');
-const ErrorController = require('./defaultController');
-const ErrorProcessor = require('./errorProcessor');
-const ResultProcessor = require('./resultProcessor');
-const SuccessProcessor = require('./successProcessor');
-const UnknownProcessor = require('./unknownProcessor');
-const Result = require('./result');
+const ErrorController = require('../controller/defaultController');
+const ErrorProcessor = require('../processor/errorProcessor');
+const ResultProcessor = require('../processor/resultProcessor');
+const SuccessProcessor = require('../processor/successProcessor');
+const UnknownProcessor = require('../processor/unknownProcessor');
+const Result = require('../result/result');
 
 const FileWriteErrorProcessor = function(filename)
 {
@@ -44,11 +44,12 @@ FileWriteAction.prototype = Object.create(AsyncAction.prototype);
 
 FileWriteAction.prototype.Execute = function(resolve, reject)
 {
-  fs.writeFile(this.filename, this.data, this.encoding, function(err)
+  var filename = this.filename;
+  fs.writeFile(filename, this.data, this.encoding, function(err)
   {
      // Could be a result processor and result controller.
-     var freProcessor = new ErrorProcessor(err, new FileWriteErrorProcessor(this.filename));
-     var res = new ResultProcessor(freProcessor, new SuccessProcessor(`File ${this.filename} written.`)).Process();
+     var freProcessor = new ErrorProcessor(err, new FileWriteErrorProcessor(filename));
+     var res = new ResultProcessor(freProcessor, new SuccessProcessor(`File ${filename} written.`)).Process();
      return new ErrorController(resolve, reject).Control(res);
   });
 };

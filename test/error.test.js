@@ -1,7 +1,7 @@
 const test = require('tape');
 
 const utils = require('../scripts/utils');
-const error = require('../scripts/error');
+const error = require('../scripts/result/error');
 
 test('most basic error codes', (t) => {
     //t.plan(0); 

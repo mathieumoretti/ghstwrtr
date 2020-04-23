@@ -3,7 +3,6 @@ const _ = require('underscore');
 const url = require('url');
 const commandLineArgs = require('command-line-args');
 const path = require('path');
-const fs = require('fs');
 
 const fh = require('./fileHandler');
 const requester = require('./requester');

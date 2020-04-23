@@ -1,5 +1,5 @@
 const test = require('tape-catch')
-const error = require('../scripts/error');
+const error = require('../scripts/result/error');
 const handler = require('../scripts/fileHandler');
 
 

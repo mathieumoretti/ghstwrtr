@@ -1,7 +1,7 @@
 const test = require('tape');
 
 const utils = require('../scripts/utils');
-const error = require('../scripts/error');
+const error = require('../scripts/result/error');
 const promiseMaker = require('../scripts/promiseMaker');
 
 var createResult = function(){

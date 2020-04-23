@@ -1,15 +1,15 @@
 const fs = require('fs');
 
-const error = require('./error');
-const utils = require('./utils');
+const error = require('../result/error');
+const utils = require('../utils');
 
 const AsyncAction = require('./asyncAction');
-const ErrorController = require('./defaultController');
-const ErrorProcessor = require('./errorProcessor');
-const ResultProcessor = require('./resultProcessor');
-const SuccessProcessor = require('./successProcessor');
-const UnknownProcessor = require('./unknownProcessor');
-const Result = require('./result');
+const ErrorController = require('../controller/defaultController');
+const ErrorProcessor = require('../processor/errorProcessor');
+const ResultProcessor = require('../processor/resultProcessor');
+const SuccessProcessor = require('../processor/successProcessor');
+const UnknownProcessor = require('../processor/unknownProcessor');
+const Result = require('../result/result');
 
 const DirectoryCreateErrorProcessor = function(path)
 {

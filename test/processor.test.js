@@ -1,18 +1,11 @@
 const test = require('tape-catch')
-const testUtils = require('./testUtils');
 
-const utils = require('../scripts/utils');
-const error = require('../scripts/error');
+const error = require('../scripts/result/error');
 
-const UnknownResult = require('../scripts/unknownResult');
-
-const Processor = require('../scripts/processor');
-const SafeProcessor = require('../scripts/safeProcessor');
-const ErrorProcessor = require('../scripts/errorProcessor');
-const NodeProcessor = require('../scripts/nodeProcessor');
-const SuccessProcessor = require('../scripts/successProcessor');
-const ResultProcessor = require('../scripts/resultProcessor');
-const UnknownProcessor = require('../scripts/unknownProcessor');
+const ErrorProcessor = require('../scripts/processor/errorProcessor');
+const SuccessProcessor = require('../scripts/processor/successProcessor');
+const ResultProcessor = require('../scripts/processor/resultProcessor');
+const UnknownProcessor = require('../scripts/processor/unknownProcessor');
 
 // Default processor tests
 test("Process a success.", (t)=>{

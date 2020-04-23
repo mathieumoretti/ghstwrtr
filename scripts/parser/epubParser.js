@@ -1,22 +1,40 @@
 var _ = require('underscore');
-var nlp = require('compromise');
 var EPub = require("epub");
 var HTMLParser = require('node-html-parser');
 
-const Chapter = require('../scripts/models/chapter');
-const Document = require('../scripts/models/document');
-const Page = require('../scripts/models/page');
-const Sentence = require('../scripts/models/sentence');
+const Chapter = require('../models/chapter');
+const Document = require('../models/document');
+const Page = require('../models/page');
+const Sentence = require('../models/sentence');
 
-const result = require('./result');
-const sentenceParser = require('../scripts/sentenceParser');
-const utils = require('../scripts/utils');
-const promiseMaker = require('../scripts/promiseMaker');
+const result = require('../result');
+const sentenceParser = require('./sentenceParser');
+const utils = require('../utils');
+const promiseMaker = require('../promiseMaker');
 
-var findPageElements = function(chapterElement)
-{
+// Hardcode pageElement parser for the moment by Book ID
+
+var parserByiD = {};
+parserByiD["10900"] = function (chapterElement){
     var pageLinks = chapterElement.querySelectorAll(".x-ebookmaker-pageno");
     return _.map(pageLinks, (x)=>{return {pageElement:x.parentNode, id:x.id}});
+}
+
+// Returns page elements
+var findPageElements = function(id, chapterElement)
+{
+    if (utils.existy(parserByiD[id]))
+    {
+        return parserByiD[id](chapterElement);
+    }
+    else
+    {
+        utils.warn(
+            `Book id ${id} doesn't have a custom parser, and there aren't any default yet.`
+        );   
+    }
+
+    return [];
 }
 
 var parseLines = function(text)
@@ -40,7 +58,7 @@ var parsePage = function(number, pageElement){
 
 var createChapter = function(id, chapterElement)
 {
-    var pageElements = findPageElements(chapterElement);
+    var pageElements = findPageElements(id, chapterElement);
     var pages = _.filter(_.map(pageElements, (x)=>parsePage(x.id, x.pageElement)),
         (p)=> {
             return p.lines != "";
@@ -57,12 +75,12 @@ var parseChapter = function(id, text)
 
 var book = new Document(1, "A book", []);
 
-function getChapterAsync(epub, x)
+function getChapterAsync(epub, chapterId)
 {
     function asyncAction(resolve, reject)
     {
         epub.getChapter(x, function(error, text){
-            var chap = parseChapter(x, text)
+            var chap = parseChapter(chapterId, text)
             if (chap)
                 resolve(chap);
             else
@@ -95,7 +113,6 @@ function parseEpubAsync(filename)
                     return utils.existy(c);
                 });            
     
-                // pass them too nlp parser.
                 var sentences = sentenceParser.parseTxtToSentence(book.toString());
                 
                 var res = result.Result();
