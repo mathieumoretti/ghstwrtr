@@ -1,12 +1,18 @@
 const test = require('tape-catch')
+const path = require('path')
+
 const testUtils = require('./testUtils');
 
 const reader = require('../scripts/reader/fileReader');
+const utils = require('../scripts/utils');
 
-const filename = "C:/Users/mormm/Git/ghstwrtr/data/test/fetched/pg10900.epub";
+var rootDir = `${utils.rootDir}`;
+var inDir = path.join(`${rootDir}`, "tmp", "fetched");
+const filename = `pg10900.epub`;
+const filepath = `${inDir}/${filename}`;
 
 test("Epub reader.", (t) => {
-    var epubDocPromise = reader.read(filename);
+    var epubDocPromise = reader.read(filepath);
     epubDocPromise.then((result) =>
     {
         console.log(result);

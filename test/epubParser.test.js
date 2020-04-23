@@ -1,15 +1,19 @@
 const test = require('tape-catch')
+const path = require('path')
+
 const testUtils = require('./testUtils');
 
+const utils = require('../scripts/utils');
 const EpubParser = require('../scripts/parser/epubParser2');
 const reader = require('../scripts/reader/fileReader');
 
 var rootDir = `${utils.rootDir}`;
 var inDir = path.join(`${rootDir}`, "tmp", "fetched");
-const fileName = `${inDir}/${fileName}`;
+const filename = `pg10900.epub`;
+const filepath = `${inDir}/${filename}`;
 
 test("Epub parser parse book .", (t)=>{
-    var epubDocPromise = reader.read(filename);
+    var epubDocPromise = reader.read(filepath);
 
     epubDocPromise.then((result) =>
     {
@@ -29,7 +33,7 @@ test("Epub parser parse book .", (t)=>{
 });
 
 test("Epub parser get chapter .", (t)=>{
-    var epubDocPromise = reader.read(filename);
+    var epubDocPromise = reader.read(filepath);
     var chapterIds = null;
     epubDocPromise.then((result) =>
     {
@@ -47,21 +51,3 @@ test("Epub parser get chapter .", (t)=>{
             testUtils.testCloser(t);
      });
 });
-
-// test("Epub parser to sentences.", (t)=>{
-//     var sentencesPromise = parser.parseEpubToSentence(filename);
-//     sentencesPromise.then((result) =>
-//     {
-//         var sentences = result.content;
-//         sentences.slice(0,9).forEach(sentence => {
-//             console.log(sentence);
-//         });
-//         t.pass();
-//         testUtils.testCloser(t);
-//     }).catch(
-//         (reject) =>
-//         {          
-//             console.log(reject);
-//             testUtils.testCloser(t);
-//      });
-// });

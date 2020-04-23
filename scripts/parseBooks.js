@@ -62,57 +62,6 @@ promise.then((res)=> {return epubDocPromise})
         console.log(epubBook.chapters[1].pages[0].lines[0]);
     });
 
-// var pg = require("pg");
- 
-// const config = {
-//   user: 'postgres',
-//   database: 'ghstwrtr',
-//   port: 5432
-// };
-
-
-
-// var executeQuery = function(done, client, queryString, values)
-// {
-//     client.query(queryString, values, function(err,result) {
-//         done(); // closing the connection;
-//         if(err){
-//             console.log(err);
-//         }
-//     });
-// }
-
-// var queryHandler = function(err, client, done) {
-//     if(err){
-//         console.log("not able to get connection "+ err);
-//     } 
-
-//     var i = 1;
-//     orchestrator.sentences.forEach(sentence => executeQuery(done, client, "INSERT INTO sentence (id, content) VALUES ($1, $2) ", [i++, sentence.text] )    );
-// }
-
-
-// var createQuery = function(done, client, queryString, values) {}
-
-// var pool = new pg.Pool(config);
-// pool.connect(queryHandler);
-
-
-// pool.connect(function(err, client, done) {
-//     if(err){
-//         console.log("not able to get connection "+ err);
-//     } 
-
-//     var i = 1;
-//     orchestrator.sentences.forEach(sentence => {
-//         client.query("INSERT INTO sentence (id, content) VALUES ($1, $2) ", [i++, sentence.text] , function(err,result) {
-//             done(); // closing the connection;
-//             if(err){
-//                 console.log(err);
-//             }
-//         });
-//     });    
-// });
 
 // Idea for intro's of text 
 // Mini-game 

@@ -1,7 +1,6 @@
 const path = require("path");
 const EPub = require("epub");
 
-const utils = require('../utils');
 const EpubDocument = require('../models/epubDocument');
 const FileReadAction = require('./fileReadAction');
 const ErrorController = require('../controller/errorController');
