@@ -17,31 +17,12 @@ var verseRegex = /\d+:\d+\s/i;
 
 module.exports = {
   up : function (queryInterface, Sequelize) {
-
-
-    
-    // return queryInterface.bulkInsert('Sentences', [{
-    //   content : lines,
-    //   createdAt : new Date(),
-    //   updatedAt : new Date(),
-    // }], {});
-  // up: (queryInterface, Sequelize) => {
-  //   /*
-  //     Add altering commands here.
-  //     Return a promise to correctly handle asynchronicity.
-
-  //     Example:
-  //     return queryInterface.bulkInsert('People', [{
-  //       name: 'John Doe',
-  //       isBetaMember: false
-  //     }], {});
-  //   */
-
     return readPromise.then((result) => {
           var data = result.content;
-          var lines = data.split("\n")
+          var lines = data.split("\n");
+          var first100 = lines.slice(0,100);
           utils.note(lines[1]);
-          var sentences = _.map(lines, (line)=>{
+          var sentences = _.map(first100, (line)=>{
             return { content: line.trim(),
               createdAt : new Date(),
               updatedAt : new Date(),
