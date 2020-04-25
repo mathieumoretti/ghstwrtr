@@ -1,3 +1,6 @@
+env:
+  - CI_DB_NAME="database_test"
+  - NODE_ENV = 'test'
 language: node_js
 node_js: 10.12.0
 sudo: false
@@ -6,6 +9,8 @@ install:
 before_script:
   - npm run fetch
   - npm run parse
+  - npm run migrate
+  - npm run seed
 script:
   - npm run lint
   - npm run test

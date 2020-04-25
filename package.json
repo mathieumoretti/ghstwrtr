@@ -6,6 +6,8 @@
   "scripts": {
     "fetch": "node scripts/fetchBooks.js -i 10900 -t epub",
     "parse": "node scripts/parseBooks.js -i 10900 -t epub",
+    "migrate": "npx sequelize-cli db:migrate",
+    "seed": "npx sequelize-cli db:seed:all --debug",
     "lint": "eslint index.js",
     "test": "tap ./test/*.test.js"
   },
