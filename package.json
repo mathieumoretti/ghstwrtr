@@ -41,6 +41,7 @@
     "bootstrap": "^4.3.1",
     "command-line-args": "^5.1.1",
     "compromise": "^13.1.1",
+    "dotenv": "^8.2.0",
     "epub": "^1.2.0",
     "express": "^4.16.4",
     "iconv-lite": "^0.5.1",
