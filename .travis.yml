@@ -6,6 +6,8 @@ install:
 before_script:
   - npm run fetch
   - npm run parse
+  - npm run migrate
+  - npm run seed
 script:
   - npm run lint
   - npm run test
