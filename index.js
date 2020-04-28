@@ -26,4 +26,4 @@ app.use('/stories', storiesController);
 
 
 app.listen(PORT);
-console.log('Server started');
+console.log(`Server started on port ${PORT}`);
