@@ -21,6 +21,7 @@ FileReadErrorProcessor.prototype = Object.create(UnknownProcessor.prototype);
 
 FileReadErrorProcessor.prototype.Process = function()
 {
+  utils.note(this.err);
   switch(this.err.code)
   {
     case "EEXIST":
