@@ -20,70 +20,10 @@
 // adv:
 // slang: #YOLO
 
-
-const fs = require('fs');
 const express = require('express');
 var router = express.Router();
 
-let content = [];
-let stories = [];
-
-function generateContent() {
-  const fileContent = fs.readFileSync('data.txt', 'utf8');
-  return fileContent.split('.');
-}
-
-content = generateContent();
-
-function random() {
-  const d = new Date();
-  const n = d.getTime();
-  return Math.random() * n;
-}
-
-function randomCell(arr) {
-  return arr[Math.floor(random() * arr.length) % arr.length];
-}
-
-function makeContent(noOfSentences) {
-  const sentences = [];
-  for (let i = 0; i < noOfSentences; i += 1) { // filter verses
-    sentences[i] = randomCell(content);
-    sentences[i] = `${sentences[i]}.`;
-    sentences[i] = sentences[i].replace(/[\d+:\d+]/g, '');
-  }
-  return sentences;
-}
-
-function makeHeadline() {
-  return 'Lorem Ipsum';
-}
-
-const adjective = ['Flying', 'Cool', 'Funny'];
-
-function makeAuthors() {
-  return `${randomCell(adjective)} Ghost ${Math.floor((100 * random()) % 100)}`;
-}
-
-let storyCounter = 0;
-
-function makeStory(noOfSentences) {
-  const story = {
-    id: storyCounter += 1,
-    headline: makeHeadline(),
-    authors: makeAuthors(),
-    content: makeContent(noOfSentences),
-  };
-
-  return story;
-}
-
-function makeStories(noOfstories) {
-  for (let i = 0; i < noOfstories; i += 1) {
-    stories[i] = makeStory(10);
-  }
-  return stories;
-}
+var content = require('../model/model');
 
 function formatDate(date) {
   const monthNames = [
@@ -103,25 +43,25 @@ function formatDate(date) {
 const theDate = formatDate(new Date());
 console.log(theDate);
 
-stories = makeStories(10);
-const newspaper = {
-  model:
-  {
-    title: 'ghstwrtr',
-    date: theDate,
-    // main story
-    mainStory: stories[0],
-    // list of stories
-    secondaryStories: stories.slice(1, stories.length - 1),
-  },
-};
+
 
 router.get('/', (req, res) => {
+  const newspaper = {
+    model:
+    {
+      title: 'ghstwrtr',
+      date: theDate,
+      // main story
+      mainStory: content.stories[0],
+      // list of stories
+      secondaryStories: content.stories.slice(1, content.stories.length - 1),
+    },
+  };
   res.render('stories', newspaper);
 });
 
 router.get('/story/:storyId', (req, res) => {
-const story = (req.params.storyId) ? stories[req.params.storyId] : stories[0];
+const story = (req.params.storyId) ? content.stories[req.params.storyId] : content.stories[0];
 res.render('story', story);
 });
 
