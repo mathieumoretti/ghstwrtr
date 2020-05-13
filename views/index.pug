@@ -1,6 +1,6 @@
-include login_widget.pug
-
 doctype html
 include header.pug
 include body.pug
-    +login_widget
+    div(class='row')
+        div(class='col-sm-6 col-sm-offset-3')
+            p #{model.page_views}
