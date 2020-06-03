@@ -25,6 +25,13 @@ const config = {
         test: /\.pug$/,
         use: ["pug-loader"]
       },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader"
+        }
+      }
     ]
   }
 }
