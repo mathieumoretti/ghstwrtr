@@ -68,3 +68,6 @@ tmpOld/
 .vs*
 obj/
 *.njsproj
+
+# webpack output
+dist/
