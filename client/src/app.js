@@ -1,5 +1,10 @@
+
+// Templates
 let userTemplate = require("./views/users.pug");
 let storyTemplate = require("./views/story.pug");
+
+// css files
+let css = require("./css/newspaper.css");
 
 import React from "react";
 import ReactDOM from "react-dom";
