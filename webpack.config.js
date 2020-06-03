@@ -1,22 +1,30 @@
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 
-const htmlPlugin = new HtmlWebPackPlugin({
-  title: "Development",
-  template: "./client/src/index.html",
-  filename: "./index.html"
+var plugin = new HtmlWebPackPlugin({
+  template: './client/src/views/index.pug'
 });
 
-module.exports = {
-  entry: './client/src/index.js',
-  output: {
-    path: path.join(__dirname, './client/dist'),
-    filename: 'index_bundle.js'
+const config = {
+  entry: {
+    app: path.join(__dirname, './client/src/app.js')
   },
-  plugins: [htmlPlugin],
-  mode: 'development',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: "[name].bundle.js",
+  },
+  devServer: {
+    port: 3000,
+  },
+  plugins: [
+    plugin
+  ],
   module: {
     rules: [
+      { 
+        test: /\.pug$/,
+        use: ["pug-loader"]
+      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -25,6 +33,12 @@ module.exports = {
         }
       }
     ]
-  },
-  plugins: [htmlPlugin]
-};
+  }
+}
+
+module.exports = (env, argv) => {
+  if (argv.mode === 'development') {}
+  if (argv.mode === 'production') {}
+  return config;
+}
+
