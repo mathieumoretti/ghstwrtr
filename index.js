@@ -7,15 +7,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // views
-// app.set('views', './views');
-// app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // send the user to index html page inspite of the url
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'index.html'));
 });
-
 
 // add routes
 const mainController = require('./controllers/mainController');
