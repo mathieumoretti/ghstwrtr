@@ -6,6 +6,7 @@
   "heroku-run-build-script": true,
   "scripts": {
     "start": "node index.js",
+    "heroku-postbuild": "webpack --mode=production",
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development",
     "start:dev": "webpack-dev-server --mode=development",
