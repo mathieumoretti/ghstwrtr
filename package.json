@@ -45,7 +45,8 @@
     "request": "^2.88.0",
     "tap": "^14.10.6",
     "tape": "4.9.1",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack": "^4.43.0"
   },
   "dependencies": {
     "@babel/preset-react": "^7.9.4",
@@ -72,7 +73,6 @@
     "sqlite3": "^4.1.1",
     "tap-spec": "^5.0.0",
     "tape-catch": "^1.0.6",
-    "underscore": "^1.9.1",
-    "webpack": "^4.42.0"
+    "underscore": "^1.9.1"
   }
 }
