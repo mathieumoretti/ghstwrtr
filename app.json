@@ -3,6 +3,9 @@
   "repository": "https://git.heroku.com/ghstwrtr.git",
   "env": {},
   "scripts": {
+    "heroku-prebuild": "echo This runs before Heroku installs dependencies.",
+    "heroku-cleanup": "echo This runs after Heroku prunes and caches dependencies.",
+    "heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches dependencies.",
     "postdeploy": "psql $DATABASE_URL -f seed.sql"
   },
   "image": "heroku/nodejs",
