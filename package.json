@@ -6,6 +6,8 @@
   "heroku-run-build-script": true,
   "scripts": {
     "start": "node index.js",
+    "heroku-prebuild": "echo This runs before Heroku installs dependencies.",
+    "heroku-cleanup": "echo This runs after Heroku prunes and caches dependencies.",
     "heroku-postbuild": "webpack --mode=production",
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development",
