@@ -1,13 +1,4 @@
-doctype html
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport" content="width=device-width, initial-scale=1.0")
-        meta(http-equiv="X-UA-Compatible" content="ie=edge")
+extends layout.pug
 
-        title React and Webpack4
-    body
-        .div(style="font-size:80px;font-family:'Playfair Display', serif;font-weight: 900; text-transform: uppercase; display: inline-block; line-height: 72px;margin-bottom: 20px;text-align:center; position:relative")  Ghstwrtr 
-        main
-        story
-        section(id="index")            
+block content
+    include stories.pug

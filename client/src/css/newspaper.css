@@ -14,6 +14,17 @@ header{
     margin-bottom: 20px;
 
 }
+
+.title{
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 80px;
+    text-transform: uppercase;
+    display: inline-block;
+    line-height: 72px;
+    margin-bottom: 20px;
+}
+
 p{
     margin-top: 0;
     margin-bottom: 20px;
@@ -230,11 +241,11 @@ p{
     margin: 0 auto;
 }
 .collumn .figure {
-      margin: 0 0 20px;
+	  margin: 0 0 20px;
 }
 .collumn .figcaption{
-    font-style: italic;
-    font-size: 12px;
+	font-style: italic;
+	font-size: 12px;
 }
 .media {
     -webkit-filter: sepia(80%) contrast(1) opacity(0.8);
@@ -266,10 +277,10 @@ p{
     .collumn{
         width: 100%;
     }
-    .collumn + .collumn {
-                border-left: none;
-        border-bottom: 1px solid #2f2f2f;
-    }
+	.collumn + .collumn {
+				border-left: none;
+      	border-bottom: 1px solid #2f2f2f;
+	}
     header{
         max-width: 320px;
         font-size: 60px;
