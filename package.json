@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "@babel/preset-react": "^7.9.4",
-    "bootstrap": "^4.3.1",
+    "bootstrap": "^4.5.0",
     "command-line-args": "^5.1.1",
     "compromise": "^13.1.1",
     "create-react-app": "^3.4.1",
@@ -61,8 +61,10 @@
     "express": "^4.16.4",
     "html-webpack-plugin": "^4.3.0",
     "iconv-lite": "^0.5.1",
+    "jquery": "^3.5.1",
     "node-html-parser": "^1.2.12",
     "pg": "7.6.1",
+    "popper": "^1.0.1",
     "pug": "^2.0.3",
     "pug-loader": "^2.4.0",
     "react": "^16.13.1",
@@ -75,7 +77,7 @@
     "tap-spec": "^5.0.0",
     "tape-catch": "^1.0.6",
     "underscore": "^1.9.1",
-    "webpack-cli": "^3.3.11",
-    "webpack": "^4.43.0"
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   }
 }
