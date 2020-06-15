@@ -4,10 +4,16 @@ const console = require('console');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 // views
 app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('/api/getList', (req,res) => {
+  var list = ["item1", "item2", "item3"];
+  res.json(list);
+  console.log('Sent list of items');
+});
 
 // send the user to index html page inspite of the url
 app.get('*', (req, res) => {

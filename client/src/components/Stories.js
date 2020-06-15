@@ -1,5 +1,40 @@
 import React, { Component } from 'react';
 
+export class GetRequest extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            totalReactPackages: null
+        };
+    }
+
+    componentDidMount() {
+        // Simple GET request using fetch
+        fetch('api/getList')
+            .then(response =>
+                {
+                    console.log(response);
+                    return response.json();
+                } )
+            .then(data => {
+                console.log(data);
+                this.setState({ totalReactPackages: data })
+            });
+    }
+
+    render() {
+        const { totalReactPackages } = this.state;
+        return (
+            <div className="card text-center m-3">
+                <h5 className="card-header">Simple GET Request</h5>
+                <div className="card-body">
+                    Total react packages: {totalReactPackages}
+                </div>
+            </div>
+        );
+    }
+}
 
 export class Headline extends React.Component {
     render() {
@@ -44,7 +79,7 @@ export class Stories extends React.Component {
             <div className="card-body">
               <h5 className="card-title">Card title</h5>
               <p className="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-              <p className="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
             </div>
           </div>
           <div className="card bg-primary text-white text-center p-3">
