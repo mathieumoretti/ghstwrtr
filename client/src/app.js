@@ -8,9 +8,8 @@ import ReactDOM from "react-dom";
 
 import { Menu } from "./components/Menu";
 import Banner from "./components/Banner";
-import { Stories, GetRequest } from "./components/Stories";
+import { Stories } from "./components/Stories";
 
 ReactDOM.render(<Menu />, document.querySelector("menu"));
 ReactDOM.render(<Banner />, document.querySelector("banner"));
-ReactDOM.render(<GetRequest />, document.querySelector("headline"));
 ReactDOM.render(<Stories />, document.querySelector("stories"));

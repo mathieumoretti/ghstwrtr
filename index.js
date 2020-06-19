@@ -7,8 +7,6 @@ const app = express();
 const PORT = process.env.PORT || 3333;
 
 // add routes
-const mainController = require('./controllers/mainController');
-const sentenceController = require('./controllers/sentenceController');
 const storyController = require('./controllers/storyController');
 
 // views
