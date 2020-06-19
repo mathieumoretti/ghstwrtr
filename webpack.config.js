@@ -1,4 +1,23 @@
 const path = require("path");
+const fs = require("fs");
+
+function getFilesFromDir(dir, fileTypes) {
+    const filesToReturn = [];
+    function walkDir(currentPath) {
+      const files = fs.readdirSync(currentPath);
+      for (let i in files) {
+        const curFile = path.join(currentPath, files[i]);      
+        if (fs.statSync(curFile).isFile() && fileTypes.indexOf(path.extname(curFile)) != -1) {
+          filesToReturn.push(curFile);
+        } else if (fs.statSync(curFile).isDirectory()) {
+          walkDir(curFile);
+        }
+      }
+    };
+    walkDir(dir);
+    return filesToReturn; 
+}
+
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 var plugin = new HtmlWebPackPlugin({
@@ -14,7 +33,13 @@ const config = {
     filename: "[name].bundle.js",
   },
   devServer: {
-    port: 3000,
+    proxy: {
+      '/api/**': {
+        target: 'http://localhost:3333',
+        secure: false,
+        changeOrigin: true,
+      }
+    },
   },
   plugins: [
     plugin
