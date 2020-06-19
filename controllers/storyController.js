@@ -104,25 +104,15 @@ const theDate = formatDate(new Date());
 console.log(theDate);
 
 stories = makeStories(10);
-const newspaper = {
-  model:
-  {
-    title: 'ghstwrtr',
-    date: theDate,
-    // main story
-    mainStory: stories[0],
-    // list of stories
-    secondaryStories: stories.slice(1, stories.length - 1),
-  },
+
+module.exports = (req, res) => {
+  const newspaper = {
+      // main story
+      mainStory: stories[0],
+      secondaryStories: stories.slice(1, stories.length - 1), // list of stories
+  };
+  res.json(newspaper);
 };
 
-router.get('/stories', (req, res) => {
-  res.render('stories', newspaper);
-});
-
-router.get('/:storyId', (req, res) => {
-const story = (req.params.storyId) ? stories[req.params.storyId] : stories[0];
-res.render('story', story);
-});
-
-module.exports = router;
+// secondaryStories: stories.slice(1, stories.length - 1),
+// },

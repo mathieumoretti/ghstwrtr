@@ -43,26 +43,15 @@ function formatDate(date) {
 const theDate = formatDate(new Date());
 console.log(theDate);
 
-
-
-router.get('/', (req, res) => {
+module.exports = (req, res) => {
   const newspaper = {
     model:
     {
-      title: 'ghstwrtr',
-      date: theDate,
       // main story
       mainStory: content.stories[0],
       // list of stories
       secondaryStories: content.stories.slice(1, content.stories.length - 1),
     },
   };
-  res.render('stories', newspaper);
-});
-
-router.get('/story/:storyId', (req, res) => {
-const story = (req.params.storyId) ? content.stories[req.params.storyId] : content.stories[0];
-res.render('story', story);
-});
-
-module.exports = router;
+  res.json(newspaper);
+};

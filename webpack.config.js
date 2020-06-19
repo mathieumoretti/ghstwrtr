@@ -33,7 +33,13 @@ const config = {
     filename: "[name].bundle.js",
   },
   devServer: {
-    port: 3333,
+    proxy: {
+      '/api/**': {
+        target: 'http://localhost:3333',
+        secure: false,
+        changeOrigin: true,
+      }
+    },
   },
   plugins: [
     plugin
