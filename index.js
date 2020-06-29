@@ -16,7 +16,7 @@ app.get('/api/stories', storyController);
 
 // send the user to index html page inspite of the url
 app.get('/', (req, res) => {
-  res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'index.html'));
+  res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'app.html'));
 });
 
 app.listen(PORT);

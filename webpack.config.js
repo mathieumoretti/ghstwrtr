@@ -1,6 +1,15 @@
 const path = require("path");
 const fs = require("fs");
 
+const REL_CLIENT_DIR = path.join('client', 'src');
+const REL_PAGE_DIR = path.join(REL_CLIENT_DIR, "pages", path.sep);
+const REL_TEMPLATE_DIR = path.join(REL_CLIENT_DIR, "templates", path.sep);
+
+const ABS_ROOT_DIR = __dirname;
+const ABS_CLIENT_DIR = path.join(ABS_ROOT_DIR, REL_CLIENT_DIR);
+const ABS_PAGE_DIR = path.join(ABS_ROOT_DIR, REL_PAGE_DIR);
+const ABS_TEMPLATE_DIR = path.join(ABS_ROOT_DIR, REL_TEMPLATE_DIR);
+
 function getFilesFromDir(dir, fileTypes) {
     const filesToReturn = [];
     function walkDir(currentPath) {
@@ -18,32 +27,46 @@ function getFilesFromDir(dir, fileTypes) {
     return filesToReturn; 
 }
 
+const jsFiles = getFilesFromDir(ABS_PAGE_DIR, [".js"]);
+const entry = jsFiles.reduce( (obj, filePath) => {
+  const entryChunkName = filePath.replace(path.extname(filePath), "").replace(ABS_PAGE_DIR, "");
+  obj[entryChunkName] = `${filePath}`;
+  return obj;
+}, {});
+
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const pugFiles = getFilesFromDir(ABS_TEMPLATE_DIR, [".pug"]);
 
-var plugin = new HtmlWebPackPlugin({
-  template: './client/src/views/index.pug'
+const htmlPlugins = pugFiles.map( filePath => {
+  const fileName = filePath.replace(ABS_TEMPLATE_DIR, "");
+  return new HtmlWebPackPlugin({
+    chunks:[fileName.replace(path.extname(fileName), "")],
+    template: path.join(REL_TEMPLATE_DIR, fileName),
+    filename: fileName.replace(path.extname(fileName), ".html")
+  })
 });
-
+console.log(htmlPlugins);
+var plugin = new HtmlWebPackPlugin({
+  template: './client/src/templates/app.pug'
+});
+console.log(plugin);
 const config = {
-  entry: {
-    app: path.join(__dirname, './client/src/app.js')
-  },
+  entry: entry,
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: "[name].bundle.js",
   },
+  plugins: [...htmlPlugins],
   devServer: {
+    publicPath: "/",
     proxy: {
-      '/api/**': {
+      '/**': {
         target: 'http://localhost:3333',
         secure: false,
         changeOrigin: true,
       }
     },
   },
-  plugins: [
-    plugin
-  ],
   module: {
     rules: [
       { 
