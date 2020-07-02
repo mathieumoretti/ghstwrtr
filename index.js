@@ -10,7 +10,7 @@ const storyController = require('./controllers/storyController');
 const sentenceController = require('./controllers/sentenceController');
 
 // views - not sure
-// app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 app.get('/api/stories', storyController);
 app.get('/api/sentences', sentenceController);
