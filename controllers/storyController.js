@@ -113,6 +113,3 @@ module.exports = (req, res) => {
   };
   res.json(newspaper);
 };
-
-// secondaryStories: stories.slice(1, stories.length - 1),
-// },
