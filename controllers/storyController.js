@@ -80,7 +80,7 @@ function makeStory(noOfSentences) {
 
 function makeStories(noOfstories) {
   for (let i = 0; i < noOfstories; i += 1) {
-    stories[i] = makeStory(10);
+    stories[i] = makeStory(3);
   }
   return stories;
 }
