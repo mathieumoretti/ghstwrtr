@@ -10,8 +10,8 @@ export class Story extends React.Component {
                 <p><small > Last updated 3 mins ago </small></p>
                 <p>
                     <span><a href="#" className="card-link text-center"> Contribute </a></span>
-                    <span><div class="glyphicon glyphicon-chevron-up text-center"></div></span>
-                    <span><div class="glyphicon glyphicon-chevron-down text-center"></div></span>
+                    <span><div className="glyphicon glyphicon-chevron-up text-center"></div></span>
+                    <span><div className="glyphicon glyphicon-chevron-down text-center"></div></span>
                 </p>
              </div>             
           </div>
