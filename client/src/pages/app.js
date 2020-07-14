@@ -1,7 +1,6 @@
 // icons
 let icons = require('webpack-icons-installer');   //load ALL icons  //load only bootstrap glyphicons
 
-
 // css files
 import 'bootstrap/dist/css/bootstrap.min.css';
 let css = require("../css/newspaper.css");
