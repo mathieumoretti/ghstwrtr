@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+
+import CountdownTimer from "./CountdownTimer";
+
 export class Sentence extends React.Component {
     render() {
       return (<div className="card">
@@ -9,6 +12,7 @@ export class Sentence extends React.Component {
             <h5 className="card-title">{this.props.sentence}</h5>
             <br></br>
             <table className="table table-light table-sm text-center">
+            <tbody>
                 <tr>
                     <th scope="col"> 
                         <span className="glyphicon glyphicon-heart"></span>
@@ -20,16 +24,16 @@ export class Sentence extends React.Component {
                     </th>
                     <th scope="col">
                     <span className="glyphicon glyphicon glyphicon-time"></span>
-                        <span className="badge badge-light">5:00</span>
+                        <span className="badge badge-light"><CountdownTimer /></span>
                     </th>
                 </tr>
                 <tr>
-                        <td colspan="3" scope="col">
+                        <td colSpan="3" scope="col">
                         <button className="btn btn-outline-dark btn-block" >Buy</button> 
                         </td>
 
                     </tr>
-
+            </tbody>
             </table>
           </div>
           <div className="card-footer">

@@ -38,7 +38,7 @@ export class Menu extends Component {
             </li>
             <li className="nav-item">
               <span className="glyphicon glyphicon-piggy-bank text-center"></span>
-              <span class="badge badge-dark">9</span>
+              <span className="badge badge-dark">9</span>
             </li>
           </ul>
           
