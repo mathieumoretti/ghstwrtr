@@ -18,16 +18,16 @@ export class Store extends React.Component {
         .then(response => response.json())
         .then(data => {
             this.setState({ sentences: data })
-            console.log("alice:");
+            // console.log("alice:");
             this.setState({ loading: false })
         }).catch(()=>{
-          console.log("alice is mad:");
+          // console.log("alice is mad:");
         });
   }
 
   render() {
     var store = this.state.sentences;
-    console.log("bob:");
+    //console.log("bob:");
     return (<ErrorBoundary>
       {this.state.loading
         ? <div>loading...</div>
@@ -35,7 +35,7 @@ export class Store extends React.Component {
         <div className="card-columns">
         {
           Object.keys(store.sentences).map((item,index) => {
-            console.log(store.sentences[item]);
+            //console.log(store.sentences[item]);
             return(
 
               <Sentence key={index} sentence={store.sentences[item]}></Sentence>
