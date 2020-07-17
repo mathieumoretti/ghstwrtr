@@ -4,24 +4,24 @@ export default class CountdownTimer extends React.Component {
     constructor(props) {
         super(props);
          
-
+        this.timer = null;
         var now = new Date();
-        var in5hours = new Date();
-        in5hours.setHours( now.getHours() + 5);
+        var in6seconds = new Date();
+        in6seconds.setSeconds( now.getSeconds() + 6);
 
         this.state = {
-          targetDate : in5hours,
+          targetDate : in6seconds,
           theDiff : {
-              hour : 5,
+              hour : 0,
               min : 0,
-              sec: 0,
+              sec: 6,
           },
         };
       }
     
     periodicUpdate(){
        
-        setTimeout(()=>{
+        this.timer = setTimeout(()=>{
 
             var now = new Date();
             var diffTime = this.state.targetDate - now;
@@ -47,6 +47,10 @@ export default class CountdownTimer extends React.Component {
 
     componentDidMount() {
         this.periodicUpdate();
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timer);
     }
        
     componentDidUpdate(){
