@@ -10,7 +10,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import { Menu } from "../components/Menu";
-import { Store } from "../components/Store";
+import { AdjectiveMarket } from "../components/AdjectiveMarket";
 
 ReactDOM.render(<Menu />, document.querySelector("menu"));
-ReactDOM.render(<Store />, document.querySelector("adjective"));
+ReactDOM.render(<AdjectiveMarket />, document.querySelector("adjective"));
