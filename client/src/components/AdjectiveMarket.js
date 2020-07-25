@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Sentence } from "./Sentence";
 import nlp from "compromise";
 
-
+import Masonry from 'react-masonry-component';
 
 
 
