@@ -1,0 +1,64 @@
+import React, { Component } from 'react';
+
+
+import CountdownTimer from "./CountdownTimer";
+
+const aStyle={marginBottom: "10px"};
+
+
+export class Adjective extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.buy = this.buy.bind(this);
+        this.state = {
+            isBought : false,
+          };
+    }
+
+    buy() {
+        console.log("buy");
+        this.setState({ isBought: true })
+    }
+
+    render() {        
+      return (        
+     <div className="card" style={aStyle}>
+        <div className="card-header">
+          </div>
+          <div className="card-body">
+            <h5 className="card-title">{this.props.adjective}</h5>
+            <br></br>
+            <table className="table table-light table-sm text-center">
+            <tbody>
+                <tr>
+                    <th scope="col"> 
+                        <span className="glyphicon glyphicon-heart"></span>
+                        <span className="badge badge-light">100</span>
+                    </th>
+                    <th scope="col"> 
+                        <span className="glyphicon glyphicon-yen"></span>
+                        <span className="badge badge-light">9</span>
+                    </th>
+                    <th scope="col">
+                    <span className="glyphicon glyphicon glyphicon-time"></span>
+                        <span className="badge badge-light"><CountdownTimer /></span>
+                    </th>
+                </tr>
+                <tr>
+                    <td colSpan="3" scope="col">
+                    <button className="btn btn-outline-dark btn-block" onClick={this.buy} > {this.state.isBought
+        ? "Bought!": "Buy"}</button> 
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+          </div>
+          <div className="card-footer">
+            
+          </div>
+          
+        </div>
+        );
+    }
+}

@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { Sentence } from "./Sentence";
+import Masonry from 'react-masonry-component';
+import { Adjective } from "./Adjective";
 import nlp from "compromise";
 
-import Masonry from 'react-masonry-component';
 
+const masonryOptions = {
+  gutter: 10,
+  horizontalOrder: true
+};
 
 
 export class AdjectiveMarket extends React.Component {
@@ -34,7 +38,7 @@ export class AdjectiveMarket extends React.Component {
           console.log("alice is mad:" + e);
         });
   }
-
+  handleClick(){}
   render() {
     var store = this.state.adjectives;
     //console.log("bob:");
@@ -42,17 +46,22 @@ export class AdjectiveMarket extends React.Component {
       {this.state.loading
         ? <div>loading...</div>
         :<div>
-        <div className="card-columns">
-        {
-          Object.keys(store).map((item,index) => {
-            //console.log(store.sentences[item]);
-            return(
-
-              <Sentence key={index} sentence={store[item]}></Sentence>
-            )
-        })}
-        </div>
+          <Masonry 
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
+            options = {masonryOptions}>
+                       
+          {
+                Object.keys(store).map((item,index) => {
+                  //console.log(store.sentences[item]);
+                  return(
+                    <Adjective key={index} adjective={store[item]}></Adjective>
+                  );
+              })
+            }         
+          </Masonry>
       </div>
+
       }</ErrorBoundary>
     );
   }
