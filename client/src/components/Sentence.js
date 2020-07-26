@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-
-
+import React from 'react';
 import CountdownTimer from "./CountdownTimer";
+
+
 
 export class Sentence extends React.Component {
 
@@ -14,7 +14,6 @@ export class Sentence extends React.Component {
     }
 
     buy() {
-        console.log("buy");
         this.setState({ isBought: true })
     }
 
