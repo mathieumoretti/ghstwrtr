@@ -5,22 +5,28 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3333;
 
-//redis
-const redis = require("redis");
+// redis
+const redis = require('redis');
 const session = require('express-session');
-var redisStore = require('connect-redis')(session);
+const RedisStore = require('connect-redis')(session);
+
 const REDIS_PORT = process.env.REDIS_PORT || 6379;
 
-//Create Redis client on Redis port
+// Create Redis client on Redis port
 const redisClient = redis.createClient(REDIS_PORT);
 
 // sesh
 app.use(session({
   secret: 'sesshhhhh',
   // create new redis store.
-  store: new redisStore({ host: 'localhost', port: REDIS_PORT, client: redisClient, ttl :  260}),
+  store: new RedisStore({
+    host: 'localhost',
+    port: REDIS_PORT,
+    client: redisClient,
+    ttl: 260,
+  }),
   saveUninitialized: false,
-  resave: false
+  resave: false,
 }));
 
 // add routes
@@ -30,16 +36,15 @@ const sentenceController = require('./controllers/sentenceController');
 
 function IsLoggedIn(req, res, next) {
   console.log('Time:', Date.now());
-  // create new session object.  
-  if(!req.session)
-  {
+  // create new session object.
+  if (!req.session) {
     res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'login.html'));
   }
   console.log(req.session);
   next();
 }
 
-app.use("/", IsLoggedIn);
+app.use('/', IsLoggedIn);
 
 // views
 app.use(express.static(path.join(__dirname, 'dist')));
