@@ -38,7 +38,7 @@ test("Test database sentence.", (t) => {
 });
 
 
-const users = db.Users.findAll({
+const users = db.User.findAll({
     limit: 10 ,
     attributes: ['name', 'email']
 });
@@ -60,8 +60,8 @@ test("Test database user.", (t) => {
             return x.email;
         });
 
-        t.equal(userNames[0], "Admin");
-        t.equal(emails[0], "admin­@admin.com");
+        t.equals(userNames[0].toString(), 'admin');
+        t.equals(emails[0].toString(), 'admin@admin.com');
         t.pass();
         testUtils.testCloser(t);
     }).catch(

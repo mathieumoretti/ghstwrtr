@@ -17,9 +17,9 @@ module.exports = {
   
   var rawUsers = [
     {
-      name:"admin",
-      email:"admin@admin.com",
-      password:"admin"
+      name:'admin',
+      email:'admin@admin.com',
+      password:'admin'
     }
   ]
 
