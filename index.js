@@ -1,8 +1,13 @@
 require('dotenv').config();
 const express = require('express');
+var redis   = require("redis");
+var session = require('express-session');
+var redisStore = require('connect-redis')(session);
+
 const console = require('console');
 const path = require('path');
 
+var client  = redis.createClient();
 const app = express();
 const PORT = process.env.PORT || 3333;
 
@@ -77,6 +82,32 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 app.get('/api/stories', storyController);
 app.get('/api/sentences', sentenceController);
+
+app.get('/home',function(req,res){
+  if(req.session.email) {
+      res.json({ email : req.session.email});
+  } else {
+      res.redirect("/");
+  }
+});
+
+var email ="someEmail@some.com";
+app.get('/login',function(req,res){
+  // when user login set the key to redis.
+  req.session.email=email;
+  res.end('done');
+});
+
+app.get('/logout',function(req,res){
+  req.session.destroy(function(err){
+      if(err){
+          console.log(err);
+      } else {
+          res.redirect('/');
+      }
+  });
+});
+
 
 // send the user to index html page inspite of the url
 app.get('/', IsLoggedIn, (req, res) => {
