@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const console = require('console');
 const path = require('path');
@@ -11,16 +12,23 @@ const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 
 const REDIS_PORT = process.env.REDIS_PORT || 6379;
-
+var redisClient = null;
+var redisHost = 'localhost';
 // Create Redis client on Redis port
-const redisClient = redis.createClient(REDIS_PORT);
+if (process.env.NODE_ENV == 'development'){
+   redisClient = redis.createClient(REDIS_PORT);
+}
+else if (process.env.NODE_ENV == 'staging'){
+   redisHost = process.env.REDIS_URL
+   redisClient = redis.createClient(redisHost);
+}
 
 // sesh
 app.use(session({
   secret: 'sesshhhhh',
   // create new redis store.
   store: new RedisStore({
-    host: 'localhost',
+    host: redisHost,
     port: REDIS_PORT,
     client: redisClient,
     ttl: 260,
@@ -43,6 +51,24 @@ function IsLoggedIn(req, res, next) {
   console.log(req.session);
   next();
 }
+
+
+app.get('/logout', IsLoggedIn, (req, res) => {
+  if(req.session.key) {
+    req.session.destroy(function(){
+      res.redirect('/');
+    });
+  } else {
+      res.redirect('/');
+  }
+
+
+  // res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'login.html'));
+  // req.session.destroy(function(err) {
+  //   // cannot access session here
+  //   console.log("session destroyed!")
+  // })
+});
 
 app.use('/', IsLoggedIn);
 
