@@ -108,7 +108,6 @@ app.get('/logout',function(req,res){
   });
 });
 
-
 // send the user to index html page inspite of the url
 app.get('/', IsLoggedIn, (req, res) => {
   res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'app.html'));
