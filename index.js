@@ -1,13 +1,8 @@
 require('dotenv').config();
 const express = require('express');
-var redis   = require("redis");
-var session = require('express-session');
-var redisStore = require('connect-redis')(session);
-
 const console = require('console');
 const path = require('path');
 
-var client  = redis.createClient();
 const app = express();
 const PORT = process.env.PORT || 3333;
 
@@ -42,7 +37,7 @@ app.use(session({
   resave: false,
 }));
 
-// add routes
+//add routes
 const storyController = require('./controllers/storyController');
 const sentenceController = require('./controllers/sentenceController');
 
@@ -51,45 +46,29 @@ function IsLoggedIn(req, res, next) {
   console.log('Time:', Date.now());
   // create new session object.
   if (!req.session) {
-    res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'login.html'));
+    console.log("Not logged in.");
   }
-  console.log(req.session);
   next();
 }
-
 
 app.get('/logout', IsLoggedIn, (req, res) => {
   if(req.session.key) {
     req.session.destroy(function(){
-      res.redirect('/');
+      console.log("Logged out.");
     });
   } else {
-      res.redirect('/');
+    console.log("Not even logged in.");
   }
-
-
-  // res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'login.html'));
-  // req.session.destroy(function(err) {
-  //   // cannot access session here
-  //   console.log("session destroyed!")
-  // })
 });
 
-app.use('/', IsLoggedIn);
-
-// views
-app.use(express.static(path.join(__dirname, 'dist')));
+ // static files
+ var options = {
+  index: "app.html",
+}
+ app.use(express.static(path.join(__dirname, 'dist'), options));
 
 app.get('/api/stories', storyController);
 app.get('/api/sentences', sentenceController);
-
-app.get('/home',function(req,res){
-  if(req.session.email) {
-      res.json({ email : req.session.email});
-  } else {
-      res.redirect("/");
-  }
-});
 
 var email ="someEmail@some.com";
 
@@ -107,11 +86,6 @@ app.get('/logout',function(req,res){
           res.redirect('/');
       }
   });
-});
-
-// send the user to index html page inspite of the url
-app.get('/', IsLoggedIn, (req, res) => {
-  res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'app.html'));
 });
 
 app.listen(PORT);
