@@ -7,7 +7,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import Banner from "../components/Banner";
-import { Login } from "../components/Login";
+import { LoginForm } from "../components/Login";
 
 ReactDOM.render(<Banner />, document.querySelector("banner"));
-ReactDOM.render(<Login />, document.querySelector("login"));
+ReactDOM.render(<LoginForm />, document.querySelector("login"));

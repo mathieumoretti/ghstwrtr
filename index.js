@@ -92,7 +92,8 @@ app.get('/home',function(req,res){
 });
 
 var email ="someEmail@some.com";
-app.get('/login',function(req,res){
+
+app.post('/login',function(req,res){
   // when user login set the key to redis.
   req.session.email=email;
   res.end('done');

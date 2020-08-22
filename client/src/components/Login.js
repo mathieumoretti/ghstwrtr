@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
-export class Login extends React.Component {
+export class LoginForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      value: '',
       loading: true
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
   }
 
   componentDidMount() {
