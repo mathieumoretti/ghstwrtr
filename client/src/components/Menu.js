@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import {
+  Link
+} from "react-router-dom";
+
 
 class Welcome extends React.Component {
   render() {
@@ -17,13 +21,13 @@ export class Menu extends Component {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item active">
-              <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
+              <Link className="nav-link" to="/">Home</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/store.html">Store</a>
+              <Link className="nav-link" to="/store">Store</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/adjective.html">Adj</a>
+              <Link className="nav-link" to="/adjective">Adjective</Link>
             </li>
             <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

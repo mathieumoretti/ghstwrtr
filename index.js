@@ -61,12 +61,13 @@ app.get('/logout', IsLoggedIn, (req, res) => {
   }
 });
 
- // static files
- var options = {
+// static files
+var options = {
   index: "app.html",
 }
- app.use(express.static(path.join(__dirname, 'dist'), options));
+app.use(express.static(path.join(__dirname, 'dist'), options));
 
+// routes
 app.get('/api/stories', storyController);
 app.get('/api/sentences', sentenceController);
 
@@ -76,16 +77,6 @@ app.post('/login',function(req,res){
   // when user login set the key to redis.
   req.session.email=email;
   res.end('done');
-});
-
-app.get('/logout',function(req,res){
-  req.session.destroy(function(err){
-      if(err){
-          console.log(err);
-      } else {
-          res.redirect('/');
-      }
-  });
 });
 
 app.listen(PORT);
