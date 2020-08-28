@@ -17,9 +17,34 @@ import {
 
 import { Menu } from "../components/Menu";
 import Banner from "../components/Banner";
+import { LoginForm } from "../components/Login";
 import { Stories } from "../components/Stories";
 import { AdjectiveMarket } from "../components/AdjectiveMarket";
 import { Store } from "../components/Store";
+
+// A wrapper for <Route> that redirects to the login
+// screen if you're not yet authenticated.
+function PrivateRoute({ children, ...rest }) {
+    return (
+      <Route
+        {...rest}
+        render={({ location }) =>
+          fakeAuth.isAuthenticated ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: location }
+              }}
+            />
+          )
+        }
+      />
+    );
+  }
+
+
 
 export default function App() {
     return (
@@ -30,14 +55,17 @@ export default function App() {
             <Banner>
             </Banner>
             <Switch>
-                <Route path="/store">
+                <PrivateRoute path="/store">
                     <Store />
-                </Route>
-                <Route path="/adjective">
+                </PrivateRoute>
+                <PrivateRoute path="/adjective">
                     <AdjectiveMarket />
-                </Route>
-                <Route path="/">
+                </PrivateRoute>
+                <PrivateRoute path="/">
                     <Stories />
+                </PrivateRoute>
+                <Route path="/login">
+                    <LoginForm />
                 </Route>
             </Switch>
             </div>
