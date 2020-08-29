@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import axios from 'axios';
 
 export class LoginForm extends React.Component {
   constructor(props) {
@@ -47,10 +48,22 @@ export class LoginForm extends React.Component {
                   return errors;
                 }}
                 onSubmit={(values, { setSubmitting }) => {
-                  setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    setSubmitting(false);
-                  }, 400);
+                  axios.post('/login', {
+                    email: values.email,
+                    password: values.password
+                  })
+                        .then(function (response) {
+                          // handle success
+                          console.log(response);
+                          setSubmitting(false);
+                        })
+                        .catch(function (error) {
+                          // handle error
+                          console.log(error);
+                        })
+                        .then(function () {
+                          // always executed
+                        });
                 }}
               >
        {({ isSubmitting }) => (

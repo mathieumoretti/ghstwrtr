@@ -52,6 +52,8 @@
   },
   "dependencies": {
     "@babel/preset-react": "^7.9.4",
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
     "bootstrap": "^4.5.0",
     "command-line-args": "^5.1.1",
     "compromise": "^13.1.1",
@@ -76,7 +78,7 @@
     "react-dom": "^16.13.1",
     "react-masonry-component": "^6.2.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "^3.4.3",
     "redis": "^3.0.2",
     "request-promise": "^4.2.5",
     "sequelize": "^5.21.5",

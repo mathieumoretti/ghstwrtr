@@ -3,75 +3,116 @@ let icons = require('webpack-icons-installer');   //load ALL icons  //load only 
 
 // css files
 import 'bootstrap/dist/css/bootstrap.min.css';
-let css = require("../css/newspaper.css");
-
 //React
 import React from "react";
 import ReactDOM from "react-dom";
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-  } from "react-router-dom";
+  BrowserRouter as Router,
+  Redirect, Route, Switch
+} from "react-router-dom";
+let css = require("../css/newspaper.css");
 
-import { Menu } from "../components/Menu";
-import Banner from "../components/Banner";
-import { LoginForm } from "../components/Login";
-import { Stories } from "../components/Stories";
-import { AdjectiveMarket } from "../components/AdjectiveMarket";
-import { Store } from "../components/Store";
+
+import { AdjectiveMarket } from "../components/AdjectiveMarket"
+import  Banner  from "../components/Banner"
+import { Menu } from "../components/Menu"
+import { Store } from "../components/Store"
+import { Stories } from "../components/Stories"
+import { LoginForm } from "../components/Login"
+
+const fakeAuth = {
+  isAuthenticated: false,
+  authenticate(cb) {
+    fakeAuth.isAuthenticated = true;
+    setTimeout(cb, 100); // fake async
+  },
+  signout(cb) {
+    fakeAuth.isAuthenticated = false;
+    setTimeout(cb, 100);
+  }
+};
 
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
 function PrivateRoute({ children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        fakeAuth.isAuthenticated ? (
+          children
+        ) : (
+          <Redirect            
+            to="/login"
+        />
+        )
+      }
+    />
+  );
+}
+
+class App extends React.Component {
+  render(){
     return (
-      <Route
-        {...rest}
-        render={({ location }) =>
-          fakeAuth.isAuthenticated ? (
-            children
-          ) : (
-            <Redirect
-              to={{
-                pathname: "/login",
-                state: { from: location }
-              }}
-            />
-          )
-        }
-      />
-    );
-  }
-
-
-
-export default function App() {
-    return (
+      <ErrorBoundary>
         <Router>
             <div>
-            <Menu>
-            </Menu>
-            <Banner>
-            </Banner>
-            <Switch>
+              <Switch>
                 <PrivateRoute path="/store">
+                    <Menu />
+                    <Banner />
                     <Store />
                 </PrivateRoute>
                 <PrivateRoute path="/adjective">
+                    <Menu />
+                    <Banner />
                     <AdjectiveMarket />
                 </PrivateRoute>
-                <PrivateRoute path="/">
+                < PrivateRoute path="/" exact>
+                    <Menu />
+                    <Banner />
                     <Stories />
                 </PrivateRoute>
-                <Route path="/login">
-                    <LoginForm />
-                </Route>
-            </Switch>
+                <Route path="/login"  render={() =>
+                    <div>
+                      <Banner />
+                      <LoginForm></LoginForm>   
+                    </div>                
+                }/> 
+              </Switch>
             </div>
         </Router>  
+      </ErrorBoundary>
     );
+  }
 }
 
 
-ReactDOM.render(<App />, document.querySelector("stories"));
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    // Mettez à jour l'état, de façon à montrer l'UI de repli au prochain rendu.
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    // Vous pouvez aussi enregistrer l'erreur au sein d'un service de rapport.
+    //logErrorToMyService(error, errorInfo);
+    console.log(error);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // Vous pouvez afficher n'importe quelle UI de repli.
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children;
+  }
+}
+
+ReactDOM.render(<App />, document.querySelector("app"));

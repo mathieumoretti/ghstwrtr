@@ -5,6 +5,7 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3333;
+const bodyParser = require("body-parser");
 
 // redis
 const redis = require('redis');
@@ -37,7 +38,10 @@ app.use(session({
   resave: false,
 }));
 
-//add routes
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// add routes
 const storyController = require('./controllers/storyController');
 const sentenceController = require('./controllers/sentenceController');
 
@@ -75,7 +79,7 @@ var email ="someEmail@some.com";
 
 app.post('/login',function(req,res){
   // when user login set the key to redis.
-  req.session.email=email;
+  req.session.email=req.body.email;
   res.end('done');
 });
 
