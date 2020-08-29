@@ -83,5 +83,10 @@ app.post('/login',function(req,res){
   res.end('done');
 });
 
+// send the user to index html page inspite of the url
+app.get('*', IsLoggedIn, (req, res) => {
+  res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'app.html'));
+});
+
 app.listen(PORT);
 console.log(`Server started on port ${PORT}`);
