@@ -7,6 +7,9 @@ const app = express();
 const PORT = process.env.PORT || 3333;
 const bodyParser = require("body-parser");
 
+// database
+var db = require('./data/models/index');
+
 // redis
 const redis = require('redis');
 const session = require('express-session');
@@ -44,7 +47,16 @@ app.use(bodyParser.json());
 // add routes
 const storyController = require('./controllers/storyController');
 const sentenceController = require('./controllers/sentenceController');
+const utils = require('./scripts/utils');
 
+
+// static files
+var options = {
+  index: "app.html",
+}
+app.use(express.static(path.join(__dirname, 'dist'), options));
+
+// routes
 
 function IsLoggedIn(req, res, next) {
   console.log('Time:', Date.now());
@@ -54,6 +66,9 @@ function IsLoggedIn(req, res, next) {
   }
   next();
 }
+
+app.get('/api/stories', storyController);
+app.get('/api/sentences', sentenceController);
 
 app.get('/logout', IsLoggedIn, (req, res) => {
   if(req.session.key) {
@@ -65,22 +80,28 @@ app.get('/logout', IsLoggedIn, (req, res) => {
   }
 });
 
-// static files
-var options = {
-  index: "app.html",
-}
-app.use(express.static(path.join(__dirname, 'dist'), options));
-
-// routes
-app.get('/api/stories', storyController);
-app.get('/api/sentences', sentenceController);
-
-var email ="someEmail@some.com";
-
 app.post('/login',function(req,res){
-  // when user login set the key to redis.
-  req.session.email=req.body.email;
-  res.end('done');
+
+  if (utils.existy(req.body.email))
+  {
+    let user = null;
+    db.User.findOne({ where: { email: req.body.email } })
+    .then((foundUser)=>{
+      user = foundUser;
+      if (user === null) {
+        res.json({"error" : "true","message" : "Login failed ! Please register"});
+      } else {
+        req.session.email=user.email;
+        res.json({"error" : false,"message" : "Login success."});
+      }
+    }, (error) =>{
+      res.json({"error" : "true","message" : "Database error occured"});
+    });    
+  }
+  else
+  {
+    res.json({"error" : "true","message" : "Login failed ! Invalid email"});
+  }
 });
 
 // send the user to index html page inspite of the url
