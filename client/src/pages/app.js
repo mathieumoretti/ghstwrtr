@@ -4,12 +4,9 @@ let icons = require('webpack-icons-installer');   //load ALL icons  //load only 
 // css files
 import 'bootstrap/dist/css/bootstrap.min.css';
 //React
-import React from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom";
-import {
-  BrowserRouter as Router,
-  Redirect, Route, Switch
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 let css = require("../css/newspaper.css");
 
 
@@ -19,42 +16,14 @@ import { Menu } from "../components/Menu"
 import { Store } from "../components/Store"
 import { Stories } from "../components/Stories"
 import { LoginForm } from "../components/Login"
-
-const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    fakeAuth.isAuthenticated = true;
-    setTimeout(cb, 100); // fake async
-  },
-  signout(cb) {
-    fakeAuth.isAuthenticated = false;
-    setTimeout(cb, 100);
-  }
-};
-
-// A wrapper for <Route> that redirects to the login
-// screen if you're not yet authenticated.
-function PrivateRoute({ children, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        fakeAuth.isAuthenticated ? (
-          children
-        ) : (
-          <Redirect            
-            to="/login"
-        />
-        )
-      }
-    />
-  );
-}
+import { PrivateRoute } from "../components/PrivateRoute"
+import {fakeAuth, AuthenticationContext} from "../utils/authentication";
 
 class App extends React.Component {
   render(){
     return (
       <ErrorBoundary>
+        <AuthenticationContext.Provider value={fakeAuth}>
         <Router>
             <div>
               <Switch>
@@ -82,6 +51,7 @@ class App extends React.Component {
               </Switch>
             </div>
         </Router>  
+        </AuthenticationContext.Provider>
       </ErrorBoundary>
     );
   }

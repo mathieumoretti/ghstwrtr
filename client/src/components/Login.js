@@ -1,13 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
+import { Redirect } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
+import {AuthenticationContext} from "../utils/authentication";
 
+//const auth = useContext(AuthenticationContext);
 export class LoginForm extends React.Component {
   constructor(props) {
+
     super(props);
 
     this.state = {
-      value: '',
+      isSignedUp: false,
       loading: true
     };
 
@@ -28,34 +32,49 @@ export class LoginForm extends React.Component {
     this.setState({ loading: false });
   }
 
+  componentDidUnMount() {
+    console.log("unmounting");
+  }
+
   render() {
+    let component = this;
+    let auth = this.context;
     return (<ErrorBoundary>
-      {this.state.loading
+      {
+      this.state.isSignedUp 
+      ? <Redirect to='/'/>
+      : this.state.loading
         ? <div>loading...</div>
         : <div className="jumbotron bg-white">
-          <h1 className="display-5">Log In</h1>
-             <Formik
-                initialValues={{ email: '', password: '' }}
-                validate={values => {
-                  const errors = {};
-                  if (!values.email) {
-                    errors.email = 'Required';
-                  } else if (
-                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                  ) {
-                    errors.email = 'Invalid email address';
-                  }
-                  return errors;
-                }}
-                onSubmit={(values, { setSubmitting }) => {
-                  axios.post('/login', {
-                    email: values.email,
-                    password: values.password
-                  })
+              <h1 className="display-5">Log In</h1>
+                <Formik
+                      initialValues={{ email: '', password: '' }}
+                      validate={values => {
+                        const errors = {};
+                        if (!values.email) {
+                          errors.email = 'Required';
+                        } else if (
+                          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                        ) {
+                          errors.email = 'Invalid email address';
+                        }
+                        return errors;
+                      }}
+                      onSubmit={(values, { setSubmitting }) => {
+                        setSubmitting(true);
+                        axios.post('/login', {
+                          email: values.email,
+                          password: values.password
+                        })
                         .then(function (response) {
                           // handle success
-                          console.log(response);
-                          setSubmitting(false);
+                          if (response.data.error == false)
+                          {
+                              console.log(response.data);
+                              auth.authenticate(()=>{
+                                component.setState({isSignedUp:true})
+                              })                              
+                          }
                         })
                         .catch(function (error) {
                           // handle error
@@ -63,34 +82,37 @@ export class LoginForm extends React.Component {
                         })
                         .then(function () {
                           // always executed
+                          setSubmitting(false);
                         });
-                }}
-              >
-       {({ isSubmitting }) => (
-         <Form>
-            <div className='form-group'>
-              <label htmlFor="email">Email</label>
-              <Field type="email" name="email" className="form-control" />
-              <ErrorMessage name="email" component="div" />
-            </div>
-            <div className='form-group'>
-              <label htmlFor="email">Password</label>
-              <Field type="password" name="password" className="form-control" />
-              <ErrorMessage name="password" component="div" />
-            </div>
-            <div className='form-group'>
-              <button type="submit" disabled={isSubmitting} className="btn btn-dark">
-                Submit
-              </button>
-            </div>
-         </Form>
-       )}
-     </Formik>
-      </div>
-      }</ErrorBoundary>
+                      }}
+                    >
+            {({ isSubmitting }) => (
+              <Form>
+                  <div className='form-group'>
+                    <label htmlFor="email">Email</label>
+                    <Field type="email" name="email" className="form-control" />
+                    <ErrorMessage name="email" component="div" />
+                  </div>
+                  <div className='form-group'>
+                    <label htmlFor="email">Password</label>
+                    <Field type="password" name="password" className="form-control" />
+                    <ErrorMessage name="password" component="div" />
+                  </div>
+                  <div className='form-group'>
+                    <button type="submit" disabled={isSubmitting} className="btn btn-dark">
+                      Submit
+                    </button>
+                  </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+          
+        }</ErrorBoundary>
     );
   }
 }
+LoginForm.contextType = AuthenticationContext;
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
