@@ -1,12 +1,33 @@
 import React from 'react';
+
+import axios from 'axios';
+
 export const fakeAuth = {
-    isAuthenticated: false,
+    isAuthenticated(){
+        return axios.get('/loggedin')
+          .then(function (response) {
+            // handle success
+            if (response.data.error == false)
+            {
+                console.log("Is logged in.");
+                return true;
+            }
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+            return false;
+          })
+          .then(function () {
+            // always executed
+            setSubmitting(false);
+            return false;
+          });
+    } ,
     authenticate(cb) {
-      fakeAuth.isAuthenticated = true;
       setTimeout(cb, 100); // fake async
     },
     signout(cb) {
-      fakeAuth.isAuthenticated = false;
       setTimeout(cb, 100);
     }
   };

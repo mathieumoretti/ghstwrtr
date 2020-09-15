@@ -9,9 +9,11 @@ export class PrivateRoute extends React.Component {
  
     render(){
         let auth = this.context;
+        let isLoggedIn = auth.isAuthenticated();
+        console.log(auth);    
         return (<Route {...this.props}>
             {
-                auth.isAuthenticated
+                isLoggedIn
                 ? (this.props.children)
                 : (<Redirect to="/login"/>)
             }

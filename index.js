@@ -3,6 +3,8 @@ const express = require('express');
 const console = require('console');
 const path = require('path');
 
+const utils = require('./scripts/utils');
+
 const app = express();
 const PORT = process.env.PORT || 3333;
 const bodyParser = require("body-parser");
@@ -47,8 +49,6 @@ app.use(bodyParser.json());
 // add routes
 const storyController = require('./controllers/storyController');
 const sentenceController = require('./controllers/sentenceController');
-const utils = require('./scripts/utils');
-
 
 // static files
 var options = {
@@ -58,11 +58,20 @@ app.use(express.static(path.join(__dirname, 'dist'), options));
 
 // routes
 
+function InternalIsLoggedIn(req) {
+  if (!utils.existy(req.session.email)) {
+    console.log("Not logged in.");
+    return false;
+  }
+  console.log("Logged in.");
+  return true;
+}
+
 function IsLoggedIn(req, res, next) {
   console.log('Time:', Date.now());
   // create new session object.
-  if (!req.session) {
-    console.log("Not logged in.");
+  if (!InternalIsLoggedIn(req)) {
+    res.json({"error" : "true","message" : "Login failed ! Please register"});
   }
   next();
 }
@@ -71,7 +80,7 @@ app.get('/api/stories', storyController);
 app.get('/api/sentences', sentenceController);
 
 app.get('/logout', IsLoggedIn, (req, res) => {
-  if(req.session.key) {
+  if(utils.existy(req.session.email)) {
     req.session.destroy(function(){
       console.log("Logged out.");
     });
@@ -80,8 +89,14 @@ app.get('/logout', IsLoggedIn, (req, res) => {
   }
 });
 
-app.post('/login',function(req,res){
+app.get('/loggedin',function(req,res){
+  if (!InternalIsLoggedIn(req)) {
+    res.json({"error" : "true","message" : "Not logged in! Please register"});
+  }
+  res.json({"error" : false, "message" : "Logged in."});
+});
 
+app.post('/login',function(req,res){
   if (utils.existy(req.body.email))
   {
     let user = null;
