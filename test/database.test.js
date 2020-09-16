@@ -36,3 +36,38 @@ test("Test database sentence.", (t) => {
             testUtils.testCloser(t);
      });
 });
+
+
+const users = db.User.findAll({
+    limit: 10 ,
+    attributes: ['name', 'email']
+});
+function queryPromise2(resolve, reject)
+{
+    return resolve(users);
+}
+
+test("Test database user.", (t) => {
+    var promise = promiseMaker.make(queryPromise2);
+
+    promise.then((result) =>{    
+        var userNames = _.map(result, (x)=>{
+            utils.note(x.name);
+            return x.name;
+        });
+        var emails = _.map(result, (x)=>{
+            utils.note(x.email);
+            return x.email;
+        });
+
+        t.equals(userNames[0].toString(), 'admin');
+        t.equals(emails[0].toString(), 'admin@admin.com');
+        t.pass();
+        testUtils.testCloser(t);
+    }).catch(
+        (reject) =>
+        {          
+            console.log(reject);
+            testUtils.testCloser(t);
+     });
+});

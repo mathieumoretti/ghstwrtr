@@ -45,11 +45,7 @@ const htmlPlugins = pugFiles.map( filePath => {
     filename: fileName.replace(path.extname(fileName), ".html")
   })
 });
-console.log(htmlPlugins);
-var plugin = new HtmlWebPackPlugin({
-  template: './client/src/templates/app.pug'
-});
-console.log(plugin);
+
 const config = {
   entry: entry,
   output: {
