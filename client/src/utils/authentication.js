@@ -20,7 +20,6 @@ export const fakeAuth = {
           })
           .then(function () {
             // always executed
-            setSubmitting(false);
             return false;
           });
     } ,
