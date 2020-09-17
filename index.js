@@ -91,7 +91,7 @@ app.get('/logout', IsLoggedIn, (req) => {
 
 app.get('/loggedin', (req, res) => {
   if (!InternalIsLoggedIn(req)) {
-    res.json({ error: 'true', message: 'Not logged in! Please register' });
+    return res.json({ error: 'true', message: 'Not logged in! Please register' });
   }
   res.json({ error: 'false', message: 'Logged in.' });
 });
@@ -103,21 +103,21 @@ app.post('/login', (req, res) => {
       .then((foundUser) => {
         user = foundUser;
         if (user === null) {
-          res.json({ error: 'true', message: 'Login failed! Please register.' });
+          return res.json({ error: 'true', message: 'Login failed! Please register.' });
         } else {
           req.session.email = user.email;
           res.json({ error: 'false', message: 'Login success.' });
         }
       }, () => {
-        res.json({ error: 'true', message: 'Database error occured' });
+        return res.json({ error: 'true', message: 'Database error occured' });
       });
   } else {
-    res.json({ error: 'true', message: 'Login failed! Invalid email.' });
+    return res.json({ error: 'true', message: 'Login failed! Invalid email.' });
   }
 });
 
 // send the user to index html page inspite of the url
-app.get('*', IsLoggedIn, (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'app.html'));
 });
 

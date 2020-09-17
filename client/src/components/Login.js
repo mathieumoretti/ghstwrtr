@@ -2,7 +2,7 @@ import React, { Component, useContext } from 'react';
 import { Redirect } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
-import {AuthenticationContext} from "../utils/authentication";
+import {AuthenticationContext, fakeAuth} from "../utils/authentication";
 
 //const auth = useContext(AuthenticationContext);
 export class LoginForm extends React.Component {
@@ -42,7 +42,7 @@ export class LoginForm extends React.Component {
     return (<ErrorBoundary>
       {
       this.state.isSignedUp 
-      ? <Redirect to='/'/>
+      ? <Redirect to='/'/> 
       : this.state.loading
         ? <div>loading...</div>
         : <div className="jumbotron bg-white">
@@ -62,28 +62,21 @@ export class LoginForm extends React.Component {
                       }}
                       onSubmit={(values, { setSubmitting }) => {
                         setSubmitting(true);
-                        axios.post('/login', {
-                          email: values.email,
-                          password: values.password
-                        })
-                        .then(function (response) {
-                          // handle success
-                          if (response.data.error == false)
-                          {
-                              console.log(response.data);
-                              auth.authenticate(()=>{
-                                component.setState({isSignedUp:true})
-                              })                              
-                          }
-                        })
-                        .catch(function (error) {
-                          // handle error
-                          console.log(error);
-                        })
-                        .then(function () {
-                          // always executed
-                          setSubmitting(false);
-                        });
+                        auth.authenticate(values.email, values.password)                                     
+                          .then(function (success) {
+                            // always executed
+                            if (success)
+                            {
+                              component.setState({isSignedUp:true});
+                              setSubmitting(false);
+                            }
+                            else
+                            {
+                              component.setState({isSignedUp:false});
+                            }
+                            console.log("always executed.")
+
+                          });
                       }}
                     >
             {({ isSubmitting }) => (

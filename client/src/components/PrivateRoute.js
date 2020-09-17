@@ -6,18 +6,37 @@ import {AuthenticationContext} from "../utils/authentication";
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
 export class PrivateRoute extends React.Component {
- 
-    render(){
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+            isLoggedIn: false,
+            isLoading: true,
+        };
+    };
+
+    componentDidMount() {
         let auth = this.context;
-        let isLoggedIn = auth.isAuthenticated();
-        console.log(auth);    
-        return (<Route {...this.props}>
+        auth.isAuthenticated()
+            .then((isLoggedIn) =>
             {
-                isLoggedIn
+                this.setState({isLoggedIn: isLoggedIn, isLoading:false})
+            });
+      };
+      componentWillUnmount(){
+          console.log("Private Route unmounting.");
+      }
+    render() {
+        console.log("Private route");
+        console.log(this.state.isLoggedIn);
+        return (this.state.loading
+            ? <div>loading...</div>
+            :<Route {...this.props}>{
+                this.state.isLoggedIn
                 ? (this.props.children)
                 : (<Redirect to="/login"/>)
             }
-        </Route>)
+            </Route>);
     }
 }
 PrivateRoute.contextType = AuthenticationContext;
