@@ -16,14 +16,14 @@ import { Menu } from "../components/Menu"
 import { Store } from "../components/Store"
 import { Stories } from "../components/Stories"
 import { LoginForm } from "../components/Login"
-import { PrivateRoute } from "../components/PrivateRoute"
-import {fakeAuth, AuthenticationContext} from "../utils/authentication";
+import { PrivateRoute } from "../components/PrivateRoute"W
+import { AuthContext } from "../context/auth";
 
 class App extends React.Component {
   render(){
     return (
       <ErrorBoundary>
-        <AuthenticationContext.Provider value={fakeAuth}>
+        <AuthContext.Provider value={false}>
         <Router>
             <div>
               <Switch>
@@ -51,7 +51,7 @@ class App extends React.Component {
               </Switch>
             </div>
         </Router>  
-        </AuthenticationContext.Provider>
+        </AuthContext.Provider>
       </ErrorBoundary>
     );
   }
