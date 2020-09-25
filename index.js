@@ -72,6 +72,7 @@ function IsLoggedIn(req, res, next) {
   // create new session object.
   if (!InternalIsLoggedIn(req)) {
     res.json({ error: 'true', message: 'Login failed! Please register.' });
+    return;
   }
   next();
 }
@@ -92,6 +93,7 @@ app.get('/logout', IsLoggedIn, (req) => {
 app.get('/loggedin', (req, res) => {
   if (!InternalIsLoggedIn(req)) {
     res.json({ error: 'true', message: 'Not logged in! Please register' });
+    return;
   }
   res.json({ error: 'false', message: 'Logged in.' });
 });
@@ -104,12 +106,15 @@ app.post('/login', (req, res) => {
         user = foundUser;
         if (user === null) {
           res.json({ error: 'true', message: 'Login failed! Please register.' });
+          return;
         } else {
           req.session.email = user.email;
           res.json({ error: 'false', message: 'Login success.' });
+          return;
         }
       }, () => {
         res.json({ error: 'true', message: 'Database error occured' });
+        return;
       });
   } else {
     res.json({ error: 'true', message: 'Login failed! Invalid email.' });
@@ -117,7 +122,7 @@ app.post('/login', (req, res) => {
 });
 
 // send the user to index html page inspite of the url
-app.get('*', IsLoggedIn, (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'app.html'));
 });
 

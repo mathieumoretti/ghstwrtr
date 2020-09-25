@@ -39,6 +39,12 @@ export class LoginForm extends React.Component {
   render() {
     let component = this;
     let auth = this.context;
+    console.log("form");
+    console.log(auth);
+    if (auth) {
+      return <Redirect to="/" />;
+    }
+
     return (<ErrorBoundary>
       {
       this.state.isSignedUp 
@@ -71,9 +77,9 @@ export class LoginForm extends React.Component {
                           if (response.data.error == false)
                           {
                               console.log(response.data);
-                              auth.authenticate(()=>{
-                                component.setState({isSignedUp:true})
-                              })                              
+                              // auth.authenticate(()=>{
+                              //   component.setState({isSignedUp:true})
+                              // })                              
                           }
                         })
                         .catch(function (error) {

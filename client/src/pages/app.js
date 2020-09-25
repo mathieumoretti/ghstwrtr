@@ -17,13 +17,39 @@ import { Store } from "../components/Store"
 import { Stories } from "../components/Stories"
 import { LoginForm } from "../components/Login"
 import { PrivateRoute } from "../components/PrivateRoute"
-import {fakeAuth, AuthenticationContext} from "../utils/authentication";
+import {Auth, AuthenticationContext} from "../utils/authentication";
+
+let auth = new Auth();
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: true
+    };
+  }
+
+  componentDidMount()
+  {
+    console.log("app is mounted");
+    auth.isAuthenticated()
+      .then((res)=>{
+        this.setState({
+          loading:false,
+        })
+      });
+  }
+
   render(){
+    if (this.state.loading)
+    {
+      return(<div>loading</div>);
+    }
+
     return (
       <ErrorBoundary>
-        <AuthenticationContext.Provider value={fakeAuth}>
+        <AuthenticationContext.Provider value={auth.status}>
         <Router>
             <div>
               <Switch>
