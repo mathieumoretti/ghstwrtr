@@ -72,32 +72,28 @@ function IsLoggedIn(req, res, next) {
   // create new session object.
   if (!InternalIsLoggedIn(req)) {
     res.json({ error: 'true', message: 'Login failed! Please register.' });
-    return;
   }
   next();
 }
 
-app.get('/api/stories', storyController);
-app.get('/api/sentences', sentenceController);
+app.get('/api/stories', IsLoggedIn, storyController);
+app.get('/api/sentences', IsLoggedIn, sentenceController);
 
 app.get('/logout', (req, res) => {
   if (utils.existy(req.session.email)) {
     req.session.destroy(() => {
       console.log('Logged out.');
       res.json({ error: 'false', message: 'Logout success.' });
-      return;
     });
   } else {
     console.log('Not even logged in.');
     res.json({ error: 'true', message: 'Not even logged in.' });
-    return;
   }
 });
 
 app.get('/loggedin', (req, res) => {
   if (!InternalIsLoggedIn(req)) {
     res.json({ error: 'true', message: 'Not logged in! Please register' });
-    return;
   }
   res.json({ error: 'false', message: 'Logged in.' });
 });
@@ -110,15 +106,12 @@ app.post('/login', (req, res) => {
         user = foundUser;
         if (user === null) {
           res.json({ error: 'true', message: 'Login failed! Please register.' });
-          return;
         } else {
           req.session.email = user.email;
           res.json({ error: 'false', message: 'Login success.' });
-          return;
         }
       }, () => {
         res.json({ error: 'true', message: 'Database error occured' });
-        return;
       });
   } else {
     res.json({ error: 'true', message: 'Login failed! Invalid email.' });
