@@ -27,7 +27,8 @@ export class Stories extends React.Component {
     fetch('api/stories')
         .then(response => response.json())
         .then(data => {
-            this.setState({ story: data })
+            this.setState({ story: data,
+                            loading: false })
         }).catch(()=>{
         });
   }
@@ -36,7 +37,7 @@ export class Stories extends React.Component {
     var newspaper = this.state.story;
     return (<ErrorBoundary>
       {this.state.loading
-        ? <div>loading...</div>
+        ? <div>loading stories...</div>
         :<div>
           <Headline story={newspaper.mainStory}></Headline>
           <div className="card-columns">

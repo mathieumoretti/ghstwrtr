@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //React
 import React, { useContext } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 let css = require("../css/newspaper.css");
 
 
@@ -35,27 +35,26 @@ class App extends React.Component {
     console.log("app is mounted");
     auth.isAuthenticated()
       .then((res)=>{
+        console.log("here");
+        auth.status = true;
         this.setState({
           loading:false,
-        })
+        });     
       });
   }
 
   render(){
 
-    let auth = this.context;
-    if (auth) {
-      return <Redirect to="/login" />;
-    }
+    console.log("Render app");
 
     if (this.state.loading)
     {
-      return(<div>loading</div>);
+      return(<div>loading app</div>);
     }
 
     return (
       <ErrorBoundary>
-        <AuthenticationContext.Provider value={auth.status}>
+        <AuthenticationContext.Provider value={auth}>
         <Router>
             <div>
               <Switch>

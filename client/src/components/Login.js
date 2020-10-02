@@ -14,23 +14,10 @@ export class LoginForm extends React.Component {
       loading: true
     };
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
-
-  handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
-    event.preventDefault();
+    this.submitter = this.submitter.bind(this);
   }
 
   componentDidMount() {
-    let auth = this.context;
-    console.log("in cdm");
-    console.log(auth);
     this.setState({ loading: false });
   }
 
@@ -53,6 +40,9 @@ export class LoginForm extends React.Component {
 
   submitter(values, { setSubmitting })
   {
+    console.log("Submitting");
+    let auth = this.context;
+
     setSubmitting(true);
     axios.post('/login', {
       email: values.email,
@@ -60,10 +50,11 @@ export class LoginForm extends React.Component {
     })
     .then(function (response) {
       // handle success
-      if (response.data.error == false)
+      if (response.data.error == "false")
       {
-          console.log(response.data);
-          this.context = true;                           
+        console.log("auth.status");
+        console.log(auth.status);
+        auth.status = true;
       }
     })
     .catch(function (error) {
@@ -84,7 +75,7 @@ export class LoginForm extends React.Component {
 
     if (this.state.loading)
     {
-      return <div>loading...</div>;
+      return <div>loading Login Form</div>;
     }
 
     return (<ErrorBoundary>

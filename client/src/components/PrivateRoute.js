@@ -9,7 +9,7 @@ export class PrivateRoute extends React.Component {
  
     render(){
         let isLoggedIn = this.context;
-        if (!isLoggedIn)
+        if (!isLoggedIn.status)
         {
             return(<Redirect to="/login"/>);
         }
