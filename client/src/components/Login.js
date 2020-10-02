@@ -1,4 +1,4 @@
-import React, { Component, useContext } from 'react';
+import React from 'react';
 import { Redirect } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
@@ -42,7 +42,7 @@ export class LoginForm extends React.Component {
   {
     console.log("Submitting");
     let auth = this.context;
-
+    let component = this;
     setSubmitting(true);
     axios.post('/login', {
       email: values.email,
@@ -55,6 +55,7 @@ export class LoginForm extends React.Component {
         console.log("auth.status");
         console.log(auth.status);
         auth.status = true;
+        component.setState({isSignedUp:true}); // Trigger re render
       }
     })
     .catch(function (error) {
@@ -68,8 +69,9 @@ export class LoginForm extends React.Component {
   }
 
   render() {
+    console.log("render Login");
     let auth = this.context;
-    if (auth) {
+    if (auth.status) {
       return <Redirect to="/" />;
     }
 

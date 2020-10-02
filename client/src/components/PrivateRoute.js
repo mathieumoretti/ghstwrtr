@@ -9,7 +9,9 @@ export class PrivateRoute extends React.Component {
  
     render(){
         let isLoggedIn = this.context;
-        if (!isLoggedIn.status)
+        console.log("render Private route");
+        console.log(this.context);
+        if (isLoggedIn.status === false)
         {
             return(<Redirect to="/login"/>);
         }

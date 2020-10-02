@@ -36,7 +36,8 @@ class App extends React.Component {
     auth.isAuthenticated()
       .then((res)=>{
         console.log("here");
-        auth.status = true;
+        console.log(res);
+        auth.status = res;
         this.setState({
           loading:false,
         });     

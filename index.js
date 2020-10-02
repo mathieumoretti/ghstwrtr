@@ -80,13 +80,17 @@ function IsLoggedIn(req, res, next) {
 app.get('/api/stories', storyController);
 app.get('/api/sentences', sentenceController);
 
-app.get('/logout', IsLoggedIn, (req) => {
+app.get('/logout', (req, res) => {
   if (utils.existy(req.session.email)) {
     req.session.destroy(() => {
       console.log('Logged out.');
+      res.json({ error: 'false', message: 'Logout success.' });
+      return;
     });
   } else {
     console.log('Not even logged in.');
+    res.json({ error: 'true', message: 'Not even logged in.' });
+    return;
   }
 });
 
