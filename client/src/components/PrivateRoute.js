@@ -8,33 +8,19 @@ import {AuthenticationContext} from "../utils/authentication";
 export class PrivateRoute extends React.Component {
  
     render(){
-        let auth = this.context;
-        let isLoggedIn = auth.isAuthenticated();
-        console.log(auth);    
+        let isLoggedIn = this.context;
+        console.log("render Private route");
+        console.log(this.context);
+        if (isLoggedIn.status === false)
+        {
+            return(<Redirect to="/login"/>);
+        }
+
         return (<Route {...this.props}>
-            {
-                isLoggedIn
-                ? (this.props.children)
-                : (<Redirect to="/login"/>)
-            }
+        {
+            (this.props.children)
+        }
         </Route>)
     }
 }
 PrivateRoute.contextType = AuthenticationContext;
-
-// function PrivateRoute({ children, ...rest }) {
-//   return (
-//     <Route
-//       {...rest}
-//       render={({ location }) =>
-//         false ? (
-//           children
-//         ) : (
-//           <Redirect            
-//             to="/login"
-//         />
-//         )
-//       }
-//     />
-//   );
-// }

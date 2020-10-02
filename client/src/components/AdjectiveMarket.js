@@ -44,7 +44,7 @@ export class AdjectiveMarket extends React.Component {
     //console.log("bob:");
     return (<ErrorBoundary>
       {this.state.loading
-        ? <div>loading...</div>
+        ? <div>loading adj...</div>
         :<div>
           <Masonry 
             className="my-masonry-grid"

@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //React
 import React, { useContext } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 let css = require("../css/newspaper.css");
 
 
@@ -17,13 +17,45 @@ import { Store } from "../components/Store"
 import { Stories } from "../components/Stories"
 import { LoginForm } from "../components/Login"
 import { PrivateRoute } from "../components/PrivateRoute"
-import {fakeAuth, AuthenticationContext} from "../utils/authentication";
+import {Auth, AuthenticationContext} from "../utils/authentication";
+
+let auth = new Auth();
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: true
+    };
+  }
+
+  componentDidMount()
+  {
+    console.log("app is mounted");
+    auth.isAuthenticated()
+      .then((res)=>{
+        console.log("here");
+        console.log(res);
+        auth.status = res;
+        this.setState({
+          loading:false,
+        });     
+      });
+  }
+
   render(){
+
+    console.log("Render app");
+
+    if (this.state.loading)
+    {
+      return(<div>loading app</div>);
+    }
+
     return (
       <ErrorBoundary>
-        <AuthenticationContext.Provider value={fakeAuth}>
+        <AuthenticationContext.Provider value={auth}>
         <Router>
             <div>
               <Switch>

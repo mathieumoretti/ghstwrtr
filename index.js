@@ -76,16 +76,18 @@ function IsLoggedIn(req, res, next) {
   next();
 }
 
-app.get('/api/stories', storyController);
-app.get('/api/sentences', sentenceController);
+app.get('/api/stories', IsLoggedIn, storyController);
+app.get('/api/sentences', IsLoggedIn, sentenceController);
 
-app.get('/logout', IsLoggedIn, (req) => {
+app.get('/logout', (req, res) => {
   if (utils.existy(req.session.email)) {
     req.session.destroy(() => {
       console.log('Logged out.');
+      res.json({ error: 'false', message: 'Logout success.' });
     });
   } else {
     console.log('Not even logged in.');
+    res.json({ error: 'true', message: 'Not even logged in.' });
   }
 });
 
@@ -117,7 +119,7 @@ app.post('/login', (req, res) => {
 });
 
 // send the user to index html page inspite of the url
-app.get('*', IsLoggedIn, (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'app.html'));
 });
 

@@ -30,7 +30,7 @@ export class Store extends React.Component {
     //console.log("bob:");
     return (<ErrorBoundary>
       {this.state.loading
-        ? <div>loading...</div>
+        ? <div>loading sto...</div>
         :<div>
         <div className="card-columns">
         {
