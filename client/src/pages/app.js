@@ -42,6 +42,12 @@ class App extends React.Component {
   }
 
   render(){
+
+    let auth = this.context;
+    if (auth) {
+      return <Redirect to="/login" />;
+    }
+
     if (this.state.loading)
     {
       return(<div>loading</div>);

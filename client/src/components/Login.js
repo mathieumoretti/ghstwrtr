@@ -9,7 +9,6 @@ export class LoginForm extends React.Component {
   constructor(props) {
 
     super(props);
-
     this.state = {
       isSignedUp: false,
       loading: true
@@ -29,6 +28,9 @@ export class LoginForm extends React.Component {
   }
 
   componentDidMount() {
+    let auth = this.context;
+    console.log("in cdm");
+    console.log(auth);
     this.setState({ loading: false });
   }
 
@@ -36,62 +38,64 @@ export class LoginForm extends React.Component {
     console.log("unmounting");
   }
 
+  validator(values)
+  {
+    const errors = {};
+    if (!values.email) {
+      errors.email = 'Required';
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+    ) {
+      errors.email = 'Invalid email address';
+    }
+    return errors;
+  }
+
+  submitter(values, { setSubmitting })
+  {
+    setSubmitting(true);
+    axios.post('/login', {
+      email: values.email,
+      password: values.password
+    })
+    .then(function (response) {
+      // handle success
+      if (response.data.error == false)
+      {
+          console.log(response.data);
+          this.context = true;                           
+      }
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+      setSubmitting(false);
+    });
+  }
+
   render() {
-    let component = this;
     let auth = this.context;
-    console.log("form");
-    console.log(auth);
     if (auth) {
       return <Redirect to="/" />;
     }
 
+    if (this.state.loading)
+    {
+      return <div>loading...</div>;
+    }
+
     return (<ErrorBoundary>
-      {
-      this.state.isSignedUp 
-      ? <Redirect to='/'/>
-      : this.state.loading
-        ? <div>loading...</div>
-        : <div className="jumbotron bg-white">
-              <h1 className="display-5">Log In</h1>
-                <Formik
-                      initialValues={{ email: '', password: '' }}
-                      validate={values => {
-                        const errors = {};
-                        if (!values.email) {
-                          errors.email = 'Required';
-                        } else if (
-                          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                        ) {
-                          errors.email = 'Invalid email address';
-                        }
-                        return errors;
-                      }}
-                      onSubmit={(values, { setSubmitting }) => {
-                        setSubmitting(true);
-                        axios.post('/login', {
-                          email: values.email,
-                          password: values.password
-                        })
-                        .then(function (response) {
-                          // handle success
-                          if (response.data.error == false)
-                          {
-                              console.log(response.data);
-                              // auth.authenticate(()=>{
-                              //   component.setState({isSignedUp:true})
-                              // })                              
-                          }
-                        })
-                        .catch(function (error) {
-                          // handle error
-                          console.log(error);
-                        })
-                        .then(function () {
-                          // always executed
-                          setSubmitting(false);
-                        });
-                      }}
-                    >
+      {         
+        <div className="jumbotron bg-white">
+          <h1 className="display-5">Log In</h1>
+            <Formik
+                  initialValues={{ email: '', password: '' }}
+                  validate={this.validator}
+                  onSubmit={this.submitter}
+                >
             {({ isSubmitting }) => (
               <Form>
                   <div className='form-group'>
