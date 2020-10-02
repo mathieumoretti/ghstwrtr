@@ -28,17 +28,12 @@ export class Stories extends React.Component {
         .then(response => response.json())
         .then(data => {
             this.setState({ story: data })
-            console.log("alice:");
-            this.setState({ loading: false })
         }).catch(()=>{
-          console.log("alice is mad:");
         });
   }
 
   render() {
     var newspaper = this.state.story;
-    console.log("bob:");
-    console.log(newspaper);
     return (<ErrorBoundary>
       {this.state.loading
         ? <div>loading...</div>
