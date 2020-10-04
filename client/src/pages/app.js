@@ -12,10 +12,12 @@ let css = require("../css/newspaper.css");
 
 import { AdjectiveMarket } from "../components/AdjectiveMarket"
 import  Banner  from "../components/Banner"
+import { LoginForm } from "../components/Login"
 import { Menu } from "../components/Menu"
 import { Store } from "../components/Store"
 import { Stories } from "../components/Stories"
-import { LoginForm } from "../components/Login"
+import { Workbench } from "../components/Workbench"
+
 import { PrivateRoute } from "../components/PrivateRoute"
 import {Auth, AuthenticationContext} from "../utils/authentication";
 
@@ -68,6 +70,11 @@ class App extends React.Component {
                     <Menu />
                     <Banner />
                     <AdjectiveMarket />
+                </PrivateRoute>
+                <PrivateRoute path="/workbench">
+                    <Menu />
+                    <Banner />
+                    <Workbench />
                 </PrivateRoute>
                 < PrivateRoute path="/" exact>
                     <Menu />

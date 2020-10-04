@@ -46,6 +46,9 @@ export class Menu extends Component {
           <li className="nav-item">
             <Link className="nav-link" to="/adjective">Adjective</Link>
           </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/workbench">Workbench</Link>
+          </li>
           <li className="nav-item dropdown">
             <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Dropdown

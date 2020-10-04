@@ -71,7 +71,7 @@ function IsLoggedIn(req, res, next) {
   console.log('Time:', Date.now());
   // create new session object.
   if (!InternalIsLoggedIn(req)) {
-    res.json({ error: 'true', message: 'Login failed! Please register.' });
+    return res.json({ error: 'true', message: 'Login failed! Please register.' });
   }
   next();
 }
