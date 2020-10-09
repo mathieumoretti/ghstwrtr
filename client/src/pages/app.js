@@ -93,6 +93,9 @@ class App extends React.Component {
                 </PrivateRoute>
                 <PrivateRoute path="/adjective">
                     <Menu />
+                </PrivateRoute>
+                <PrivateRoute path="/adjective">
+                    <Menu />
                     <Banner />
                     <AdjectiveMarket />
                 </PrivateRoute>
