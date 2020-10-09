@@ -49,8 +49,16 @@ export class Workbench extends React.Component {
         .then(data => {          
           let doc = nlp(data.sentences.join(' '));
           let sentences = doc.sentences();
-          this.setState({ fragments: sentences })
+
+          let frag = sentences.list;
+          let ngram = multipleNgrams(frag[0].terms(), 5, 9);
+          console.log(ngram);
+
+          this.setState({ fragments: ngram })
           this.setState({ loading: false })
+
+
+
         }).catch((e)=>{
           console.log("alice is mad:" + e);
         });
@@ -63,23 +71,22 @@ export class Workbench extends React.Component {
       return <div>loading Workbench...</div>;
     }
 
-    let frag = this.state.fragments.list;
-    let ngram = multipleNgrams(frag[0].terms(), 5, 9);
-    console.log(ngram);
-
     return (<ErrorBoundary>
-      {<div>{
-          <div>
-            {
-              ngram.map(
-                (val,index)=>{
-                  return <div key={index}>{ 
-                      val.map((x)=>x.text).join(' ')
-                    }</div>
-                })
-            }
-          </div>
-        }</div>
+      {<div className="jumbotron bg-white">
+          <h1 className="display-5">Workbench</h1>
+          <div>{
+            <div>
+              {
+                this.state.fragments.map(
+                  (val,index)=>{
+                    return <div key={index}>{ 
+                        val.map((x)=>x.text).join(' ')
+                      }</div>
+                  })
+              }
+            </div>
+          }</div>
+        </div>
       }</ErrorBoundary>
     );
   }

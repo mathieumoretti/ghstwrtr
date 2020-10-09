@@ -73,7 +73,6 @@ class App extends React.Component {
                 </PrivateRoute>
                 <PrivateRoute path="/workbench">
                     <Menu />
-                    <Banner />
                     <Workbench />
                 </PrivateRoute>
                 < PrivateRoute path="/" exact>
