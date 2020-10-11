@@ -72,6 +72,7 @@
     "node-html-parser": "^1.2.12",
     "pg": "7.6.1",
     "popper": "^1.0.1",
+    "popper.js": "^1.16.1",
     "pug": "^2.0.3",
     "pug-loader": "^2.4.0",
     "react": "^16.13.1",

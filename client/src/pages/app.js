@@ -9,6 +9,8 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 let css = require("../css/newspaper.css");
 
+import 'bootstrap/dist/js/bootstrap.js'
+
 
 import { AdjectiveMarket } from "../components/AdjectiveMarket"
 import  Banner  from "../components/Banner"
