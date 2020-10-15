@@ -31,7 +31,8 @@ export class StoryBoard extends React.Component {
       return <div>loading StoryBoard</div>;
     }
 
-    return (<div className="card">
+    return (<div>
+      <div className="card">
         <div className="card-body">
           <h5 className="card-title">{this.state.story.headline}</h5>
           <p className="card-text">{this.state.story.content}</p>
@@ -44,6 +45,7 @@ export class StoryBoard extends React.Component {
           </div>
         </div>
       </div>
+    </div>    
     );
   }
 }

@@ -14,12 +14,14 @@ import 'bootstrap/dist/js/bootstrap.js'
 
 import { AdjectiveMarket } from "../components/AdjectiveMarket"
 import  Banner  from "../components/Banner"
+import { LoginForm } from "../components/Login"
 import { Menu } from "../components/Menu"
+import { PrivateRoute } from "../components/PrivateRoute"
 import { Store } from "../components/Store"
 import { StoryBoard } from "../components/StoryBoard"
 import { Stories } from "../components/Stories"
-import { LoginForm } from "../components/Login"
-import { PrivateRoute } from "../components/PrivateRoute"
+import { Workbench } from "../components/Workbench"
+
 import {Auth, AuthenticationContext} from "../utils/authentication";
 
 let auth = new Auth();
@@ -42,6 +44,11 @@ function StoryRoute()
   console.log(`storyId:${storyId}`);
   return(<div>
     <StoryBoard id={storyId} />
+    <div className="card">
+        <div className="card-body">
+          <Workbench/>
+        </div>
+      </div>
   </div>);
 }
 
@@ -91,8 +98,9 @@ class App extends React.Component {
                     <Menu />
                     <StoryRoute></StoryRoute>
                 </PrivateRoute>
-                <PrivateRoute path="/adjective">
+                <PrivateRoute path="/workbench">
                     <Menu />
+                    <Workbench/>
                 </PrivateRoute>
                 <PrivateRoute path="/adjective">
                     <Menu />

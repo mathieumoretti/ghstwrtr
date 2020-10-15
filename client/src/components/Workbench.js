@@ -44,9 +44,10 @@ export class Workbench extends React.Component {
 
   componentDidMount() {
     // Simple GET request using fetch
-    fetch('api/sentences')
+    fetch('/api/sentences')
         .then(response => response.json())
-        .then(data => {          
+        .then(data => {    
+          console.log("sup");
           let doc = nlp(data.sentences.join(' '));
           let sentences = doc.sentences();
 
@@ -72,8 +73,7 @@ export class Workbench extends React.Component {
     }
 
     return (<ErrorBoundary>
-      {<div className="jumbotron bg-white">
-          <h1 className="display-5">Workbench</h1>
+      {<div className="jumbotron bg-white">          
           <div>{
             <div>
               {
