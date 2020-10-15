@@ -51,13 +51,9 @@ const storyController = require('./controllers/storyController');
 const sentenceController = require('./controllers/sentenceController');
 
 // static files
-const options = {
-  index: 'app.html',
-};
-app.use(express.static(path.join(__dirname, 'dist'), options));
+app.use(express.static(path.join(__dirname, '/dist')));
 
 // routes
-
 function InternalIsLoggedIn(req) {
   if (!utils.existy(req.session.email)) {
     console.log('Not logged in.');
@@ -118,8 +114,12 @@ app.post('/login', (req, res) => {
   }
 });
 
-// send the user to index html page inspite of the url
+// send the user to index html page inspite of the url`
 app.get('*', (req, res) => {
+  // console.log('Normal');
+  // console.log(`Original Url:${req.originalUrl}`);
+  // console.log(`Referrer:${req.get('Referrer')}`);
+  // console.log(`File sent:${path.join(path.resolve(__dirname, 'dist'), 'app.html')}`);
   res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'app.html'));
 });
 

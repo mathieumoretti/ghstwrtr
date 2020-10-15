@@ -42,7 +42,8 @@ const htmlPlugins = pugFiles.map( filePath => {
   return new HtmlWebPackPlugin({
     chunks:[fileName.replace(path.extname(fileName), "")],
     template: path.join(REL_TEMPLATE_DIR, fileName),
-    filename: fileName.replace(path.extname(fileName), ".html")
+    filename: fileName.replace(path.extname(fileName), ".html"),
+    favicon: path.join(ABS_CLIENT_DIR, "favicon.ico"),
   })
 });
 
@@ -51,6 +52,7 @@ const config = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: "[name].bundle.js",
+    publicPath: '/'
   },
   plugins: [...htmlPlugins],
   devServer: {
@@ -59,9 +61,12 @@ const config = {
       '/**': {
         target: 'http://localhost:3333',
         secure: false,
-        changeOrigin: true,
-      }
+        changeOrigin: true,        
+      },      
     },
+    historyApiFallback: true,
+      contentBase: './',
+      hot: true
   },
   module: {
     rules: [

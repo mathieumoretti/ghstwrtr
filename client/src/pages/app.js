@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //React
 import React, { useContext } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, useLocation} from "react-router-dom";
 let css = require("../css/newspaper.css");
 
 import 'bootstrap/dist/js/bootstrap.js'
@@ -22,6 +22,18 @@ import { PrivateRoute } from "../components/PrivateRoute"
 import {Auth, AuthenticationContext} from "../utils/authentication";
 
 let auth = new Auth();
+
+function NoMatch() {
+  let location = useLocation();
+
+  return (
+    <div>
+      <h3>
+        No match for <code>{location.pathname}</code>
+      </h3>
+    </div>
+  );
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -81,7 +93,10 @@ class App extends React.Component {
                       <Banner />
                       <LoginForm></LoginForm>   
                     </div>                
-                }/> 
+                }/>
+                <Route>
+                  <NoMatch />
+                </Route>      
               </Switch>
             </div>
         </Router>  
