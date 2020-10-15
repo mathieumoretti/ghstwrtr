@@ -112,8 +112,8 @@ stories = makeStories(NUMBER_OF_STORIES);
 module.exports = 
 {
   storyController: (req, res) => {
-    if (utils.existy(req.params) && utils.existy(req.params.storyId))
-      res.json(stories[req.params.storyId]);
+    if (utils.existy(req.params) && utils.existy(req.params.storyId - 1))
+      res.json(stories[req.params.storyId - 1]);
     else    
       res.json(stories[0]);
   },
