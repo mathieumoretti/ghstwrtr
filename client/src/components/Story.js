@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import {
+    Link
+  } from "react-router-dom";
 
 export class Story extends React.Component {
     render() {
@@ -9,7 +12,9 @@ export class Story extends React.Component {
               <div className="card-text text-center">                  
                 <p><small > Last updated 3 mins ago </small></p>
                 <p>
-                    <span><a href="#" className="card-link text-center"> Contribute </a></span>
+                    <span>
+                        <Link className="card-link text-center" to={`/story/${this.props.story.id}`} >Contribute</Link>    
+                    </span>
                     <span><div className="glyphicon glyphicon-chevron-up text-center"></div></span>
                     <span><div className="glyphicon glyphicon-chevron-down text-center"></div></span>
                 </p>

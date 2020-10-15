@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //React
 import React, { useContext } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route, Switch, useLocation} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, useLocation, useParams} from "react-router-dom";
 let css = require("../css/newspaper.css");
 
 import 'bootstrap/dist/js/bootstrap.js'
@@ -16,6 +16,7 @@ import { AdjectiveMarket } from "../components/AdjectiveMarket"
 import  Banner  from "../components/Banner"
 import { Menu } from "../components/Menu"
 import { Store } from "../components/Store"
+import { StoryBoard } from "../components/StoryBoard"
 import { Stories } from "../components/Stories"
 import { LoginForm } from "../components/Login"
 import { PrivateRoute } from "../components/PrivateRoute"
@@ -33,6 +34,15 @@ function NoMatch() {
       </h3>
     </div>
   );
+}
+
+function StoryRoute()
+{
+  let { storyId } = useParams();
+  console.log(`storyId:${storyId}`);
+  return(<div>
+    <StoryBoard id={storyId} />
+  </div>);
 }
 
 class App extends React.Component {
@@ -59,7 +69,6 @@ class App extends React.Component {
   }
 
   render(){
-
     console.log("Render app");
 
     if (this.state.loading)
@@ -77,6 +86,10 @@ class App extends React.Component {
                     <Menu />
                     <Banner />
                     <Store />
+                </PrivateRoute>
+                <PrivateRoute path="/story/:storyId">
+                    <Menu />
+                    <StoryRoute></StoryRoute>
                 </PrivateRoute>
                 <PrivateRoute path="/adjective">
                     <Menu />

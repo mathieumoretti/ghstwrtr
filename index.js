@@ -47,7 +47,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // add routes
-const storyController = require('./controllers/storyController');
+const { storiesController } = require('./controllers/storiesController');
+const { storyController } = require('./controllers/storiesController');
 const sentenceController = require('./controllers/sentenceController');
 
 // static files
@@ -72,7 +73,8 @@ function IsLoggedIn(req, res, next) {
   next();
 }
 
-app.get('/api/stories', IsLoggedIn, storyController);
+app.get('/api/stories', IsLoggedIn, storiesController);
+app.get('/api/story/:storyId', IsLoggedIn, storyController);
 app.get('/api/sentences', IsLoggedIn, sentenceController);
 
 app.get('/logout', (req, res) => {
