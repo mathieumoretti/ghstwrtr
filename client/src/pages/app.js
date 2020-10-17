@@ -13,6 +13,7 @@ import 'bootstrap/dist/js/bootstrap.js'
 
 
 import { AdjectiveMarket } from "../components/AdjectiveMarket"
+import  AppMenuBar  from "../components/AppMenuBar"
 import  Banner  from "../components/Banner"
 import { LoginForm } from "../components/Login"
 import { Menu } from "../components/Menu"
@@ -90,26 +91,23 @@ class App extends React.Component {
             <div>
               <Switch>
                 <PrivateRoute path="/store">
-                    <Menu />
-                    <Banner />
+                    <AppMenuBar />
                     <Store />
                 </PrivateRoute>
                 <PrivateRoute path="/story/:storyId">
-                    <Menu />
+                    <AppMenuBar />
                     <StoryRoute></StoryRoute>
                 </PrivateRoute>
                 <PrivateRoute path="/workbench">
-                    <Menu />
+                    <AppMenuBar />
                     <Workbench/>
                 </PrivateRoute>
                 <PrivateRoute path="/adjective">
-                    <Menu />
-                    <Banner />
+                    <AppMenuBar />
                     <AdjectiveMarket />
                 </PrivateRoute>
                 < PrivateRoute path="/" exact>
-                    <Menu />
-                    <Banner />
+                    <AppMenuBar />
                     <Stories />
                 </PrivateRoute>
                 <Route path="/login"  render={() =>
