@@ -13,10 +13,9 @@ import 'bootstrap/dist/js/bootstrap.js'
 
 
 import { AdjectiveMarket } from "../components/AdjectiveMarket"
-import  AppMenuBar  from "../components/AppMenuBar"
+import   AppMenuBar  from "../components/AppMenuBar"
 import  Banner  from "../components/Banner"
 import { LoginForm } from "../components/Login"
-import { Menu } from "../components/Menu"
 import { PrivateRoute } from "../components/PrivateRoute"
 import { Store } from "../components/Store"
 import { StoryBoard } from "../components/StoryBoard"
