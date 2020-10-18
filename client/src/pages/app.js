@@ -13,8 +13,9 @@ import 'bootstrap/dist/js/bootstrap.js'
 
 
 import { AdjectiveMarket } from "../components/AdjectiveMarket"
-import   AppMenuBar  from "../components/AppMenuBar"
+import  AppMenuBar  from "../components/AppMenuBar"
 import  Banner  from "../components/Banner"
+import Container from '@material-ui/core/Container';
 import { LoginForm } from "../components/Login"
 import { PrivateRoute } from "../components/PrivateRoute"
 import { Store } from "../components/Store"
@@ -85,6 +86,8 @@ class App extends React.Component {
 
     return (
       <ErrorBoundary>
+        <Container maxWidth='xl'>
+         
         <AuthenticationContext.Provider value={auth}>
         <Router>
             <div>
@@ -122,6 +125,7 @@ class App extends React.Component {
             </div>
         </Router>  
         </AuthenticationContext.Provider>
+        </Container>
       </ErrorBoundary>
     );
   }
