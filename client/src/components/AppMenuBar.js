@@ -49,7 +49,7 @@ class HigherOrderComponent extends React.Component {
     return (<div className={classes.root}>
       <AppBar style={{ background: '#2E3B55' }} position="static">
         <Toolbar>
-          <Typography variant="h4" className={classes.title}>
+          <Typography variant="h5" className={classes.title}>
             Ghstwrtr
           </Typography>
           <Badge badgeContent={0}>       
@@ -63,13 +63,13 @@ class HigherOrderComponent extends React.Component {
              <MoneyIcon style={{ color: 'white' }}/>
            </IconButton>
          </Badge>
-         <Badge color="inherit" badgeContent={0}>
+         <Badge color="default" badgeContent={0}>
            <IconButton component={Link} to='/workbench'>
              <LibraryBooksIcon style={{ color: 'white' }}/>
            </IconButton>
          </Badge>       
          <Avatar alt="Admin" src="/favicon.ico" />
-         <Button color="inherit" onClick={
+         <Button onClick={
              (event) =>
              { 
                console.log("Signing out")        

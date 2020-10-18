@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Masonry from 'react-masonry-component';
 import nlp from "compromise";
 

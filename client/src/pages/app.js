@@ -7,23 +7,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch, useLocation, useParams} from "react-router-dom";
-let css = require("../css/newspaper.css");
-
-import 'bootstrap/dist/js/bootstrap.js'
-
 
 import { AdjectiveMarket } from "../components/AdjectiveMarket"
 import  AppMenuBar  from "../components/AppMenuBar"
 import  Banner  from "../components/Banner"
-import Container from '@material-ui/core/Container';
+
+import { ErrorBoundary } from "../components/ErrorBoundary"
 import { LoginForm } from "../components/Login"
 import { PrivateRoute } from "../components/PrivateRoute"
 import { Store } from "../components/Store"
 import { StoryBoard } from "../components/StoryBoard"
 import { Stories } from "../components/Stories"
-import { Workbench } from "../components/Workbench"
-
+import Workbench from "../components/Workbench"
 import {Auth, AuthenticationContext} from "../utils/authentication";
+
+import Container from '@material-ui/core/Container';
 
 let auth = new Auth();
 
@@ -130,33 +128,4 @@ class App extends React.Component {
     );
   }
 }
-
-
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error) {
-    // Mettez à jour l'état, de façon à montrer l'UI de repli au prochain rendu.
-    return { hasError: true };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    // Vous pouvez aussi enregistrer l'erreur au sein d'un service de rapport.
-    //logErrorToMyService(error, errorInfo);
-    console.log(error);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      // Vous pouvez afficher n'importe quelle UI de repli.
-      return <h1>Something went wrong.</h1>;
-    }
-
-    return this.props.children;
-  }
-}
-
 ReactDOM.render(<App />, document.querySelector("app"));
