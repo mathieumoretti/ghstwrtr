@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import nlp from "compromise";
 
+import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 
 import TextField from '@material-ui/core/TextField';
 import { ErrorBoundary } from "../components/ErrorBoundary"
@@ -42,7 +42,6 @@ function multipleNgrams(array, minLength, maxLength)
 
   return ngramsArray;
 }
-
 
 const styles = theme => ({
   root: {
@@ -95,17 +94,23 @@ class Workbench extends React.Component {
 
     return (<ErrorBoundary>
       <form className={classes.root} noValidate autoComplete="off">
-        <TextField id="outlined-basic" disabled variant="outlined" />
+        <TextField id="outlined-basic" disabled variant="outlined">
+          Yo
+        </TextField>
       </form>
       <List className={classes.root} subheader={<li />}>
-      <ListSubheader>{`Workbench`}</ListSubheader>
-        { this.state.fragments.map( (val,index)=>{             
-            return <ListItem key={index} onMouseEnter={
-              (x)=>{console.log(x)}
-            }>{ 
-                val.map((x)=>x.text).join(' ')
+        <ListSubheader>{`Workbench`}</ListSubheader>
+          { 
+            this.state.fragments.map( (val,index)=>{             
+              return (<div><ListItem 
+                        key={index} 
+                        onMouseEnter={(x)=>{console.log(x)}}
+                      >{ 
+                  val.map((x)=>x.text).join(' ')
               }</ListItem>
-        }) }
+              <Divider light /></div>);
+              
+          }) }
          
         </List>
       </ErrorBoundary>

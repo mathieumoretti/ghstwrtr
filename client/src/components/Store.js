@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Avatar from '@material-ui/core/Avatar';
-import Badge from '@material-ui/core/Badge';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import Masonry from 'react-masonry-component';
 
 import { Sentence } from "./Sentence";
 import {ErrorBoundary} from "./ErrorBoundary";
+
+const masonryOptions = {
+  gutter: 30,
+  horizontalOrder: true,
+  columnWidth: 20,
+};
 
 export class Store extends React.Component {
   constructor(props) {
@@ -28,32 +26,35 @@ export class Store extends React.Component {
         .then(response => response.json())
         .then(data => {
             this.setState({ sentences: data })
-            // console.log("alice:");
             this.setState({ loading: false })
         }).catch(()=>{
-          // console.log("alice is mad:");
         });
   }
 
   render() {
     var store = this.state.sentences;
-    //console.log("bob:");
-    return (<ErrorBoundary>
-      {this.state.loading
-        ? <div>loading sto...</div>
-        :<div>
-        <div className="card-columns">
-        {
-          Object.keys(store.sentences).map((item,index) => {
-            //console.log(store.sentences[item]);
-            return(
 
-              <Sentence key={index} sentence={store.sentences[item]}></Sentence>
-            )
-        })}
+    if (this.state.loading){
+      return (<div>loading store</div>)
+    }
+ 
+    const childElements = store.sentences.map((index,item)=>{
+      return (
+        <Sentence key={index} sentence={store.sentences[item]}></Sentence>
+     );
+    });
+
+    return (
+      <ErrorBoundary>
+      { <div>
+          <Masonry          
+              className={'my-gallery-class'} // default ''
+              options={masonryOptions} // default {}              
+          >
+              {childElements}
+          </Masonry>
         </div>
-      </div>
-      }</ErrorBoundary>
+      }</ErrorBoundary>    
     );
   }
 }

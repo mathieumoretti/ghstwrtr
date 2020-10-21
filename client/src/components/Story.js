@@ -1,7 +1,5 @@
-import React, { Component } from 'react';
-import {
-    Link
-  } from "react-router-dom";
+import React from 'react';
+import { Link } from "react-router-dom";
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -10,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+
 import CreateIcon from '@material-ui/icons/Create';
 
 const style = {
@@ -27,8 +26,8 @@ export class Story extends React.Component {
                 <Card variant="outlined" >
                   <CardHeader
                   title={this.props.story.headline}
-                  subheader={this.props.story.authors}>
-                    <h5 className="card-title">{this.props.story.headline}</h5>
+                  subheader={`by ${this.props.story.authors}`}>
+                    <h5>{this.props.story.headline}</h5>
                   </CardHeader>
                   <CardContent style={{overflow: "hidden" }} >
                     <Typography  variant="body1" color="textPrimary" component="p">
@@ -42,8 +41,6 @@ export class Story extends React.Component {
                   </CardActions>
                 </Card>   
       </Paper>
-      
-     
       );
     }
 }

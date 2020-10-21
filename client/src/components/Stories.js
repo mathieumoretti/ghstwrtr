@@ -38,7 +38,7 @@ export class Stories extends React.Component {
         return (<div>loading stories...</div>)
       }
 
-      var newspaper = this.state.story;      
+      var newspaper = this.state.story;
       const childElements = newspaper.secondaryStories.map((element)=>{
         console.log(element);
         return (
@@ -48,15 +48,15 @@ export class Stories extends React.Component {
 
       return (
         <ErrorBoundary>
-       {<div>
-          <Masonry          
-              className={'my-gallery-class'} // default ''
-              options={masonryOptions} // default {}              
-          >
-              {childElements}
-          </Masonry>
-        </div>
-    }</ErrorBoundary>
+        { <div>
+            <Masonry          
+                className={'my-gallery-class'} // default ''
+                options={masonryOptions} // default {}              
+            >
+                {childElements}
+            </Masonry>
+          </div>
+      }</ErrorBoundary>
     );
     }
 }

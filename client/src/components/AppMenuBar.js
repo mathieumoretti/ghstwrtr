@@ -52,9 +52,9 @@ class HigherOrderComponent extends React.Component {
           <Typography variant="h5" className={classes.title}>
             Ghstwrtr
           </Typography>
-          <Badge badgeContent={0}>       
+          <Badge badgeContent={0}>
               <IconButton component={Link} to='/'>
-              <CreateIcon style={{ color: 'white' }}/>
+                <CreateIcon style={{ color: 'white' }}/>
               </IconButton>
           </Badge> 
   

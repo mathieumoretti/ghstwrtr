@@ -1,17 +1,10 @@
-// icons
-let icons = require('webpack-icons-installer');   //load ALL icons  //load only bootstrap glyphicons
-
-// css files
-import 'bootstrap/dist/css/bootstrap.min.css';
 //React
-import React, { useContext } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch, useLocation, useParams} from "react-router-dom";
 
 import { AdjectiveMarket } from "../components/AdjectiveMarket"
 import  AppMenuBar  from "../components/AppMenuBar"
-import  Banner  from "../components/Banner"
-
 import { ErrorBoundary } from "../components/ErrorBoundary"
 import { LoginForm } from "../components/Login"
 import { PrivateRoute } from "../components/PrivateRoute"
@@ -22,6 +15,7 @@ import Workbench from "../components/Workbench"
 import {Auth, AuthenticationContext} from "../utils/authentication";
 
 import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 
 let auth = new Auth();
 
@@ -42,12 +36,15 @@ function StoryRoute()
   let { storyId } = useParams();
   console.log(`storyId:${storyId}`);
   return(<div>
-    <StoryBoard id={storyId} />
-    <div className="card">
-        <div className="card-body">
-          <Workbench/>
-        </div>
-      </div>
+    <Grid container alignItems="center" spacing={3}>
+      <Grid item xs={6}>
+        <StoryBoard id={storyId} /> 
+      </Grid>
+      <Grid item xs={6}>
+      <Workbench/>
+      </Grid>
+    </Grid>
+
   </div>);
 }
 
@@ -112,7 +109,6 @@ class App extends React.Component {
                 </PrivateRoute>
                 <Route path="/login"  render={() =>
                     <div>
-                      <Banner />
                       <LoginForm></LoginForm>   
                     </div>                
                 }/>

@@ -32,10 +32,7 @@ export class StoryBoard extends React.Component {
       return <div>loading StoryBoard</div>;
     }
 
-    return (<Story
-            story={this.state.story}>
-              
-            </Story>
+    return (<Story story={this.state.story}></Story>
     );
   }
 }
