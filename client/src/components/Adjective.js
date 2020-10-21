@@ -3,7 +3,26 @@ import React, { Component } from 'react';
 
 import CountdownTimer from "./CountdownTimer";
 
-const aStyle={marginBottom: "10px"};
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+
+import EuroIcon from '@material-ui/icons/Euro';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import TimerIcon from '@material-ui/icons/Timer';
+
+const style = {
+    width: 300,
+    margin: 5,
+    textAlign: "center",
+    display: "inline-block",
+    boxShadow:
+      "0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22)",
+  };
 
 
 export class Adjective extends React.Component {
@@ -17,48 +36,43 @@ export class Adjective extends React.Component {
     }
 
     buy() {
-        console.log("buy");
         this.setState({ isBought: true })
     }
 
     render() {        
-      return (        
-     <div className="card" style={aStyle}>
-        <div className="card-header">
-          </div>
-          <div className="card-body">
-            <h5 className="card-title">{this.props.adjective}</h5>
-            <br></br>
-            <table className="table table-light table-sm text-center">
-            <tbody>
-                <tr>
-                    <th scope="col"> 
-                        <span className="glyphicon glyphicon-heart"></span>
-                        <span className="badge badge-light">100</span>
-                    </th>
-                    <th scope="col"> 
-                        <span className="glyphicon glyphicon-yen"></span>
-                        <span className="badge badge-light">9</span>
-                    </th>
-                    <th scope="col">
-                    <span className="glyphicon glyphicon glyphicon-time"></span>
-                        <span className="badge badge-light"><CountdownTimer /></span>
-                    </th>
-                </tr>
-                <tr>
-                    <td colSpan="3" scope="col">
-                    <button className="btn btn-outline-dark btn-block" onClick={this.buy} > {this.state.isBought
-        ? "Bought!": "Buy"}</button> 
-                    </td>
-                </tr>
-            </tbody>
-            </table>
-          </div>
-          <div className="card-footer">
-            
-          </div>
-          
-        </div>
+      return (
+            <Paper style={style} zDepth={1}>
+                <Card variant="outlined" >
+                    <CardHeader>                   
+                    </CardHeader>
+                    <CardContent style={{overflow: "hidden" }} >
+                        <Grid container alignItems="center" spacing={3}> 
+                            <Grid item xs={12}>
+                                <Typography variant='h6'>{this.props.adjective}</Typography>
+                            </Grid>                                             
+                            <Grid item xs={4}>
+                                <FavoriteBorderIcon />
+                                <Typography>100</Typography>
+                            </Grid>
+                            <Grid item xs={4}>                            
+                                <EuroIcon />
+                                <Typography>9</Typography>                          
+                            </Grid>
+                            <Grid item xs={4}>                            
+                                <TimerIcon />
+                                <Typography>
+                                    <CountdownTimer />
+                                </Typography> 
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button onClick={this.buy} color="primary">
+                                    {this.state.isBought ? "Bought!": "Buy"}
+                                </Button> 
+                            </Grid>   
+                        </Grid>                    
+                    </CardContent>
+                </Card> 
+            </Paper>
         );
     }
 }

@@ -1,28 +1,21 @@
-// icons
-let icons = require('webpack-icons-installer');   //load ALL icons  //load only bootstrap glyphicons
-
-// css files
-import 'bootstrap/dist/css/bootstrap.min.css';
 //React
-import React, { useContext } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch, useLocation, useParams} from "react-router-dom";
-let css = require("../css/newspaper.css");
-
-import 'bootstrap/dist/js/bootstrap.js'
-
 
 import { AdjectiveMarket } from "../components/AdjectiveMarket"
-import  Banner  from "../components/Banner"
+import  AppMenuBar  from "../components/AppMenuBar"
+import { ErrorBoundary } from "../components/ErrorBoundary"
 import { LoginForm } from "../components/Login"
-import { Menu } from "../components/Menu"
 import { PrivateRoute } from "../components/PrivateRoute"
 import { Store } from "../components/Store"
 import { StoryBoard } from "../components/StoryBoard"
 import { Stories } from "../components/Stories"
-import { Workbench } from "../components/Workbench"
-
+import Workbench from "../components/Workbench"
 import {Auth, AuthenticationContext} from "../utils/authentication";
+
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 
 let auth = new Auth();
 
@@ -43,12 +36,15 @@ function StoryRoute()
   let { storyId } = useParams();
   console.log(`storyId:${storyId}`);
   return(<div>
-    <StoryBoard id={storyId} />
-    <div className="card">
-        <div className="card-body">
-          <Workbench/>
-        </div>
-      </div>
+    <Grid container alignItems="center" spacing={3}>
+      <Grid item xs={6}>
+        <StoryBoard id={storyId} /> 
+      </Grid>
+      <Grid item xs={6}>
+      <Workbench/>
+      </Grid>
+    </Grid>
+
   </div>);
 }
 
@@ -85,36 +81,34 @@ class App extends React.Component {
 
     return (
       <ErrorBoundary>
+        <Container maxWidth='xl'>
+         
         <AuthenticationContext.Provider value={auth}>
         <Router>
             <div>
               <Switch>
                 <PrivateRoute path="/store">
-                    <Menu />
-                    <Banner />
+                    <AppMenuBar />
                     <Store />
                 </PrivateRoute>
                 <PrivateRoute path="/story/:storyId">
-                    <Menu />
+                    <AppMenuBar />
                     <StoryRoute></StoryRoute>
                 </PrivateRoute>
                 <PrivateRoute path="/workbench">
-                    <Menu />
+                    <AppMenuBar />
                     <Workbench/>
                 </PrivateRoute>
                 <PrivateRoute path="/adjective">
-                    <Menu />
-                    <Banner />
+                    <AppMenuBar />
                     <AdjectiveMarket />
                 </PrivateRoute>
                 < PrivateRoute path="/" exact>
-                    <Menu />
-                    <Banner />
+                    <AppMenuBar />
                     <Stories />
                 </PrivateRoute>
                 <Route path="/login"  render={() =>
                     <div>
-                      <Banner />
                       <LoginForm></LoginForm>   
                     </div>                
                 }/>
@@ -125,37 +119,9 @@ class App extends React.Component {
             </div>
         </Router>  
         </AuthenticationContext.Provider>
+        </Container>
       </ErrorBoundary>
     );
   }
 }
-
-
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error) {
-    // Mettez à jour l'état, de façon à montrer l'UI de repli au prochain rendu.
-    return { hasError: true };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    // Vous pouvez aussi enregistrer l'erreur au sein d'un service de rapport.
-    //logErrorToMyService(error, errorInfo);
-    console.log(error);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      // Vous pouvez afficher n'importe quelle UI de repli.
-      return <h1>Something went wrong.</h1>;
-    }
-
-    return this.props.children;
-  }
-}
-
 ReactDOM.render(<App />, document.querySelector("app"));

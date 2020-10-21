@@ -54,7 +54,6 @@
     "@babel/preset-react": "^7.9.4",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
-    "bootstrap": "^4.5.0",
     "command-line-args": "^5.1.1",
     "compromise": "^13.1.1",
     "compromise-adjectives": "0.0.5",

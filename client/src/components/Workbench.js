@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import nlp from "compromise";
 
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import ListItem from '@material-ui/core/ListItem';
+
+import TextField from '@material-ui/core/TextField';
+import { ErrorBoundary } from "../components/ErrorBoundary"
+import PropTypes from 'prop-types';
+
+import { withStyles } from '@material-ui/styles';
+
 function ngrams(array, length) {
   var ngramsArray = [];
 
@@ -32,7 +43,18 @@ function multipleNgrams(array, minLength, maxLength)
   return ngramsArray;
 }
 
-export class Workbench extends React.Component {
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    border: 0,
+    borderRadius: 3,
+  },
+  title: {
+    flexGrow: 1,
+  },
+});
+
+class Workbench extends React.Component {
   constructor(props) {
     super(props);
 
@@ -58,62 +80,47 @@ export class Workbench extends React.Component {
           this.setState({ fragments: ngram })
           this.setState({ loading: false })
 
-
-
         }).catch((e)=>{
           console.log("alice is mad:" + e);
         });
   }
   handleClick(){}
   render() {
-
+    const { classes } = this.props;
     if (this.state.loading)
     {
       return <div>loading Workbench...</div>;
     }
 
     return (<ErrorBoundary>
-      {<div className="jumbotron bg-white">          
-          <div>{
-            <div>
-              {
-                this.state.fragments.map(
-                  (val,index)=>{
-                    return <div key={index}>{ 
-                        val.map((x)=>x.text).join(' ')
-                      }</div>
-                  })
-              }
-            </div>
-          }</div>
-        </div>
-      }</ErrorBoundary>
+      <form className={classes.root} noValidate autoComplete="off">
+        <TextField id="outlined-basic" disabled variant="outlined">
+          Yo
+        </TextField>
+      </form>
+      <List className={classes.root} subheader={<li />}>
+        <ListSubheader>{`Workbench`}</ListSubheader>
+          { 
+            this.state.fragments.map( (val,index)=>{             
+              return (<div><ListItem 
+                        key={index} 
+                        onMouseEnter={(x)=>{console.log(x)}}
+                      >{ 
+                  val.map((x)=>x.text).join(' ')
+              }</ListItem>
+              <Divider light /></div>);
+              
+          }) }
+         
+        </List>
+      </ErrorBoundary>
     );
   }
 }
 
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
 
-  static getDerivedStateFromError(error) {
-    // Mettez à jour l'état, de façon à montrer l'UI de repli au prochain rendu.
-    return { hasError: true };
-  }
+Workbench.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
-  componentDidCatch(error, errorInfo) {
-    // Vous pouvez aussi enregistrer l'erreur au sein d'un service de rapport.
-    //logErrorToMyService(error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      // Vous pouvez afficher n'importe quelle UI de repli.
-      return <h1>Something went wrong.</h1>;
-    }
-
-    return this.props.children;
-  }
-}
+export default withStyles(styles)(Workbench)

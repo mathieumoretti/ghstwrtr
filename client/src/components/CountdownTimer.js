@@ -42,7 +42,7 @@ export default class CountdownTimer extends React.Component {
                     sec: seconds,
                 } });
             }
-        }, 2000);
+        }, 1000);
     }
 
     componentDidMount() {
@@ -59,6 +59,6 @@ export default class CountdownTimer extends React.Component {
     
     render () {
         var aDate = this.state.theDiff;
-        return `${aDate.hour}:${aDate.min}:${aDate.sec  }`;
+        return `${aDate.hour}:${aDate.min}:${aDate.sec}`;
     }
 }
