@@ -1,5 +1,5 @@
 import React from 'react';
-import CountdownTimer from "./CountdownTimer";
+import {CountdownTimer} from "./CountdownTimer";
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -59,7 +59,7 @@ export class Sentence extends React.Component {
                         <Grid item xs={4}>                            
                             <TimerIcon />
                             <Typography>
-                                <CountdownTimer />
+                                <CountdownTimer duration='20000'/>
                             </Typography> 
                         </Grid>
                         <Grid item xs={12}>

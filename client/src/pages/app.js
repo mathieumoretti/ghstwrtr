@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch, useLocation, useParams} from "r
 
 import { AdjectiveMarket } from "../components/AdjectiveMarket"
 import  AppMenuBar  from "../components/AppMenuBar"
+import  {CountdownTimer} from "../components/CountdownTimer"
 import { ErrorBoundary } from "../components/ErrorBoundary"
 import { LoginForm } from "../components/Login"
 import { PrivateRoute } from "../components/PrivateRoute"
@@ -36,12 +37,20 @@ function StoryRoute()
   let { storyId } = useParams();
   console.log(`storyId:${storyId}`);
   return(<div>
-    <Grid container alignItems="center" spacing={3}>
-      <Grid item xs={6}>
+    <Grid
+  container
+  direction="column"
+  justify="flex-start"
+  alignItems="center"
+>
+      <Grid item xs={4}>
+        <CountdownTimer duration='30000'/> 
+      </Grid>
+      <Grid item xs={4}>
         <StoryBoard id={storyId} /> 
       </Grid>
-      <Grid item xs={6}>
-      <Workbench/>
+      <Grid item xs={4}>
+        <Workbench/>
       </Grid>
     </Grid>
 
