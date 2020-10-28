@@ -27,13 +27,15 @@ export class Sentence extends React.Component {
 
     constructor(props) {
         super(props);
-        this.buy = this.buy.bind(this);
+        this.buySentence = this.buySentence.bind(this);
         this.state = {
             isBought : false,
           };
     }
 
-    buy() {
+    buySentence() {
+        console.log(this.props);
+        this.props.buy(this.props.id);
         this.setState({ isBought: true })
     }
 
@@ -63,7 +65,7 @@ export class Sentence extends React.Component {
                             </Typography> 
                         </Grid>
                         <Grid item xs={12}>
-                            <Button onClick={this.buy} color="primary">
+                            <Button onClick={this.buySentence} color="primary">
                                 {this.state.isBought ? "Bought!": "Buy"}
                             </Button> 
                         </Grid>   
