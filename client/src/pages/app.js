@@ -8,6 +8,7 @@ import  AppMenuBar  from "../components/AppMenuBar"
 import { ErrorBoundary } from "../components/ErrorBoundary"
 import { LoginForm } from "../components/Login"
 import { PrivateRoute } from "../components/PrivateRoute"
+import SocketIO from "../components/SocketIO"
 import { Store } from "../components/Store"
 import { StoryBoard } from "../components/StoryBoard"
 import { Stories } from "../components/Stories"
@@ -107,6 +108,9 @@ class App extends React.Component {
                     <AppMenuBar />
                     <Stories />
                 </PrivateRoute>
+                <Route path="/socketio">
+                    <SocketIO></SocketIO>
+                </Route>
                 <Route path="/login"  render={() =>
                     <div>
                       <LoginForm></LoginForm>   

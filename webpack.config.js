@@ -48,6 +48,9 @@ const htmlPlugins = pugFiles.map( filePath => {
 });
 
 const config = {
+  node: {
+    fs: "empty"
+  },
   entry: entry,
   output: {
     path: path.resolve(__dirname, 'dist'),

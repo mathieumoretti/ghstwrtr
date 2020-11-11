@@ -1,11 +1,14 @@
 require('dotenv').config();
-const express = require('express');
 const console = require('console');
+const bodyParser = require('body-parser');
+const express = require('express');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3333;
-const bodyParser = require('body-parser');
+
+// cors
+const cors = require('cors')
+//app.use(cors);
 
 // redis
 const redis = require('redis');
@@ -125,5 +128,45 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'app.html'));
 });
 
-app.listen(PORT);
+// const io = require("socket.io")(http, {
+//   origins: '*:*',
+//   handlePreflightRequest: (req, res) => {
+//       const headers = {
+//           "Access-Control-Allow-Headers": "Content-Type, Authorization",
+//           "Access-Control-Allow-Origin": req.headers.origin, //or the specific origin you want to give access to,
+//           "Access-Control-Allow-Credentials": true
+//       };
+//       res.writeHead(200, headers);
+//       res.end();
+//   }
+// });
+ 
+const PORT    = process.env.PORT || 3333;
+const http    = require('http');
+const server  = http.createServer(app);
+
+// socket.io
+let interval;
+const io      = require('socket.io')(server);
+io.on('connection', socket => {
+  console.log("New client connected");
+  if (interval) {
+    clearInterval(interval);
+  }
+  interval = setInterval(() => getApiAndEmit(socket), 1000);
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+    clearInterval(interval);
+  });
+  socket.on('disconnect', () => { console.log('a user is disconnected');});
+});
+
+const getApiAndEmit = socket => {
+  const response = new Date();
+  // Emitting a new message. Will be consumed by the client
+  socket.emit("event", response);
+};
+
+server.listen(PORT, () => console.log(`Server Running on port ${PORT}`))
+
 console.log(`Server started on port ${PORT}`);
