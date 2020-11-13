@@ -1,6 +1,7 @@
 const _ = require('underscore');
 var db = require('../data/models/index');
 var promiseMaker = require('../scripts/promiseMaker');
+var utils = require('../scripts/utils')
 
 
 function queryFindAllPromise(resolve, reject)
@@ -11,26 +12,35 @@ function queryFindAllPromise(resolve, reject)
     });
     return resolve(sentences);
 }
-var sentencesPromise = promiseMaker.make(queryFindAllPromise);
 
-function random() {
-    const d = new Date();
-    const n = d.getTime();
-    return Math.random() * n;
-  }
-  
+function queryFindRandomRowPromise(resolve, reject)
+{
+    const sentences = db.Sentence.findOne({ 
+      order: db.sequelize.random(),
+    });
+    return resolve(sentences);
+}
+
+var initSentencesPromise = promiseMaker.make(queryFindAllPromise);
+var createSentencePromise = promiseMaker.make(queryFindRandomRowPromise);
+
   function randomCell(arr) {
-    return arr[Math.floor(random() * arr.length) % arr.length];
+    return arr[Math.floor(utils.random() * arr.length) % arr.length];
   }
 
-function makeHeadline() {
+  function makeHeadline() {
     return 'Lorem Ipsum';
   }
   
-  const adjective = ['Flying', 'Cool', 'Funny'];
+  const adjectives = ['Flying', 'Cool', 'Funny'];
   
+  function randomAdjective()
+  {
+    return randomCell(adjectives);
+  }
+
   function makeAuthors() {
-    return `${randomCell(adjective)} Ghost ${Math.floor((100 * random()) % 100)}`;
+    return `${randomAdjective()} Ghost ${Math.floor((100 * utils.random()) % 100)}`;
   }
   
 let storyCounter = 0;
@@ -63,7 +73,7 @@ const Model = function()
 
 Model.prototype.Init = function()
 {
-    sentencesPromise.then( (result) => {    
+    initSentencesPromise.then( (result) => {    
         this.sentences = _.map(result, (x) => {
             return x.content;
         });
@@ -81,6 +91,14 @@ Model.prototype.Init = function()
         return stories;
     }    
 }
+
+Model.prototype.CreateSentence = function()
+{
+  createSentencePromise.then( (result)  => {
+    this.sentences.append(result.content);
+  });
+}
+
 
 
 const model = new Model();

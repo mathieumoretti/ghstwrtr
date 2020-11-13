@@ -22,8 +22,12 @@ const utils = (function (){
         const d = new Date();
         const n = d.getTime();
         return Math.random() * n;
-      }
+    }
 
+    function randomCell(arr) {
+        return arr[Math.floor(utils.random() * arr.length) % arr.length];
+    }
+    
     function existy(x) { return x != null }
 
     function truthy(x) { return ( x !==  false ) && existy(x) }
@@ -142,6 +146,7 @@ const utils = (function (){
         warn:warn,
         note:note,
         random:random,
+        randomCell:randomCell,
         existy:existy,
         truthy:truthy,
         doWhen:doWhen,
