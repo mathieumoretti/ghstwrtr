@@ -21,8 +21,8 @@ function queryFindRandomRowPromise(resolve, reject)
     return resolve(sentences);
 }
 
-var initSentencesPromise = promiseMaker.make(queryFindAllPromise);
-var createSentencePromise = promiseMaker.make(queryFindRandomRowPromise);
+
+
 
   function randomCell(arr) {
     return arr[Math.floor(utils.random() * arr.length) % arr.length];
@@ -73,6 +73,7 @@ const Model = function()
 
 Model.prototype.Init = function()
 {
+    let initSentencesPromise = promiseMaker.make(queryFindAllPromise);
     initSentencesPromise.then( (result) => {    
         this.sentences = _.map(result, (x) => {
             return x.content;
@@ -94,6 +95,7 @@ Model.prototype.Init = function()
 
 Model.prototype.CreateSentence = function()
 {
+  let createSentencePromise = promiseMaker.make(queryFindRandomRowPromise);
   createSentencePromise.then( (result)  => {
     this.sentences.append(result.content);
   });
