@@ -127,19 +127,6 @@ app.get('*', (req, res) => {
   // console.log(`File sent:${path.join(path.resolve(__dirname, 'dist'), 'app.html')}`);
   res.sendFile(path.join(path.resolve(__dirname, 'dist'), 'app.html'));
 });
-
-// const io = require("socket.io")(http, {
-//   origins: '*:*',
-//   handlePreflightRequest: (req, res) => {
-//       const headers = {
-//           "Access-Control-Allow-Headers": "Content-Type, Authorization",
-//           "Access-Control-Allow-Origin": req.headers.origin, //or the specific origin you want to give access to,
-//           "Access-Control-Allow-Credentials": true
-//       };
-//       res.writeHead(200, headers);
-//       res.end();
-//   }
-// });
  
 const PORT    = process.env.PORT || 3333;
 const http    = require('http');
@@ -161,10 +148,13 @@ io.on('connection', socket => {
   socket.on('disconnect', () => { console.log('a user is disconnected');});
 });
 
+var model = require('./model/model');
+
 const getApiAndEmit = socket => {
   const response = new Date();
   // Emitting a new message. Will be consumed by the client
-  socket.emit("event", response);
+  model.CreateSentence();
+  socket.emit("event", model.sentences[model.sentences.length - 1]);
 };
 
 server.listen(PORT, () => console.log(`Server Running on port ${PORT}`))
