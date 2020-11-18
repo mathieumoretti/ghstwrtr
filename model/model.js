@@ -21,22 +21,15 @@ function queryFindRandomRowPromise(resolve, reject)
     return resolve(sentences);
 }
 
-
-
-
-  function randomCell(arr) {
-    return arr[Math.floor(utils.random() * arr.length) % arr.length];
-  }
-
-  function makeHeadline() {
-    return 'Lorem Ipsum';
-  }
+function makeHeadline() {
+  return 'Lorem Ipsum';
+}
   
-  const adjectives = ['Flying', 'Cool', 'Funny'];
+const adjectives = ['Flying', 'Cool', 'Funny'];
   
   function randomAdjective()
   {
-    return randomCell(adjectives);
+    return utils.randomCell(adjectives);
   }
 
   function makeAuthors() {
@@ -48,7 +41,7 @@ let storyCounter = 0;
 function makeContent(sentences, noOfSentences) {
     var storySentences = [];
     for (let i = 0; i < noOfSentences; i += 1) {
-        storySentences[i] = randomCell(sentences);
+        storySentences[i] = utils.randomCell(sentences);
         storySentences[i] = `${storySentences[i]}`;
     }
     return storySentences.join(' ');

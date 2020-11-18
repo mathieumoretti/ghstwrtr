@@ -145,7 +145,7 @@ io.on('connection', socket => {
     console.log("Client disconnected");
     clearInterval(interval);
   });
-  socket.on('disconnect', () => { console.log('a user is disconnected');});
+  socket.on('disconnect', () => { console.log('a user is disconnected'); });
 });
 
 var model = require('./model/model');

@@ -1,26 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-import io from 'socket.io-client';
+import { useSocket } from "../hooks/useSocket";
 
-export default function SocketIO() {
-  const [response, setResponse] = useState("");
+// Use the this to factorize!!
 
-  useEffect(() => {
-    console.log( "Use effect")
-    var socket = io();
-    socket.on('connect', function(){  console.log('a user is connected'); });
-    socket.on('event', data => {
-      setResponse(data);
-    });
-    socket.on('disconnect', function(){ console.log('a user is disconnected'); });
+const defaultRenderer = () => {   return <h5>Default Renderer</h5>; };
 
-    // CLEAN UP THE EFFECT
-    return () => socket.disconnect();
-  }, []);
-
-  return (
-    <p>
-      It's <time dateTime={response}>{response}</time>
-    </p>
-  );
+export function SocketIO(props) {
+  var data = useSocket(props.url);
+  console.log('data');
+  console.log(data);
+  // return;
+  return props.render(data) || defaultRenderer();
 }
