@@ -1,11 +1,8 @@
 import React from "react";
-import useSocket from "../hooks/useSocket";
+import useFetch from "../hooks/useFetch";
 
-
-
-
-export default function CreateView(props) {
-  const data = useAutoSocket(props.url);
+export default function DataLoader(props) {
+  const data = useFetch(props.url);
   return (
     <div>
       <ul>

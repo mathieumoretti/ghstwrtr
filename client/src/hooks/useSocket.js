@@ -19,3 +19,11 @@ export function useSocket(url) {
   return data;
 }
 
+export function useSocketWithState(url, state) {
+  const [data, setData] = useState([]);
+
+  var socket = new AutoSocket(url);
+  useAutoSocket(socket);
+  return data;
+}
+

@@ -8,8 +8,7 @@ export const SocketClient = function(url)
     this.on = this.on.bind(this);
 }
 
-SocketClient.prototype.on = function(eventName, callback) {
-    
+SocketClient.prototype.on = function(eventName, callback) {    
     this.socket.on(eventName, callback);
  };
 

@@ -3,16 +3,16 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch, useLocation, useParams} from "react-router-dom";
 
-import { AdjectiveMarket } from "../components/AdjectiveMarket"
-import  AppMenuBar  from "../components/AppMenuBar"
-import { ErrorBoundary } from "../components/ErrorBoundary"
-import { LoginForm } from "../components/Login"
-import { PrivateRoute } from "../components/PrivateRoute"
-import { SocketIO } from "../components/SocketIO"
-import { Store } from "../components/Store"
-import { StoryBoard } from "../components/StoryBoard"
-import { Stories } from "../components/Stories"
-import Workbench from "../components/Workbench"
+import { AdjectiveMarket } from "../components/AdjectiveMarket";
+import  AppMenuBar  from "../components/AppMenuBar";
+import { ErrorBoundary } from "../components/ErrorBoundary";
+import { LoginForm } from "../components/Login";
+import { PrivateRoute } from "../components/PrivateRoute";
+import { Store } from "../components/Store";
+import { Store2 } from "../components/Store2";
+import { StoryBoard } from "../components/StoryBoard";
+import { Stories } from "../components/Stories";
+import Workbench from "../components/Workbench";
 import {Auth, AuthenticationContext} from "../utils/authentication";
 
 import Container from '@material-ui/core/Container';
@@ -45,7 +45,6 @@ function StoryRoute()
       <Workbench/>
       </Grid>
     </Grid>
-
   </div>);
 }
 
@@ -92,6 +91,10 @@ class App extends React.Component {
                     <AppMenuBar />
                     <Store />
                 </PrivateRoute>
+                <PrivateRoute path="/store2">
+                    <AppMenuBar />
+                    <Store2 />
+                </PrivateRoute>
                 <PrivateRoute path="/story/:storyId">
                     <AppMenuBar />
                     <StoryRoute></StoryRoute>
@@ -108,9 +111,6 @@ class App extends React.Component {
                     <AppMenuBar />
                     <Stories />
                 </PrivateRoute>
-                <Route path="/socketio">
-                    <SocketIO></SocketIO>
-                </Route>
                 <Route path="/login"  render={() =>
                     <div>
                       <LoginForm></LoginForm>   

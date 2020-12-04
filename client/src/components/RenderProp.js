@@ -1,0 +1,1 @@
+export const FunctionAsChildren = ({ children }) => children(0);

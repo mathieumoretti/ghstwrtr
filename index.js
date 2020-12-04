@@ -154,7 +154,7 @@ const getApiAndEmit = socket => {
   const response = new Date();
   // Emitting a new message. Will be consumed by the client
   model.CreateSentence();
-  socket.emit("event", model.sentences[model.sentences.length - 1]);
+  socket.emit("createSentence", model.sentences[model.sentences.length - 1]);
 };
 
 server.listen(PORT, () => console.log(`Server Running on port ${PORT}`))
