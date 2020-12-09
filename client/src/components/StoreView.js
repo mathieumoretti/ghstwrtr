@@ -1,7 +1,7 @@
 import React from 'react';
 import Masonry from 'react-masonry-component';
 import { ErrorBoundary } from "./ErrorBoundary";
-import { Sentence } from "./Sentence";
+
 
 const masonryOptions = {
     gutter: 30,
@@ -9,12 +9,11 @@ const masonryOptions = {
     columnWidth: 20,
   };
 
-export function StoreView({ sentences, children }) {
+const StoreView = ({ sentences, children }) => {
 
-    const childElements = sentences.map((item,index)=>{
-        return (
-          <Sentence key={index} id={index} sentence={sentences[index]} ></Sentence>
-       );
+    const childElements = sentences.map((item,index)=>{    
+        return (children(item, index));
+       
       });
 
     return (
@@ -26,9 +25,10 @@ export function StoreView({ sentences, children }) {
             >{
                 [...childElements]
             }
-
             </Masonry>
           </div>
         }</ErrorBoundary>    
       );
 }
+
+export default StoreView;

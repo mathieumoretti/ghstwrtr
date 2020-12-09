@@ -1,9 +1,9 @@
 import React , { useState, useEffect } from 'react';
 
 import {useFetchWithoutState} from "../hooks/useFetch";
-import {StoreView} from "../components/StoreView";
+import StoreView from "../components/StoreView";
 import {AutoSocket} from "../utils/socketClient";
-import { Sentence } from "./Sentence";
+import Sentence from "./Sentence";
 
 function existy(x) { return x != null }
 
@@ -17,6 +17,17 @@ export function Store2(){
     setSentences(someData.slice(0, 10));
   });
 
+  const onBuy = (id) => {
+    console.log("onBuy");
+    if (id > -1) {
+      sentences.splice(id, 1);
+      console.log("remove on buy");
+    }else{
+      console.log("not found");
+      console.log(id);
+    }
+  }
+
   useEffect(() => {
     const socket = new AutoSocket("");
     socket.on("createSentence", (sentence) => {
@@ -27,35 +38,20 @@ export function Store2(){
     //
   }, []);
 
-  const buy = function buy(id){
-    let sentences = this.state.sentences.sentences;
-    console.log(sentences);
-    
-    console.log(id);
-    if (id > -1) {
-       sentences.splice(id, 1);
-    }
-    console.log(sentences);
-    this.setState({ sentences: this.state.sentences })
-  }
-  // this.buy = this.buy.bind(this);
   if (!truthy(sentences))
   {
     return <h1>Loading</h1>;
   } 
-  
-  return (<StoreView sentences={ sentences }>
-            {
-              (sentence, i)=>{
-                console.log(i);
-                return  (<Sentence key={i}
-                                   id={i}
-                                   sentence={sentence}
-                                  buy={
-                                    buy
-                                  }></Sentence>);
-              }
-            }
-          </StoreView>
+  return (
+  <StoreView sentences={ sentences }>
+    {      
+        (sentence, i) =>
+        {
+          return(<Sentence key={sentence.id} id={sentence.id} sentence={sentence} buy={onBuy}></Sentence>);
+        }
+    }      
+
+  </StoreView>
+
   );
 }

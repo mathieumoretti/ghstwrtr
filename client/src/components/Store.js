@@ -1,7 +1,7 @@
 import React , { useState, useEffect } from 'react';
 import Masonry from 'react-masonry-component';
 import { ErrorBoundary } from "./ErrorBoundary";
-import { Sentence } from "./Sentence";
+import Sentence from "./Sentence";
 import { StoreSocket } from "../utils/StoreSocket";
 import { useAutoSocket } from "../hooks/useSocket";
 

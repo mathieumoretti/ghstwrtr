@@ -1,11 +1,10 @@
-import React from 'react';
+import React , { useState, useEffect } from 'react';
 import CountdownTimer from "./CountdownTimer";
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -23,30 +22,23 @@ const style = {
       "0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22)",
   };
 
-export class Sentence extends React.Component {
+const Sentence = (props)=>
+{
+    const [isBought, setIsBought] = useState(false);
 
-    constructor(props) {
-        super(props);
-        this.buy = this.buy.bind(this);
-        this.state = {
-            isBought : false,
-          };
+    const buy = (id) => {
+        props.buy(id);
+        setIsBought(true);
     }
 
-    buy() {
-        this.setState({ isBought: true })
-    }
-
-    render() {        
-      return (
-        <Paper style={style} zDepth={1}>
-            <Card variant="outlined" >
+    return (<Paper style={style} zDepth={1}>
+        <Card variant="outlined" >
                 <CardHeader>                   
                 </CardHeader>
                 <CardContent style={{overflow: "hidden" }} > 
                     <Grid container alignItems="center" spacing={3}> 
                         <Grid item xs={12}>
-                            <Typography variant='h6'>{this.props.sentence}</Typography>
+                            <Typography variant='h6'>{props.sentence}</Typography>
                         </Grid>
                         <Grid item xs={4}>
                             <FavoriteBorderIcon />
@@ -63,15 +55,15 @@ export class Sentence extends React.Component {
                             </Typography> 
                         </Grid>
                         <Grid item xs={12}>
-                            <Button onClick={this.buy} color="primary">
-                                {this.state.isBought ? "Bought!": "Buy"}
+                            <Button onClick={()=>{
+                                buy(props.id);
+                            }} color="primary">
+                                {isBought ? "Bought!": "Buy"}
                             </Button> 
                         </Grid>   
                     </Grid>                    
                 </CardContent>
             </Card> 
-        </Paper>
-                
-        );
-    }
+    </Paper>);
 }
+export default Sentence;

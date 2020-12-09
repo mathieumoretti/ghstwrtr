@@ -90,6 +90,7 @@ Model.prototype.CreateSentence = function()
 {
   let createSentencePromise = promiseMaker.make(queryFindRandomRowPromise);
   createSentencePromise.then( (result)  => {
+    console.log(result);
     this.sentences.push(result.content);
   });
 }
