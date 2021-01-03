@@ -40,7 +40,7 @@ test("Test database sentence.", (t) => {
 
 const users = db.User.findAll({
     limit: 10 ,
-    attributes: ['name', 'email']
+    attributes: ['name', 'email', 'role']
 });
 function queryPromise2(resolve, reject)
 {
@@ -59,9 +59,14 @@ test("Test database user.", (t) => {
             utils.note(x.email);
             return x.email;
         });
+        var roles = _.map(result, (x)=>{
+            utils.note(x.role);
+            return x.role;
+        });
 
         t.equals(userNames[0].toString(), 'admin');
         t.equals(emails[0].toString(), 'admin@admin.com');
+        t.equals(roles[0].toString(), 'admin');
         t.pass();
         testUtils.testCloser(t);
     }).catch(
