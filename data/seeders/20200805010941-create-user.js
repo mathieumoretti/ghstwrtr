@@ -2,6 +2,15 @@
 
 const _ = require('underscore');
 
+const createAdminUser = ()=>{
+    return {
+      name:'admin',
+      email:'admin@admin.com',
+      password:'admin',
+      role:'admin'
+    }
+}
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     /*
@@ -16,11 +25,7 @@ module.exports = {
     */
   
   var rawUsers = [
-    {
-      name:'admin',
-      email:'admin@admin.com',
-      password:'admin'
-    }
+    createAdminUser()
   ]
 
    var users = _.map(rawUsers, (user)=>{
